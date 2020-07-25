@@ -13,7 +13,7 @@ export class MinhasPlantasScreen extends React.Component<Props, State> {
   render() {
     return (
       <>
-        <HeaderComponent pageName={"Minhas Plantas"} navigation={this.props.navigation} />
+      
       </>
     );
   }

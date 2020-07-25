@@ -9,7 +9,7 @@ export default class Logo extends Component {
     return (
       <View style={styles.container}>
         <Image source={logoImg} style={styles.image} />
-        <Text style={styles.text}>Projeto IoT</Text>
+        <Text style={styles.text}>Smart Garden</Text>
       </View>
     );
   }
@@ -22,14 +22,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 250,
+    height: 250,
   },
   text: {
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     fontSize: 30,
-    marginTop: 20,
   },
 });

@@ -31,7 +31,7 @@ export default class ButtonSubmit extends Component {
 
 
     setTimeout(() => {
-      this.props.navigation.navigate("Home");
+      this.props.navigation.navigate("Smart Garden");
       this.setState({ isLoading: false });
       this.buttonAnimated.setValue(0);
       this.growAnimated.setValue(0);

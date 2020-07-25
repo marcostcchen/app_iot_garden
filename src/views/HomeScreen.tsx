@@ -1,73 +1,28 @@
 import React from 'react';
-import { HeaderComponent, LoadingScreen } from '../components';
-import { NetInfoFetch, UserMockedFetch } from '../utils';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import * as Views from './'
 
 interface Props {
   navigation: any,
 }
 
 interface State {
-  initialLoading: Boolean,
-  loadingText: string,
 
 }
+
+const Tab = createMaterialTopTabNavigator();
 
 export class HomeScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      initialLoading: true,
-      loadingText: 'Carregando suas informações...'
-    }
-  }
-
-  componentDidMount() {
-    this.getAPIUserValues;
   }
 
   render() {
-    if (this.state.initialLoading) {
-      return (
-        <>
-          <HeaderComponent pageName={"Home"} navigation={this.props.navigation} />
-          <LoadingScreen isLoading={this.state.initialLoading} text={this.state.loadingText} />
-        </>
-      )
-    }
-
     return (
-      <>
-        <HeaderComponent pageName={"Home"} navigation={this.props.navigation} />
-      </>
+      <Tab.Navigator>
+        <Tab.Screen name="Visao Geral" component={Views.VisaoGeralScreen} />
+        <Tab.Screen name="Minhas Plantas" component={Views.MinhasPlantasScreen} />
+      </Tab.Navigator>
     );
-  }
-
-  getAPIUserValues = async () => {
-    // Fetch da API
-    // const url = "";
-
-    // const noConnectionFunction = () => {
-
-    // }
-
-    // const badRequestFunction = () => {
-
-    // }
-
-    // const errorFunction = () => {
-
-    // }
-
-    // const successFunction = () => {
-
-    // }
-    // await NetInfoFetch(url, null, noConnectionFunction, badRequestFunction, errorFunction, successFunction);
-
-    // Mockado por enquanto
-    // const responseJson = UserMockedFetch;
-    setTimeout(() => {
-      this.setState({ initialLoading: false })
-    }, 2000)
-
   }
 }
