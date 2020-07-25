@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, Image } from 'react-native';
 
 import logoImg from '../images/logo.png';
 
@@ -8,7 +7,7 @@ export default class Logo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={logoImg} style={styles.image} />
+        <Image resizeMode='contain' source={logoImg} style={styles.image} />
         <Text style={styles.text}>Smart Garden</Text>
       </View>
     );
@@ -22,8 +21,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 250,
-    height: 250,
+    height: '65%',
+    width: '100%'
   },
   text: {
     color: 'white',
