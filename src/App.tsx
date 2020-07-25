@@ -18,8 +18,8 @@ export default class App extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={View.LoginScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="Smart Garden" component={View.HomeScreen} options={{ headerLeft: null }} />
+          <Stack.Screen name="Login" component={View.LoginScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Smart Garden" component={View.HomeScreen} options={{ headerLeft: null, headerTintColor: 'green' }} />
         </Stack.Navigator>
       </NavigationContainer>
     )
