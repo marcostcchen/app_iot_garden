@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Animated, Easing, Image, View, Dimensions, ActivityIndicator } from 'react-native';
-import spinner from '../images/loading.gif';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
