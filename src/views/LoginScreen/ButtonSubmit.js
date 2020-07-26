@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Text, Animated, Easing, Image, View, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, Animated, Easing, View, Dimensions, ActivityIndicator } from 'react-native';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
 export default class ButtonSubmit extends Component {
@@ -30,7 +29,7 @@ export default class ButtonSubmit extends Component {
 
 
     setTimeout(() => {
-      this.props.navigation.navigate("Smart Garden");
+      this.props.navigation.navigate("Iot Garden");
       this.setState({ isLoading: false });
       this.buttonAnimated.setValue(0);
       this.growAnimated.setValue(0);

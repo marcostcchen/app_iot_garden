@@ -8,7 +8,7 @@ export default class Logo extends Component {
     return (
       <View style={styles.container}>
         <Image resizeMode='contain' source={logoImg} style={styles.image} />
-        <Text style={styles.text}>Smart Garden</Text>
+        <Text style={styles.text}>Iot Garden</Text>
       </View>
     );
   }
