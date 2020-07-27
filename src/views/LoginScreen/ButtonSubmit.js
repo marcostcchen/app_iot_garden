@@ -29,6 +29,9 @@ export default class ButtonSubmit extends Component {
     const onSuccess = async (responseJson) => {
       await AsyncStorage.setItem("@login", JSON.stringify(responseJson));
       this.props.navigation.navigate("Iot Garden");
+      this.setState({ isLoading: false });
+      this.buttonAnimated.setValue(0);
+      this.growAnimated.setValue(0)
     }
 
     await getDataFetch(this.props.login, onSuccess);
