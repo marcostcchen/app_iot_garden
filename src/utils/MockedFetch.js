@@ -1,4 +1,4 @@
-{
+export const MockedFetch = {
   "login": "ds",
   "nome": "Dwight Schrute",
   "plantacoes": {

@@ -1,18 +1,17 @@
-export interface IUserAllInfo {
-  "nome": string, "Marcos Chen"
-  "idUsuario": string, "123456"
-  "plantas": Array<IPlanta>,
+import { SensorType } from "../types/SensorType";
+
+export interface IUsuariosLoginResponse {
+  login: String,
+  nome: String,
+  plantações: Map<String, IPlantacao>
 }
 
-export interface IPlanta {
-  "idPlanta": string, "123456-1" 
-  "nomePlanta": string, "Samambaia"
-  "medicoes": Array<IMedicao>
+export interface IPlantacao {
+  planta: String,
+  sensores: Map<String, ISensor>
 }
 
-export interface IMedicao {
-  "umidade_solo": string, "12"
-  "temperatura_solo": string, "20"
-  "umidade_ar": string, "70"
-  "temperatura_ar": string, "26"
+export interface ISensor {
+  tipoSensor: SensorType,
+  medicoes: any,
 }

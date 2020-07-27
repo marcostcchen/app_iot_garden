@@ -1,7 +1,10 @@
 import { urlAPI } from "./constants";
 import NetInfo from "@react-native-community/netinfo";
+import { Toast } from "native-base";
+import { MockedFetch } from "./MockedFetch";
+import { IUsuariosLoginResponse, IPlantacao } from "../models";
 
-export const NetInfoFetch = async (url: string, token: string | null, noConnectionFunction: () => void, badRequestFuction: (erro?: any) => void, errorFunction: (responseJson?: any) => void, successFunction: (responseJson?: any) => void) => {
+export const NetInfoFetchPOST = async (url: string, jsonBody: any, noConnectionFunction: () => void, badRequestFuction: (erro?: any) => void, successFunction: (responseJson?: any) => void) => {
   try {
     NetInfo.fetch().then(state => {
       if (state.isConnected === false) {
@@ -9,21 +12,9 @@ export const NetInfoFetch = async (url: string, token: string | null, noConnecti
       } else {
         fetch(urlAPI + url, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token == null || token == undefined ? '' : token,
-          },
-          // body: JSON.stringify(jsonBody),
+          body: JSON.stringify(jsonBody),
         }).then((response) => {
-          response.json().then((responseJson) => {
-            if (responseJson.status.toString().toLowerCase() == "erro") {
-              errorFunction(responseJson);
-            } else {
-              successFunction(responseJson);
-            }
-          }).catch((error) => {
-            badRequestFuction(error)
-          })
+          successFunction(response);
         }).catch((error) => {
           badRequestFuction(error)
         });
@@ -32,4 +23,53 @@ export const NetInfoFetch = async (url: string, token: string | null, noConnecti
   } catch (error) {
     badRequestFuction(error)
   }
+}
+
+export const NetInfoFetchGET = async (url: string, noConnectionFunction: () => void, badRequestFuction: (erro?: any) => void, successFunction: (responseJson?: any) => void) => {
+  try {
+    NetInfo.fetch().then(state => {
+      if (state.isConnected === false) {
+        noConnectionFunction();
+      } else {
+        fetch(urlAPI + url, {
+          method: 'GET',
+        }).then((response) => {
+          if (response.status == 404) {
+            badRequestFuction(response);
+          } else {
+            response.json().then((responseJson) => {
+              successFunction(responseJson);
+            })
+          }
+        }).catch((error) => {
+          badRequestFuction(error)
+        });
+      }
+    })
+  } catch (error) {
+    badRequestFuction(error)
+  }
+}
+
+export const getDataFetch = async (login: String, onSuccess: (responseJson) => void) => {
+  // For api
+  // const noConnectionFunction = () => {
+  //   Toast.show({ text: "Sem conexão de internet, tente novamente", duration: 5000, type: "danger" });
+  // }
+
+  // const badRequestFunction = (responseJson) => {
+  //   Toast.show({ text: "Login não disponível", duration: 5000, type: "warning", buttonText: "Fechar" });
+  // }
+
+  // const successFunction = (responseJson) => {
+  //   onSuccess(responseJson);
+  // }
+
+  // await NetInfoFetchGET("/usuarios/" + login, noConnectionFunction, badRequestFunction, successFunction);
+
+
+  // Local
+  this.setTimeout(() => {
+    onSuccess(MockedFetch);
+  }, 1000)
 }

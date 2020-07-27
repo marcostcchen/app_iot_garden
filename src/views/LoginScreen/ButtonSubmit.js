@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Animated, Easing, View, Dimensions, ActivityIndicator } from 'react-native';
+import { getDataFetch } from '../../utils';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const MARGIN = 40;
@@ -17,25 +19,21 @@ export default class ButtonSubmit extends Component {
     this._onPress = this._onPress.bind(this);
   }
 
-  _onPress() {
+  _onPress = async () => {
     if (this.state.isLoading) return;
-
     this.setState({ isLoading: true });
-    Animated.timing(this.buttonAnimated, {
-      toValue: 1,
-      duration: 200,
-      easing: Easing.linear,
-    }).start();
 
+    // Comeca a animacao do botao
+    Animated.timing(this.buttonAnimated, { toValue: 1, duration: 200, easing: Easing.linear, }).start();
 
-    setTimeout(() => {
+    const onSuccess = async (responseJson) => {
+      await AsyncStorage.setItem("@login", JSON.stringify(responseJson));
       this.props.navigation.navigate("Iot Garden");
-      this.setState({ isLoading: false });
-      this.buttonAnimated.setValue(0);
-      this.growAnimated.setValue(0);
-    }, 1500);
+    }
+
+    await getDataFetch(this.props.login, onSuccess);
   }
-  
+
   render() {
     const changeWidth = this.buttonAnimated.interpolate({
       inputRange: [0, 1],

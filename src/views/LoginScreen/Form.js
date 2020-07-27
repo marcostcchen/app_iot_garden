@@ -32,6 +32,7 @@ export default class Form extends Component {
           autoCapitalize={'none'}
           returnKeyType={'done'}
           autoCorrect={false}
+          onChangeText={this.props.onChangeLoginText}
         />
         <UserInput
           source={passwordImg}
@@ -40,6 +41,7 @@ export default class Form extends Component {
           returnKeyType={'done'}
           autoCapitalize={'none'}
           autoCorrect={false}
+          onChangeText={this.props.onChangePasswordText}
         />
         <TouchableOpacity
           activeOpacity={0.7}

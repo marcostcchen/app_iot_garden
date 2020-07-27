@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import * as View from './views';
 import SplashScreen from 'react-native-splash-screen';
-import { TouchableOpacity } from 'react-native'
+import { Root } from 'native-base';
 
 const Stack = createStackNavigator();
 
@@ -16,14 +16,16 @@ export default class App extends React.Component {
   render() {
 
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={View.LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Iot Garden" component={View.HomeScreen} options={{ headerLeft: null, headerTintColor: 'green' }} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Root>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={View.LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Iot Garden" component={View.HomeScreen} options={{ headerLeft: null, headerTintColor: 'green' }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Root>
     )
   }
 }
 
-console.disableYellowBox = true; // <-- This is to remove the react-navigation-swiper deprecated component warning
+console.disableYellowBox = true; // <-- This is to remove the deprecated component warning
