@@ -1,2 +1,3 @@
 // @login
 // @selectedPlanta
+// @selectedPlantaImg

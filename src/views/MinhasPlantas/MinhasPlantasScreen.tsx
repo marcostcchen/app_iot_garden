@@ -44,7 +44,7 @@ export class MinhasPlantasScreen extends React.Component<Props, State> {
               title={planta.planta}
               subtitle={"N° Sensores: " + quantidadeSensores}
               leftAvatar={{ source: image }}
-              onPress={() => this.onListItemPress(planta)}
+              onPress={() => this.onListItemPress(planta, index)}
               containerStyle={styles.container}
               bottomDivider
               chevron />
@@ -54,7 +54,8 @@ export class MinhasPlantasScreen extends React.Component<Props, State> {
     );
   }
 
-  onListItemPress = async (planta: IPlantacao) => {
+  onListItemPress = async (planta: IPlantacao, index: Number) => {
+    await AsyncStorage.setItem("@selectedPlantaImg", index.toString());
     await AsyncStorage.setItem("@selectedPlanta", JSON.stringify(planta));
     this.props.navigation.navigate("Detalhes Planta");
   }
