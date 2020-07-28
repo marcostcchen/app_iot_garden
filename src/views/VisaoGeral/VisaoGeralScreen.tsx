@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, } from "react-native-chart-kit";
+import { Avatar } from 'react-native-elements';
 import { View, ScrollView, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { IUsuariosLoginResponse, IPlantacao } from '../../models'
@@ -48,10 +49,20 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
       <>
         <LoadingScreen isLoading={this.state.isLoading} text={"Carregando suas informações.."} />
         <ScrollView >
-          <View style={{ width: '100%', alignItems: 'center', marginTop: 5 }}>
+          <View style={{ width: '100%', alignItems: 'center', marginTop: 15 }}>
             <View style={styles.bemVindoContainer}>
-              <Text style={styles.bemVindoText}>Bem vindo</Text>
-              <Text style={styles.bemVindoNameText}>{this.state.nome}</Text>
+              <View style={{ width: '70%', height: '100%', justifyContent: 'center' }}>
+                <Text style={styles.bemVindoText}>Bem vindo</Text>
+                <Text style={styles.bemVindoNameText}>{this.state.nome}</Text>
+              </View>
+              <View style={{ width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+                <Avatar
+                  size="medium"
+                  rounded
+                  source={require('../images/avatar.png')}
+                />
+              </View>
+
             </View>
             <LineChart
               data={this.state.umidadeChart}

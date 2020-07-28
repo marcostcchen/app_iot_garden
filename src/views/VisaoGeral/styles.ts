@@ -15,11 +15,13 @@ export const styles = StyleSheet.create({
     elevation: 24,
   },
   bemVindoContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
     paddingLeft: 20,
     marginBottom: 15,
     justifyContent: "center",
-    height: 90,
-    width: '90%',
+    height: 100,
+    width: '88%',
     borderColor: 'black',
     shadowColor: "#000",
     shadowOffset: {
