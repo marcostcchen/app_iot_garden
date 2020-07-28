@@ -19,7 +19,7 @@
         "2": {
           "medicoes": {
             "1595886002": {
-              "temp": "21"
+              "umid": "21"
             }
           },
           "tipoSensor": "umid"

@@ -1,11 +1,12 @@
 import React from 'react';
 import { LineChart, } from "react-native-chart-kit";
 import { View, ScrollView, Text } from 'react-native';
-import { styles } from './VisaoGeral.styles';
-import * as chartConfig from './VisaoGeral.chart.config';
 import AsyncStorage from '@react-native-community/async-storage';
-import { IUsuariosLoginResponse } from '../../models'
+import { IUsuariosLoginResponse, IPlantacao } from '../../models'
 import { LoadingScreen } from '../../components';
+import { styles } from './styles';
+import * as chartConfig from './chart.config';
+import * as utils from './utils';
 
 interface Props {
   navigation: any,
@@ -14,6 +15,9 @@ interface Props {
 interface State {
   nome: String,
   isLoading: Boolean,
+
+  umidadeChart: any,
+  temperaturaChart: any
 }
 
 export class VisaoGeralScreen extends React.Component<Props, State> {
@@ -22,6 +26,8 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
     this.state = {
       nome: "",
       isLoading: true,
+      umidadeChart: chartConfig.umidadeData,
+      temperaturaChart: chartConfig.temperaturaData,
     }
   }
 
@@ -29,6 +35,8 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
     const asyncString = await AsyncStorage.getItem("@login");
     if (asyncString !== null) {
       const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
+      this.setCharts(UsuariosLoginResponse.plantacoes)
+
       setTimeout(() => {
         this.setState({ nome: UsuariosLoginResponse.nome, isLoading: false })
       }, 1000)
@@ -40,12 +48,13 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
       <>
         <LoadingScreen isLoading={this.state.isLoading} text={"Carregando suas informações.."} />
         <ScrollView >
-          <View style={{ width: '100%', alignItems: 'center', marginTop: 10 }}>
+          <View style={{ width: '100%', alignItems: 'center', marginTop: 5 }}>
             <View style={styles.bemVindoContainer}>
-              <Text style={styles.bemVindoText}>Bem vindo {this.state.nome}</Text>
+              <Text style={styles.bemVindoText}>Bem vindo</Text>
+              <Text style={styles.bemVindoNameText}>{this.state.nome}</Text>
             </View>
             <LineChart
-              data={chartConfig.umidadeData}
+              data={this.state.umidadeChart}
               width={chartConfig.screenWidth}
               height={300}
               chartConfig={chartConfig.umidadeChartConfig}
@@ -54,7 +63,7 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
               style={styles.chart} />
 
             <LineChart
-              data={chartConfig.temperaturaData}
+              data={this.state.temperaturaChart}
               width={chartConfig.screenWidth}
               height={300}
               chartConfig={chartConfig.temperaturaChartConfig}
@@ -65,5 +74,30 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
         </ScrollView>
       </>
     )
+  }
+
+  setCharts = (plantacoes: Map<String, IPlantacao>) => {
+    const umidadeChart = {
+      labels: utils.getLabels(plantacoes, "umid"),
+      datasets: [
+        {
+          data: utils.getData(plantacoes, "umid")
+        }
+      ],
+      legend: ["Umidade por planta"]
+    }
+
+
+    const temperaturaChart = {
+      labels: utils.getLabels(plantacoes, "temp"),
+      datasets: [
+        {
+          data: utils.getData(plantacoes, "temp")
+        }
+      ],
+      legend: ["Temperatura por planta"]
+    }
+
+    this.setState({ temperaturaChart, umidadeChart })
   }
 }

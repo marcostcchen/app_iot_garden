@@ -21,6 +21,7 @@ export default class App extends React.Component {
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={View.LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Iot Garden" component={View.HomeScreen} options={{ headerLeft: null, headerTintColor: 'green' }} />
+            <Stack.Screen name="Detalhes Planta" component={View.DetalhesPlantaScreen} options={{ headerShown: true, headerTintColor: 'green' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>

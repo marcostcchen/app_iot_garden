@@ -19,7 +19,13 @@ export const MockedFetch = {
         "2": {
           "medicoes": {
             "1595886002": {
-              "temp": "21"
+              "umid": "21"
+            },
+            "1595886003": {
+              "umid": "30"
+            },
+            "1595886004": {
+              "umid": "33"
             }
           },
           "tipoSensor": "umid"

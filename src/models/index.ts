@@ -1,17 +1,22 @@
 import { SensorType } from "../types/SensorType";
 
 export interface IUsuariosLoginResponse {
-  login: String,
-  nome: String,
-  plantações: Map<String, IPlantacao>
+  login: string,
+  nome: string,
+  plantacoes: Map<string, IPlantacao>
 }
 
 export interface IPlantacao {
-  planta: String,
-  sensores: Map<String, ISensor>
+  planta: string,
+  sensores: Map<string, ISensor>
 }
 
 export interface ISensor {
   tipoSensor: SensorType,
-  medicoes: any,
+  medicoes: Map<string, IMedicao>,
+}
+
+export interface IMedicao {
+    umid: string,
+    temp: string,
 }

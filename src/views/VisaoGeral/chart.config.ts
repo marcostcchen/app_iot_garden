@@ -2,6 +2,26 @@ import { Dimensions } from 'react-native';
 
 export const screenWidth = 0.9 * Dimensions.get("window").width;
 
+export const umidadeData = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+    }
+  ],
+  legend: ["Medições por planta"]
+};
+
+export const temperaturaData = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+    }
+  ],
+  legend: ["Temperatura por planta"],
+};
+
 export const temperaturaChartConfig = {
   backgroundColor: "#ffa726",
   backgroundGradientFrom: "#ffa726",
@@ -35,23 +55,3 @@ export const umidadeChartConfig = {
     stroke: "black"
   }
 }
-
-export const umidadeData = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-    }
-  ],
-  legend: ["Umidade"]
-};
-
-export const temperaturaData = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-    }
-  ],
-  legend: ["Temperatura"],
-};
