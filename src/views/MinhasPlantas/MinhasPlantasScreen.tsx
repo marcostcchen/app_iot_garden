@@ -54,7 +54,8 @@ export class MinhasPlantasScreen extends React.Component<Props, State> {
     );
   }
 
-  onListItemPress = (planta: IPlantacao) => {
+  onListItemPress = async (planta: IPlantacao) => {
+    await AsyncStorage.setItem("@selectedPlanta", JSON.stringify(planta));
     this.props.navigation.navigate("Detalhes Planta");
   }
 }

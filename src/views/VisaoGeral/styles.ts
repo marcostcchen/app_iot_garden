@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
     justifyContent: "center",
     height: 100,
-    width: '88%',
+    width: '90%',
     borderColor: 'black',
     shadowColor: "#000",
     shadowOffset: {
@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
   },
   bemVindoNameText: {
     fontSize: 16,
+    paddingLeft: 1,
     color: "gray"
   }
 });

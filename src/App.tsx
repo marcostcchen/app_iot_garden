@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as View from './views';
 import SplashScreen from 'react-native-splash-screen';
 import { Root } from 'native-base';
+import { TouchableOpacity, Image } from 'react-native';
 
 const Stack = createStackNavigator();
 
