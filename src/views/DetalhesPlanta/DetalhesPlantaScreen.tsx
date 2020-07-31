@@ -18,8 +18,11 @@ interface State {
   isLoading: Boolean,
   image: any,
 
-  umidadeData: any
-  temperaturaData: any
+  umidadeData: any;
+  temperaturaData: any;
+
+  ultimaMedicaoUmid: Number;
+  ultimaMedicaoTemp: Number;
 
 }
 
@@ -33,6 +36,8 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
 
       umidadeData: chartConfig.umidadeData,
       temperaturaData: chartConfig.temperaturaData,
+      ultimaMedicaoUmid: 0,
+      ultimaMedicaoTemp: 0,
     }
   }
 
@@ -68,6 +73,12 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             <Text style={{ marginTop: 10, fontSize: 24, color: 'gray' }}>{this.state.planta.planta}</Text>
           </View>
 
+          <View style={styles.topInfo}>
+            <View style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
+              <Text style={[styles.topInfoText, { color: 'blue' }]}>Umidade</Text>
+            </View>
+          </View>
+
           <LineChart
             fromZero
             data={this.state.umidadeData}
@@ -78,13 +89,18 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             verticalLabelRotation={30}
             style={styles.chart} />
 
-          <View style={styles.bemVindoContainer}>
-            <View style={{ width: '70%', height: '100%', justifyContent: 'center' }}>
-              <Text style={styles.bemVindoText}>Bem vindo</Text>
-
+          <View style={styles.bottomInfo}>
+            <View style={{ width: '60%', height: '100%', justifyContent: 'center' }}>
+              <Text style={styles.bemVindoText}>Últma medição:</Text>
             </View>
-            <View style={{ width: '30%', alignItems: 'center', justifyContent: 'center' }}>
-            
+            <View style={{ width: '40%', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={[styles.ultimaMedicao, { color: "blue" }]}>{this.state.ultimaMedicaoUmid}%</Text>
+            </View>
+          </View>
+
+          <View style={styles.topInfo}>
+            <View style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
+              <Text style={[styles.topInfoText, { color: 'red' }]}>Temperatura</Text>
             </View>
           </View>
 
@@ -97,6 +113,19 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             bezier
             verticalLabelRotation={30}
             style={styles.chart} />
+
+
+          <View style={styles.bottomInfo}>
+            <View style={{ width: '60%', height: '100%', justifyContent: 'center' }}>
+              <Text style={styles.bemVindoText}>Últma medição:</Text>
+            </View>
+            <View style={{ width: '40%', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={[styles.ultimaMedicao, { color: "red" }]}>{this.state.ultimaMedicaoTemp}°C</Text>
+            </View>
+          </View>
+
+          <View style={{ height: 30 }} />
+
         </View>
       </ScrollView>
     );
@@ -113,26 +142,35 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
   setChartsData = (planta: IPlantacao) => {
     const sensores: Array<ISensor> = Object.values(planta.sensores);
 
-    let umidadeLabel: Array<String> = []
-    let umidadeValues: Array<Number> = []
-    let temperaturaLabel: Array<String> = []
-    let temperaturaValues: Array<Number> = []
+    let umidadeLabel: Array<String> = [];
+    let umidadeValues: Array<Number> = [];
+    let temperaturaLabel: Array<String> = [];
+    let temperaturaValues: Array<Number> = [];
+    let ultimaMedicaoTemp: Number = 0;
+    let ultimaMedicaoUmid: Number = 0;
+
     sensores.map((sensor) => {
       if (sensor.tipoSensor == "temp" || sensor.tipoSensor == "umid/temp") {
         const entries = Object.entries(sensor.medicoes);
-        entries.map((medicao) => {
+        entries.map((medicao, index) => {
           let tempo = new Date(Number(medicao[0]))
           temperaturaLabel.push(`${tempo.getHours()}:${tempo.getMinutes()}`);
           temperaturaValues.push(Number(medicao[1].temp));
+          if (index == entries.length - 1) {
+            ultimaMedicaoTemp = Number(medicao[1].temp);
+          }
         })
       }
 
       if (sensor.tipoSensor == "umid" || sensor.tipoSensor == "umid/temp") {
         const entries = Object.entries(sensor.medicoes);
-        entries.map((medicao) => {
+        entries.map((medicao, index) => {
           let tempo = new Date(Number(medicao[0]))
           umidadeLabel.push(`${tempo.getHours()}:${tempo.getMinutes()}`);
           umidadeValues.push(Number(medicao[1].umid));
+          if (index == entries.length - 1) {
+            ultimaMedicaoUmid = Number(medicao[1].umid);
+          }
         })
       }
 
@@ -145,7 +183,6 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
           data: temperaturaValues,
         }
       ],
-      legend: ["Temperatura"]
     }
 
     let umidadeData = {
@@ -155,9 +192,8 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
           data: umidadeValues,
         }
       ],
-      legend: ["Umidade"]
     }
 
-    this.setState({ umidadeData, temperaturaData, })
+    this.setState({ umidadeData, temperaturaData, ultimaMedicaoUmid, ultimaMedicaoTemp })
   }
 }
