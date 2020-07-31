@@ -5,13 +5,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as View from './views';
 import SplashScreen from 'react-native-splash-screen';
 import { Root } from 'native-base';
-import { TouchableOpacity, Image } from 'react-native';
+import { sqlLiteThenFunctionQuery } from './utils';
 
 const Stack = createStackNavigator();
 
 export default class App extends React.Component {
-  componentDidMount() {
-    SplashScreen.hide()
+  componentDidMount = async () => {
+    SplashScreen.hide();
+    await this.createTablesSqlLite();
   }
 
   render() {
@@ -23,10 +24,16 @@ export default class App extends React.Component {
             <Stack.Screen name="Login" component={View.LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Iot Garden" component={View.HomeScreen} options={{ headerLeft: null, headerTintColor: 'green' }} />
             <Stack.Screen name="Detalhes Planta" component={View.DetalhesPlantaScreen} options={{ headerShown: true, headerTintColor: 'green' }} />
+            <Stack.Screen name="Configuração da Planta" component={View.ConfiguracaoPlantaScreen} options={{ headerShown: true, headerTintColor: 'green' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>
     )
+  }
+  
+  createTablesSqlLite = async () => {
+    const createValidadoQuery = 'CREATE TABLE IF NOT EXISTS ConfigTable(planta VARCHAR(255), tempMax VARCHAR(255), tempMin VARCHAR(255), umidMax VARCHAR(255), umidMin VARCHAR(255))';
+    await sqlLiteThenFunctionQuery(createValidadoQuery, [], null);
   }
 }
 

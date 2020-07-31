@@ -1,8 +1,7 @@
 import { urlAPI } from "./constants";
 import NetInfo from "@react-native-community/netinfo";
-import { Toast } from "native-base";
+import { openDatabase } from 'react-native-sqlite-storage';
 import { MockedFetch } from "./MockedFetch";
-import { IUsuariosLoginResponse, IPlantacao } from "../models";
 
 export const NetInfoFetchPOST = async (url: string, jsonBody: any, noConnectionFunction: () => void, badRequestFuction: (erro?: any) => void, successFunction: (responseJson?: any) => void) => {
   try {
@@ -72,4 +71,40 @@ export const getDataFetch = async (login: String, onSuccess: (responseJson) => v
   this.setTimeout(() => {
     onSuccess(MockedFetch);
   }, 1000)
+}
+
+
+export const sqlLiteMakeQuery = async (query: string, arrayParameters: Array<any>, noRowFunction: Function | null, hasRowFunction: Function | null) => {
+  var db = await openDatabase({ name: 'UserDatabase.db', location: 'default' });
+
+  await db.transaction((tx) => {
+    tx.executeSql(
+      query,
+      arrayParameters,
+      (tx, res) => {
+        if (res.rows.length == 0) {
+          if (noRowFunction)
+            noRowFunction()
+        }
+        else {
+          if (hasRowFunction)
+            hasRowFunction(res)
+        }
+      })
+  })
+}
+
+export const sqlLiteThenFunctionQuery = async (query: string, arrayParameters: Array<any>, thenFuction: Function | null) => {
+  var db = await openDatabase({ name: 'UserDatabase.db', location: 'default' });
+
+  await db.transaction((tx) => {
+    tx.executeSql(
+      query,
+      arrayParameters,
+      (tx, res) => {
+        if (thenFuction != null) {
+          thenFuction(res)
+        }
+      })
+  })
 }

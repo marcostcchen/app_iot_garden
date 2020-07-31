@@ -133,10 +133,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
 
   navigateToConfigPlanta = async () => {
     await AsyncStorage.setItem("@selectedPlanta", JSON.stringify(this.state.planta));
-
-    // Fazer as configs da planta
-
-    this.props.navigation.navigate("ConfigPlanta");
+    this.props.navigation.navigate("Configuração da Planta");
   }
 
   setChartsData = (planta: IPlantacao) => {
