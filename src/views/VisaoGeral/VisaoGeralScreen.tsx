@@ -62,7 +62,6 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
                   source={require('../images/avatar.png')}
                 />
               </View>
-
             </View>
             <LineChart
               data={this.state.umidadeChart}

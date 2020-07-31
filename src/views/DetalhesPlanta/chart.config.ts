@@ -9,7 +9,7 @@ export const umidadeData = {
       data: [20, 45, 28, 80, 99, 43],
     }
   ],
-  legend: ["Medições por planta"]
+  legend: ["Umidade"]
 };
 
 export const temperaturaData = {
@@ -19,14 +19,14 @@ export const temperaturaData = {
       data: [20, 45, 28, 80, 99, 43],
     }
   ],
-  legend: ["Temperatura por planta"],
+  legend: ["Temperatura"],
 };
 
 export const temperaturaChartConfig = {
   backgroundColor: "#ffa726",
   backgroundGradientFrom: "#ffa726",
   backgroundGradientTo: "red",
-  decimalPlaces: 2, // optional, defaults to 2dp
+  decimalPlaces: 0, // optional, defaults to 2dp
   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
   style: {
