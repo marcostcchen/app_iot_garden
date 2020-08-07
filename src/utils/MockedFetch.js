@@ -1,6 +1,6 @@
 export const MockedFetch = {
-  "login": "ds",
-  "nome": "Dwight Schrute",
+  "login": "marcostcchen",
+  "nome": "Marcos Chen",
   "plantacoes": {
     "1": {
       "planta": "Beterraba",
@@ -29,13 +29,24 @@ export const MockedFetch = {
             }
           },
           "tipoSensor": "umid"
-        }
+        },
+        "3": {
+          "medicoes": {
+            "1695985881": {
+              "temp": "25"
+            },
+            "1695885895": {
+              "temp": "23"
+            }
+          },
+          "tipoSensor": "temp"
+        },
       }
     },
     "2": {
       "planta": "Batata",
       "sensores": {
-        "2": {
+        "1": {
           "medicoes": {
             "1595885923": {
               "umid": "20",
@@ -61,6 +72,31 @@ export const MockedFetch = {
           "tipoSensor": "umid/temp"
         }
       }
+    },
+    "3": {
+      "planta": "Alface",
+      "sensores": {
+        "1": {
+          "medicoes": {
+            "1595885923": {
+              "umid": "35",
+            },
+            "1595985923": {
+              "umid": "55",
+            },
+            "1596085923": {
+              "umid": "30",
+            },
+            "1596185923": {
+              "umid": "50",
+            },
+            "1596285923": {
+              "umid": "40",
+            },
+          },
+          "tipoSensor": "umid"
+        }
+      }
     }
-  }
+  },
 }

@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { IUsuariosLoginResponse, IPlantacao } from '../../models';
 import * as utils from './utils';
 import { styles } from './styles';
+import { isObjEmpty } from '../../utils';
 
 interface Props {
   navigation: any
@@ -37,24 +38,26 @@ export class MinhasPlantasScreen extends React.Component<Props, State> {
       <>
         {this.state.listaPlantas.map((planta, index) => {
           let image = utils.getImage(index);
-          let quantidadeSensores = Object.values(planta.sensores).length
-          return (
-            <ListItem
-              key={index}
-              title={planta.planta}
-              subtitle={"N° Sensores: " + quantidadeSensores}
-              leftAvatar={{ source: image }}
-              onPress={() => this.onListItemPress(planta, index)}
-              containerStyle={styles.container}
-              bottomDivider
-              chevron />
-          )
+          if (!isObjEmpty(planta.sensores)) {
+            let quantidadeSensores = Object.values(planta.sensores).length
+            return (
+              <ListItem
+                key={index}
+                title={planta.planta}
+                subtitle={"N° Sensores: " + quantidadeSensores}
+                leftAvatar={{ source: image }}
+                onPress={() => this.onListItemPress(planta, index)}
+                containerStyle={styles.container}
+                bottomDivider
+                chevron />
+            )
+          }
         })}
       </>
     );
   }
 
-  onListItemPress = async (planta: IPlantacao, index: Number) => {
+  onListItemPress = async (planta: IPlantacao, index: number) => {
     await AsyncStorage.setItem("@selectedPlantaImg", index.toString());
     await AsyncStorage.setItem("@selectedPlanta", JSON.stringify(planta));
     this.props.navigation.navigate("Detalhes Planta");

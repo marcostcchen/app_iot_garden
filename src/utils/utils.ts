@@ -2,6 +2,7 @@ import { urlAPI } from "./constants";
 import NetInfo from "@react-native-community/netinfo";
 import { openDatabase } from 'react-native-sqlite-storage';
 import { MockedFetch } from "./MockedFetch";
+import { Toast } from "native-base";
 
 export const NetInfoFetchPOST = async (url: string, jsonBody: any, noConnectionFunction: () => void, badRequestFuction: (erro?: any) => void, successFunction: (responseJson?: any) => void) => {
   try {
@@ -65,8 +66,6 @@ export const getDataFetch = async (login: String, onSuccess: (responseJson) => v
   // }
 
   // await NetInfoFetchGET("/usuarios/" + login, noConnectionFunction, badRequestFunction, successFunction);
-
-
   // Local
   this.setTimeout(() => {
     onSuccess(MockedFetch);
@@ -107,4 +106,12 @@ export const sqlLiteThenFunctionQuery = async (query: string, arrayParameters: A
         }
       })
   })
+}
+
+export const isObjEmpty = (obj) => {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key))
+      return false;
+  }
+  return true;
 }
