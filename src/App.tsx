@@ -28,18 +28,18 @@ export default class App extends React.Component<Props, State> {
   componentDidMount = async () => {
     SplashScreen.hide();
     await this.createTablesSqlLite();
-    this.updateBadge();
+    await this.updateBadge();
   }
 
   render() {
-
     return (
       <Root>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={View.LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Iot Garden" component={View.HomeScreen}
-              options={({ navigation, route }) => ({ headerLeft: null, headerTintColor: 'green', headerRight: () => this.headerRight(navigation, route) })} />
+              options={({ navigation, route }) => ({ headerLeft: null, headerTintColor: 'green', headerRight: () => this.headerRight(navigation, route) })}
+            />
             <Stack.Screen name="Detalhes Planta" component={View.DetalhesPlantaScreen} options={{ headerShown: true, headerTintColor: 'green' }} />
             <Stack.Screen name="Notificações" component={View.NotificacoesScreen} options={{ headerShown: true, headerTintColor: 'green' }} />
             <Stack.Screen name="Configuração da Planta" component={View.ConfiguracaoPlantaScreen} options={{ headerShown: true, headerTintColor: 'green' }} />
@@ -70,9 +70,8 @@ export default class App extends React.Component<Props, State> {
     await sqlLiteThenFunctionQuery(createValidadoQuery, [], null);
 
     // Clean notification table
-    const deleteNotificationQuery = 'DELETE TABLE NotificationTable';
+    const deleteNotificationQuery = 'DELETE FROM NotificationTable';
     await sqlLiteThenFunctionQuery(deleteNotificationQuery, [], null);
-
 
     const createNotificationQuery = 'CREATE TABLE IF NOT EXISTS NotificationTable(planta VARCHAR(255), message VARCHAR(255))';
     await sqlLiteThenFunctionQuery(createNotificationQuery, [], null);

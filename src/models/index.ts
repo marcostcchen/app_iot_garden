@@ -20,3 +20,8 @@ export interface IMedicao {
     umid: string,
     temp: string,
 }
+
+export interface INotification {
+  nome: string,
+  message: string,
+}

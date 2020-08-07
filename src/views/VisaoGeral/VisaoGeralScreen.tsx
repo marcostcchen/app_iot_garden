@@ -38,7 +38,6 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
       const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
       this.setCharts(UsuariosLoginResponse.plantacoes)
       await this.checkNotifications(UsuariosLoginResponse.plantacoes);
-
       setTimeout(() => {
         this.setState({ nome: UsuariosLoginResponse.nome, isLoading: false })
       }, 1000)
