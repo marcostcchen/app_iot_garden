@@ -37,6 +37,7 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
     if (asyncString !== null) {
       const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
       this.setCharts(UsuariosLoginResponse.plantacoes)
+      await this.checkNotifications(UsuariosLoginResponse.plantacoes);
 
       setTimeout(() => {
         this.setState({ nome: UsuariosLoginResponse.nome, isLoading: false })
@@ -84,6 +85,10 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
         </ScrollView>
       </>
     )
+  }
+
+  checkNotifications = async (plantacoes: Map<String, IPlantacao>) => {
+    await utils.checkNotifications(plantacoes);
   }
 
   setCharts = (plantacoes: Map<String, IPlantacao>) => {

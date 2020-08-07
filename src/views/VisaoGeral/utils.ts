@@ -1,6 +1,7 @@
 import { IPlantacao, ISensor, IMedicao } from "../../models"
 import { SensorType } from "../../types/SensorType";
-import { isObjEmpty } from "../../utils";
+import { isObjEmpty, sqlLiteMakeQuery, sqlLiteThenFunctionQuery } from "../../utils";
+import { ResultSet } from "react-native-sqlite-storage";
 
 export const getData = (plantacoes: Map<String, IPlantacao>, tipoSensor: SensorType) => {
   const medicoesData: Array<number> = [];
@@ -51,4 +52,72 @@ export const getLabels = (plantacoes: Map<String, IPlantacao>, tipoSensor: Senso
     })
     return labels;
   }
+}
+
+export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) => {
+  // Pega o ultimo registro de cada planta e verifica
+  if (!isObjEmpty(plantacoes)) {
+    const plantas: Array<IPlantacao> = Object.values(plantacoes);
+    plantas.map(async (planta) => {
+      let tempMax = 0, tempMin = 0, umidMax = 0, umidMin = 0;
+      let hasConfig = false;
+
+      const hasRowFunction = (res: ResultSet) => {
+        let plantaConfig = res.rows.item(0);
+        tempMax = Number(plantaConfig.tempMax);
+        tempMin = Number(plantaConfig.tempMin);
+        umidMax = Number(plantaConfig.umidMax);
+        umidMin = Number(plantaConfig.umidMin);
+        hasConfig = true;
+      }
+
+      await sqlLiteMakeQuery("SELECT * FROM ConfigTable WHERE planta = (?)", [planta.planta], null, hasRowFunction);
+
+      if (!isObjEmpty(planta.sensores)) {
+        const sensores: Array<ISensor> = Object.values(planta.sensores);
+
+        sensores.map(async (sensor) => {
+          if (!isObjEmpty(sensor.medicoes)) {
+            if (sensor.tipoSensor == "temp" || sensor.tipoSensor == "umid/temp") {
+              this.setState({ hasSensorTemp: true })
+              const entries = Object.entries(sensor.medicoes);
+              entries.map(async (medicao, index) => {
+                if (index == entries.length - 1) {
+                  let ultimaMedicaoTemp = Number(medicao[1].temp);
+                  if (ultimaMedicaoTemp > tempMax) {
+                    await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com temperatura acima da temperatura máxima!`)
+                  } else if (ultimaMedicaoTemp < tempMin) {
+                    await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com temperatura abaixo da temperatura mínima!`)
+                  }
+                }
+              })
+            }
+
+            if (sensor.tipoSensor == "umid" || sensor.tipoSensor == "umid/temp") {
+              this.setState({ hasSensorUmid: true })
+              if (!isObjEmpty(sensor.medicoes)) {
+                const entries = Object.entries(sensor.medicoes);
+                entries.map(async (medicao, index) => {
+                  if (index == entries.length - 1) {
+                    let ultimaMedicaoUmid = Number(medicao[1].umid);
+                    if (ultimaMedicaoUmid > umidMax) {
+                      await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade acima da temperatura máxima!`)
+                    } else if (ultimaMedicaoUmid < umidMin) {
+                      await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade abaixo da temperatura mínima!`)
+                    }
+                  }
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+  }
+}
+
+const insertToNotificationTable = async (nome: string, mensagem: string) => {
+  const query = "INSERT INTO NotificationTable (planta, message) VALUES (?,?)";
+  const array = [nome, mensagem];
+  await sqlLiteThenFunctionQuery(query, array, null);
 }
