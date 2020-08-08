@@ -65,6 +65,17 @@ export const MockedFetch = {
             }
           },
           "tipoSensor": "umid"
+        },
+        "2": {
+          "medicoes": {
+            "1695885881": {
+              "temp": "35"
+            },
+            "1695885895": {
+              "temp": "33"
+            }
+          },
+          "tipoSensor": "temp"
         }
       }
     },
@@ -90,6 +101,17 @@ export const MockedFetch = {
             }
           },
           "tipoSensor": "umid"
+        },
+        "2": {
+          "medicoes": {
+            "1695885895": {
+              "umidsolo": "50"
+            },
+            "1695985881": {
+              "umidsolo": "68"
+            }
+          },
+          "tipoSensor": "umidsolo"
         }
       }
     }

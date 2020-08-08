@@ -83,16 +83,6 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
             </View>
             <Form>
               <Item stackedLabel >
-                <Label>Temperatura Mínima °C</Label>
-                <Input keyboardType="number-pad" placeholder={" - "} value={this.state.minTemp} onChangeText={(text) => this.setState({ minTemp: text })} />
-              </Item>
-
-              <Item stackedLabel >
-                <Label>Temperatura Máxima °C</Label>
-                <Input keyboardType="number-pad" placeholder={" - "} value={this.state.maxTemp} onChangeText={(text) => this.setState({ maxTemp: text })} />
-              </Item>
-
-              <Item stackedLabel >
                 <Label>Umidade Ar Mínima UR</Label>
                 <Input keyboardType="number-pad" placeholder={" - "} value={this.state.minUmid} onChangeText={(text) => this.setState({ minUmid: text })} />
               </Item>
@@ -100,6 +90,16 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
               <Item stackedLabel >
                 <Label>Umidade Ar Máxima UR</Label>
                 <Input keyboardType="number-pad" placeholder={" - "} value={this.state.maxUmid} onChangeText={(text) => this.setState({ maxUmid: text })} />
+              </Item>
+
+              <Item stackedLabel >
+                <Label>Temperatura Mínima °C</Label>
+                <Input keyboardType="number-pad" placeholder={" - "} value={this.state.minTemp} onChangeText={(text) => this.setState({ minTemp: text })} />
+              </Item>
+
+              <Item stackedLabel >
+                <Label>Temperatura Máxima °C</Label>
+                <Input keyboardType="number-pad" placeholder={" - "} value={this.state.maxTemp} onChangeText={(text) => this.setState({ maxTemp: text })} />
               </Item>
 
               <Item stackedLabel >

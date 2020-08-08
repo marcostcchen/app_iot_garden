@@ -96,7 +96,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             <>
               <View style={styles.topInfo}>
                 <View style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
-                  <Text style={[styles.topInfoText, { color: 'blue' }]}>Umidade</Text>
+                  <Text style={[styles.topInfoText, { color: 'blue' }]}>Umidade do Ar</Text>
                 </View>
               </View>
               <LineChart
@@ -156,7 +156,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             <>
               <View style={styles.topInfo}>
                 <View style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
-                  <Text style={[styles.topInfoText, { color: 'red' }]}>Umidade do Solo</Text>
+                  <Text style={[styles.topInfoText, { color: 'brown' }]}>Umidade do Solo</Text>
                 </View>
               </View>
 
