@@ -60,9 +60,11 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
   if (!isObjEmpty(plantacoes)) {
     const plantas: Array<IPlantacao> = Object.values(plantacoes);
     plantas.map(async (planta) => {
+      await cleanPlantaData(planta.planta);
+      
       let tempMax = 0, tempMin = 0, umidMax = 0, umidMin = 0;
-
-      const hasRowFunction = (res: ResultSet) => {
+      
+      const hasRowFunction = async (res: ResultSet) => {
         let plantaConfig = res.rows.item(0);
         tempMax = Number(plantaConfig.tempMax);
         tempMin = Number(plantaConfig.tempMin);
@@ -106,13 +108,20 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
             }
           })
         }
+        await updateBadge();
       }
 
       await sqlLiteMakeQuery("SELECT * FROM ConfigTable WHERE planta = (?)", [planta.planta], null, hasRowFunction);
-      updateBadge();
     })
   }
 }
+
+const cleanPlantaData = async (nome: string) => {
+  const query = "DELETE FROM NotificationTable WHERE planta = (?) ";
+  const array = [nome];
+  await sqlLiteThenFunctionQuery(query, array, null);
+}
+
 
 const insertToNotificationTable = async (nome: string, mensagem: string) => {
   const query = "INSERT INTO NotificationTable (planta, message) VALUES (?,?)";

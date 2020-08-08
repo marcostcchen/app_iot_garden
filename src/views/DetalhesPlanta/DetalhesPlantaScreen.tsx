@@ -62,7 +62,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
   render() {
     if (this.state.isLoading) {
       return (
-        <LoadingScreen isLoading={this.state.isLoading} text={"Carregando informações da planta..."} />
+        <LoadingScreen isLoading={this.state.isLoading} text={"Carregando planta..."} />
       )
     }
 

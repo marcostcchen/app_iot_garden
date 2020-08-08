@@ -1,13 +1,15 @@
 import React from 'react';
 import { LineChart, } from "react-native-chart-kit";
 import { Avatar } from 'react-native-elements';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, Image, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { IUsuariosLoginResponse, IPlantacao } from '../../models'
 import { LoadingScreen } from '../../components';
 import { styles } from './styles';
 import * as chartConfig from './chart.config';
 import * as utils from './utils';
+import { getDataFetch } from '../../utils';
+import { Toast } from 'native-base';
 
 interface Props {
   navigation: any,
@@ -15,10 +17,11 @@ interface Props {
 
 interface State {
   nome: String,
-  isLoading: Boolean,
+  isLoading: boolean,
 
   umidadeChart: any,
-  temperaturaChart: any
+  temperaturaChart: any,
+  refresh: boolean,
 }
 
 export class VisaoGeralScreen extends React.Component<Props, State> {
@@ -29,26 +32,19 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
       isLoading: true,
       umidadeChart: chartConfig.umidadeData,
       temperaturaChart: chartConfig.temperaturaData,
+
+      refresh: true,
     }
   }
 
   componentDidMount = async () => {
-    const asyncString = await AsyncStorage.getItem("@login");
-    if (asyncString !== null) {
-      const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
-      this.setCharts(UsuariosLoginResponse.plantacoes)
-      await this.checkNotifications(UsuariosLoginResponse.plantacoes);
-      setTimeout(() => {
-        this.setState({ nome: UsuariosLoginResponse.nome, isLoading: false })
-      }, 1000)
-    }
+    await this.setUser();
   }
 
   render() {
     return (
       <>
-        <LoadingScreen isLoading={this.state.isLoading} text={"Carregando suas informações.."} />
-        <ScrollView >
+        <ScrollView refreshControl={<RefreshControl refreshing={this.state.refresh} onRefresh={this.refreshUser} />}>
           <View style={{ width: '100%', alignItems: 'center', marginTop: 15 }}>
             <View style={styles.bemVindoContainer}>
               <View style={{ width: '70%', height: '100%', justifyContent: 'center' }}>
@@ -84,6 +80,34 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
         </ScrollView>
       </>
     )
+  }
+
+  refreshUser = async () => {
+    this.setState({ refresh: true });
+
+    let login = await AsyncStorage.getItem("@loginName");
+    const onSuccess = async (responseJson) => {
+      await AsyncStorage.setItem("@login", JSON.stringify(responseJson));
+      await this.setUser();
+    }
+
+    const onFail = () => {
+      Toast.show({ text: "Login não disponível", duration: 4000, type: "warning" });
+    }
+
+    await getDataFetch(login, onSuccess, onFail);
+  }
+
+  setUser = async () => {
+    const asyncString = await AsyncStorage.getItem("@login");
+    if (asyncString !== null) {
+      const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
+      this.setCharts(UsuariosLoginResponse.plantacoes)
+      await this.checkNotifications(UsuariosLoginResponse.plantacoes);
+      setTimeout(() => {
+        this.setState({ nome: UsuariosLoginResponse.nome, refresh: false })
+      }, 1000)
+    }
   }
 
   checkNotifications = async (plantacoes: Map<String, IPlantacao>) => {

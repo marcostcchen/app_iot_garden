@@ -97,6 +97,31 @@ export const MockedFetch = {
           "tipoSensor": "umid"
         }
       }
+    },
+    "4": {
+      "planta": "Repolho",
+      "sensores": {
+        "1": {
+          "medicoes": {
+            "1595885923": {
+              "umid": "90",
+            },
+            "1595985923": {
+              "umid": "55",
+            },
+            "1596085923": {
+              "umid": "80",
+            },
+            "1596185923": {
+              "umid": "50",
+            },
+            "1596285923": {
+              "umid": "70",
+            },
+          },
+          "tipoSensor": "umid"
+        }
+      }
     }
   },
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { IPlantacao } from '../../models';
+import { IPlantacao, IUsuariosLoginResponse } from '../../models';
 import { LoadingScreen } from '../../components';
-import { Item, Label, Input, Form, Content, Toast } from 'native-base';
+import { Item, Label, Input, Form, Toast } from 'native-base';
 import { sqlLiteThenFunctionQuery, sqlLiteMakeQuery } from '../../utils';
 import { ResultSet } from 'react-native-sqlite-storage';
+import { checkNotifications } from '../VisaoGeral/utils';
 
 interface Props {
   navigation: any,
@@ -111,8 +112,13 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
 
   handleSaveButton = async () => {
     this.setState({ isSaving: true });
-    const thenFunction = () => {
-      this.setState({ isSaving: false });
+    const thenFunction = async () => {
+      const asyncString = await AsyncStorage.getItem("@login");
+      if (asyncString !== null) {
+        const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
+        await checkNotifications(UsuariosLoginResponse.plantacoes);
+      }
+      Toast.show({ text: "Configuração salvo!", duration: 5000, type: "success", buttonText: "Fechar" });
       this.props.navigation.goBack();
     }
 
@@ -124,6 +130,5 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
       await sqlLiteThenFunctionQuery(query, [this.state.planta.planta, this.state.maxTemp, this.state.minTemp, this.state.maxUmid, this.state.minUmid], thenFunction);
     }
 
-    Toast.show({ text: "Configuração salvo com sucesso!", duration: 5000, type: "success" });
   }
 }

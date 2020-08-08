@@ -24,17 +24,24 @@ export default class ButtonSubmit extends Component {
     this.setState({ isLoading: true });
 
     // Comeca a animacao do botao
-    Animated.timing(this.buttonAnimated, { toValue: 1, duration: 200, easing: Easing.linear, }).start();
+    Animated.timing(this.buttonAnimated, { toValue: 1, duration: 200, easing: Easing.linear, }, useNativeDriver = true,).start();
 
     const onSuccess = async (responseJson) => {
       await AsyncStorage.setItem("@login", JSON.stringify(responseJson));
+      await AsyncStorage.setItem("@loginName", this.props.login);
       this.setState({ isLoading: false });
       this.buttonAnimated.setValue(0);
       this.growAnimated.setValue(0)
       this.props.navigation.navigate("Iot Garden");
     }
 
-    await getDataFetch(this.props.login, onSuccess);
+    const onFail = () => {
+      this.setState({ isLoading: false });
+      this.buttonAnimated.setValue(0);
+      this.growAnimated.setValue(0)
+    }
+
+    await getDataFetch(this.props.login, onSuccess, onFail);
   }
 
   render() {

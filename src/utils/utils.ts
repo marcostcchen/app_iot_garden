@@ -51,14 +51,16 @@ export const NetInfoFetchGET = async (url: string, noConnectionFunction: () => v
   }
 }
 
-export const getDataFetch = async (login: String, onSuccess: (responseJson) => void) => {
+export const getDataFetch = async (login: String, onSuccess: (responseJson) => void, onFail: () => void) => {
   // For api
   // const noConnectionFunction = () => {
-  //   Toast.show({ text: "Sem conexão de internet, tente novamente", duration: 5000, type: "danger" });
+  //   Toast.show({ text: "Sem conexão de internet, tente novamente", duration: 4000, type: "danger" });
+  //   onFail();
   // }
 
   // const badRequestFunction = (responseJson) => {
-  //   Toast.show({ text: "Login não disponível", duration: 5000, type: "warning", buttonText: "Fechar" });
+  //   Toast.show({ text: "Login não disponível", duration: 4000, type: "warning"});
+  //   onFail();
   // }
 
   // const successFunction = (responseJson) => {
