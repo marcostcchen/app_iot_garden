@@ -86,9 +86,9 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
                   if (index == entries.length - 1) {
                     let ultimaMedicaoTemp = Number(medicao[1].temp);
                     if (tempMax != 0 && ultimaMedicaoTemp > tempMax) {
-                      await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com temperatura ${medicao[1].temp} e está acima da temperatura máxima!`)
+                      await insertToNotificationTable(planta.planta, `Temperatura: ${medicao[1].temp}. Está acima da temperatura máxima!`)
                     } else if (tempMin != 0 && ultimaMedicaoTemp < tempMin) {
-                      await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com temperatura ${medicao[1].temp} abaixo da temperatura mínima!`)
+                      await insertToNotificationTable(planta.planta, `Temperatura: ${medicao[1].temp}. Está abaixo da temperatura mínima!`)
                     }
                   }
                 })
@@ -101,9 +101,9 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
                     if (index == entries.length - 1) {
                       let ultimaMedicaoUmid = Number(medicao[1].umid);
                       if (umidMax != 0 && ultimaMedicaoUmid > umidMax) {
-                        await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umid} e está acima da temperatura máxima!`)
+                        await insertToNotificationTable(planta.planta, `Umidade do Ar: ${medicao[1].umid}. Acima da temperatura máxima!`)
                       } else if (umidMin != 0 && ultimaMedicaoUmid < umidMin) {
-                        await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umid} e está abaixo da temperatura mínima!`)
+                        await insertToNotificationTable(planta.planta, `Umidade do Ar: ${medicao[1].umid}. Abaixo da temperatura mínima!`)
                       }
                     }
                   })
@@ -117,9 +117,9 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
                     if (index == entries.length - 1) {
                       let ultimaMedicaoUmidsolo = Number(medicao[1].umidsolo);
                       if (umidMax != 0 && ultimaMedicaoUmidsolo > umidMax) {
-                        await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umidsolo} e está acima da temperatura máxima!`)
+                        await insertToNotificationTable(planta.planta, `Umidade do solo: ${medicao[1].umidsolo}. Está acima da temperatura máxima!`)
                       } else if (umidMin != 0 && ultimaMedicaoUmidsolo < umidMin) {
-                        await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umidsolo} e está abaixo da temperatura mínima!`)
+                        await insertToNotificationTable(planta.planta, `Umidade do solo: ${medicao[1].umidsolo}. Está abaixo da temperatura mínima!`)
                       }
                     }
                   })

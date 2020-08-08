@@ -55,7 +55,7 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
       const query = "SELECT * FROM ConfigTable WHERE planta = (?)"
       const hasRowFunction = (res: ResultSet) => {
         let plantaConfig = res.rows.item(0);
-        this.setState({ hasPlantConfig: true, isLoading: false, maxTemp: plantaConfig.tempMax, minTemp: plantaConfig.tempMin, maxUmid: plantaConfig.umidMax, minUmid: plantaConfig.umidMin })
+        this.setState({ hasPlantConfig: true, isLoading: false, maxTemp: plantaConfig.tempMax, minTemp: plantaConfig.tempMin, maxUmid: plantaConfig.umidMax, minUmid: plantaConfig.umidMin, maxUmidSolo: plantaConfig.umidSoloMax, minUmidSolo: plantaConfig.umidSoloMin })
       }
       const noRowFunction = () => {
         this.setState({ hasPlantConfig: false, isLoading: false })
