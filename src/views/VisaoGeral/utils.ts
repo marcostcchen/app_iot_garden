@@ -12,7 +12,7 @@ export const getData = (plantacoes: Map<String, IPlantacao>, tipoSensor: SensorT
     plantas.map((planta) => {
       if (!isObjEmpty(planta.sensores)) {
         const sensoresDaPlanta: Array<ISensor> = Object.values(planta.sensores);
-        const sensor = sensoresDaPlanta.find((planta) => planta.tipoSensor == tipoSensor || planta.tipoSensor == "umid/temp")
+        const sensor = sensoresDaPlanta.find((planta) => planta.tipoSensor == tipoSensor)
         // Tem sensor de umidade
         if (sensor) {
           if (!isObjEmpty(sensor.medicoes)) {
@@ -21,8 +21,10 @@ export const getData = (plantacoes: Map<String, IPlantacao>, tipoSensor: SensorT
             medicoes.map((medicao) => {
               if (tipoSensor == "umid") {
                 medicaoMedia = medicaoMedia + parseFloat(medicao.umid);
-              } else {
+              } else if (tipoSensor == "temp") {
                 medicaoMedia = medicaoMedia + parseFloat(medicao.temp);
+              } else {
+                medicaoMedia = medicaoMedia + parseFloat(medicao.umidsolo)
               }
             })
             medicaoMedia = (medicaoMedia / medicoes.length);
@@ -44,9 +46,9 @@ export const getLabels = (plantacoes: Map<String, IPlantacao>, tipoSensor: Senso
       if (!isObjEmpty(planta.sensores)) {
         const sensoresDaPlanta: Array<ISensor> = Object.values(planta.sensores);
 
-        const sensorUmidade = sensoresDaPlanta.find((planta) => planta.tipoSensor == tipoSensor || planta.tipoSensor == "umid/temp")
+        const sensor = sensoresDaPlanta.find((planta) => planta.tipoSensor == tipoSensor)
         // Tem sensor de umidade
-        if (sensorUmidade) {
+        if (sensor) {
           labels.push(planta.planta);
         }
       }
@@ -61,22 +63,24 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
     const plantas: Array<IPlantacao> = Object.values(plantacoes);
     plantas.map(async (planta) => {
       await cleanPlantaData(planta.planta);
-      
-      let tempMax = 0, tempMin = 0, umidMax = 0, umidMin = 0;
-      
+
+      let tempMax = 0, tempMin = 0, umidMax = 0, umidMin = 0, umidSoloMax = 0, umidSoloMin = 0;
+
       const hasRowFunction = async (res: ResultSet) => {
         let plantaConfig = res.rows.item(0);
         tempMax = Number(plantaConfig.tempMax);
         tempMin = Number(plantaConfig.tempMin);
         umidMax = Number(plantaConfig.umidMax);
         umidMin = Number(plantaConfig.umidMin);
+        umidSoloMax = Number(plantaConfig.umidSoloMax);
+        umidSoloMin = Number(plantaConfig.umidSoloMin);
 
         if (!isObjEmpty(planta.sensores)) {
           const sensores: Array<ISensor> = Object.values(planta.sensores);
 
           sensores.map((sensor) => {
             if (!isObjEmpty(sensor.medicoes)) {
-              if (sensor.tipoSensor == "temp" || sensor.tipoSensor == "umid/temp") {
+              if (sensor.tipoSensor == "temp") {
                 const entries = Object.entries(sensor.medicoes);
                 entries.map(async (medicao, index) => {
                   if (index == entries.length - 1) {
@@ -90,7 +94,7 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
                 })
               }
 
-              if (sensor.tipoSensor == "umid" || sensor.tipoSensor == "umid/temp") {
+              if (sensor.tipoSensor == "umid") {
                 if (!isObjEmpty(sensor.medicoes)) {
                   const entries = Object.entries(sensor.medicoes);
                   entries.map(async (medicao, index) => {
@@ -100,6 +104,22 @@ export const checkNotifications = async (plantacoes: Map<String, IPlantacao>) =>
                         await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umid} e está acima da temperatura máxima!`)
                       } else if (umidMin != 0 && ultimaMedicaoUmid < umidMin) {
                         await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umid} e está abaixo da temperatura mínima!`)
+                      }
+                    }
+                  })
+                }
+              }
+
+              if (sensor.tipoSensor == "umidsolo") {
+                if (!isObjEmpty(sensor.medicoes)) {
+                  const entries = Object.entries(sensor.medicoes);
+                  entries.map(async (medicao, index) => {
+                    if (index == entries.length - 1) {
+                      let ultimaMedicaoUmidsolo = Number(medicao[1].umidsolo);
+                      if (umidMax != 0 && ultimaMedicaoUmidsolo > umidMax) {
+                        await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umidsolo} e está acima da temperatura máxima!`)
+                      } else if (umidMin != 0 && ultimaMedicaoUmidsolo < umidMin) {
+                        await insertToNotificationTable(planta.planta, `A planta ${planta.planta} está com umidade ${medicao[1].umidsolo} e está abaixo da temperatura mínima!`)
                       }
                     }
                   })

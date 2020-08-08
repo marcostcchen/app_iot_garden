@@ -72,7 +72,7 @@ export default class App extends React.Component<Props, State> {
   }
 
   createTablesSqlLite = async () => {
-    const createValidadoQuery = 'CREATE TABLE IF NOT EXISTS ConfigTable(planta VARCHAR(255), tempMax VARCHAR(255), tempMin VARCHAR(255), umidMax VARCHAR(255), umidMin VARCHAR(255))';
+    const createValidadoQuery = 'CREATE TABLE IF NOT EXISTS ConfigTable(planta VARCHAR(255), tempMax VARCHAR(255), tempMin VARCHAR(255), umidMax VARCHAR(255), umidMin VARCHAR(255), umidSoloMax VARCHAR(255), umidSoloMin VARCHAR(255))';
     await sqlLiteThenFunctionQuery(createValidadoQuery, [], null);
 
     // Clean notification table

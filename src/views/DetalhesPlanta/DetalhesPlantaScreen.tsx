@@ -19,14 +19,17 @@ interface State {
   isLoading: Boolean,
   image: any,
 
-  umidadeData: any;
+  umidadeSoloData: any;
+  umidadeArData: any;
   temperaturaData: any;
 
   ultimaMedicaoUmid: number;
   ultimaMedicaoTemp: number;
+  ultimaMedicaoUmidSolo: number;
 
   hasSensorTemp: boolean,
   hasSensorUmid: boolean,
+  hasSensorUmidSolo: boolean,
 
 }
 
@@ -38,13 +41,16 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
       isLoading: true,
       image: null,
 
-      umidadeData: chartConfig.umidadeData,
+      umidadeSoloData: chartConfig.umidadeSoloData,
+      umidadeArData: chartConfig.umidadeArData,
       temperaturaData: chartConfig.temperaturaData,
       ultimaMedicaoUmid: 0,
       ultimaMedicaoTemp: 0,
+      ultimaMedicaoUmidSolo: 0,
 
       hasSensorTemp: false,
       hasSensorUmid: false,
+      hasSensorUmidSolo: false,
     }
   }
 
@@ -80,7 +86,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             <Text style={{ marginTop: 10, fontSize: 24, color: 'gray' }}>{this.state.planta.planta}</Text>
           </View>
 
-          {!this.state.hasSensorUmid && !this.state.hasSensorUmid && (
+          {!this.state.hasSensorUmid && !this.state.hasSensorUmid && !this.state.hasSensorUmidSolo && (
             <View>
               <Text>Não há medições para esta planta!</Text>
             </View>
@@ -95,10 +101,10 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
               </View>
               <LineChart
                 fromZero
-                data={this.state.umidadeData}
+                data={this.state.umidadeArData}
                 width={chartConfig.screenWidth}
                 height={300}
-                chartConfig={chartConfig.umidadeChartConfig}
+                chartConfig={chartConfig.umidadeArChartConfig}
                 bezier
                 verticalLabelRotation={30}
                 style={styles.chart} />
@@ -108,7 +114,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
                   <Text style={styles.bemVindoText}>Últma medição:</Text>
                 </View>
                 <View style={{ width: '40%', alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={[styles.ultimaMedicao, { color: "blue" }]}>{this.state.ultimaMedicaoUmid}%</Text>
+                  <Text style={[styles.ultimaMedicao, { color: "blue" }]}>{this.state.ultimaMedicaoUmid} UR</Text>
                 </View>
               </View>
             </>
@@ -146,6 +152,36 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             </>
           )}
 
+          {this.state.hasSensorUmidSolo && (
+            <>
+              <View style={styles.topInfo}>
+                <View style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
+                  <Text style={[styles.topInfoText, { color: 'red' }]}>Umidade do Solo</Text>
+                </View>
+              </View>
+
+              <LineChart
+                fromZero
+                data={this.state.umidadeSoloData}
+                width={chartConfig.screenWidth}
+                height={300}
+                chartConfig={chartConfig.umidadeSoloChartConfig}
+                bezier
+                verticalLabelRotation={30}
+                style={styles.chart} />
+
+
+              <View style={styles.bottomInfo}>
+                <View style={{ width: '60%', height: '100%', justifyContent: 'center' }}>
+                  <Text style={styles.bemVindoText}>Últma medição:</Text>
+                </View>
+                <View style={{ width: '40%', alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={[styles.ultimaMedicao, { color: "brown" }]}>{this.state.ultimaMedicaoUmidSolo}%</Text>
+                </View>
+              </View>
+            </>
+          )}
+
           <View style={{ height: 30 }} />
 
         </View>
@@ -166,12 +202,16 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
       let umidadeValues: Array<number> = [];
       let temperaturaLabel: Array<String> = [];
       let temperaturaValues: Array<number> = [];
+      let umidadeSoloLabel: Array<String> = [];
+      let umidadeSoloValues: Array<number> = [];
+
       let ultimaMedicaoTemp: number = 0;
       let ultimaMedicaoUmid: number = 0;
+      let ultimaMedicaoUmidSolo: number = 0;
 
       sensores.map((sensor) => {
         if (!isObjEmpty(sensor.medicoes)) {
-          if (sensor.tipoSensor == "temp" || sensor.tipoSensor == "umid/temp") {
+          if (sensor.tipoSensor == "temp") {
             this.setState({ hasSensorTemp: true })
             const entries = Object.entries(sensor.medicoes);
             entries.map((medicao, index) => {
@@ -184,7 +224,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
             })
           }
 
-          if (sensor.tipoSensor == "umid" || sensor.tipoSensor == "umid/temp") {
+          if (sensor.tipoSensor == "umid") {
             this.setState({ hasSensorUmid: true })
             if (!isObjEmpty(sensor.medicoes)) {
               const entries = Object.entries(sensor.medicoes);
@@ -198,6 +238,22 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
               })
             }
           }
+
+          if (sensor.tipoSensor == "umidsolo") {
+            this.setState({ hasSensorUmidSolo: true })
+            if (!isObjEmpty(sensor.medicoes)) {
+              const entries = Object.entries(sensor.medicoes);
+              entries.map((medicao, index) => {
+                let tempo = new Date(Number(medicao[0]))
+                umidadeSoloLabel.push(`${tempo.getHours()}:${tempo.getMinutes()}`);
+                umidadeSoloValues.push(Number(medicao[1].umidsolo));
+                if (index == entries.length - 1) {
+                  ultimaMedicaoUmidSolo = Number(medicao[1].umidsolo);
+                }
+              })
+            }
+          }
+
         }
       })
 
@@ -210,7 +266,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
         ],
       }
 
-      let umidadeData = {
+      let umidadeArData = {
         labels: umidadeLabel,
         datasets: [
           {
@@ -219,7 +275,16 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
         ],
       }
 
-      this.setState({ umidadeData, temperaturaData, ultimaMedicaoUmid, ultimaMedicaoTemp })
+      let umidadeSoloData = {
+        labels: umidadeSoloLabel,
+        datasets: [
+          {
+            data: umidadeSoloValues,
+          }
+        ],
+      }
+
+      this.setState({ umidadeArData, temperaturaData, umidadeSoloData, ultimaMedicaoUmid, ultimaMedicaoTemp, ultimaMedicaoUmidSolo })
     }
   }
 }

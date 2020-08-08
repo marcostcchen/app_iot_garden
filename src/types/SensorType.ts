@@ -1,1 +1,1 @@
-export type SensorType = "temp" | "umid" | "umid/temp";
+export type SensorType = "temp" | "umid" | "umidsolo";

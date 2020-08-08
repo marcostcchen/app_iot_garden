@@ -1,10 +1,9 @@
 import React from 'react';
 import { LineChart, } from "react-native-chart-kit";
 import { Avatar } from 'react-native-elements';
-import { View, ScrollView, Text, TouchableOpacity, Image, RefreshControl } from 'react-native';
+import { View, ScrollView, Text, Image, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { IUsuariosLoginResponse, IPlantacao } from '../../models'
-import { LoadingScreen } from '../../components';
 import { styles } from './styles';
 import * as chartConfig from './chart.config';
 import * as utils from './utils';
@@ -19,8 +18,9 @@ interface State {
   nome: String,
   isLoading: boolean,
 
-  umidadeChart: any,
+  umidadeArChart: any,
   temperaturaChart: any,
+  umidadeSoloChart: any,
   refresh: boolean,
 }
 
@@ -30,8 +30,9 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
     this.state = {
       nome: "",
       isLoading: true,
-      umidadeChart: chartConfig.umidadeData,
+      umidadeArChart: chartConfig.umidadeArData,
       temperaturaChart: chartConfig.temperaturaData,
+      umidadeSoloChart: chartConfig.umidadeSoloData,
 
       refresh: true,
     }
@@ -59,11 +60,12 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
                 />
               </View>
             </View>
+
             <LineChart
-              data={this.state.umidadeChart}
+              data={this.state.umidadeArChart}
               width={chartConfig.screenWidth}
               height={300}
-              chartConfig={chartConfig.umidadeChartConfig}
+              chartConfig={chartConfig.umidadeArChartConfig}
               bezier
               verticalLabelRotation={30}
               style={styles.chart} />
@@ -76,7 +78,17 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
               bezier
               verticalLabelRotation={30}
               style={styles.chart} />
+
+            <LineChart
+              data={this.state.umidadeSoloChart}
+              width={chartConfig.screenWidth}
+              height={300}
+              chartConfig={chartConfig.umidadeSoloChartConfig}
+              bezier
+              verticalLabelRotation={30}
+              style={styles.chart} />
           </View>
+          
         </ScrollView>
       </>
     )
@@ -115,7 +127,7 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
   }
 
   setCharts = (plantacoes: Map<String, IPlantacao>) => {
-    const umidadeChart = {
+    const umidadeArChart = {
       labels: utils.getLabels(plantacoes, "umid"),
       datasets: [
         {
@@ -136,6 +148,16 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
       legend: ["Temperatura por planta"]
     }
 
-    this.setState({ temperaturaChart, umidadeChart })
+    const umidadeSoloChart = {
+      labels: utils.getLabels(plantacoes, "umidsolo"),
+      datasets: [
+        {
+          data: utils.getData(plantacoes, "umidsolo")
+        }
+      ],
+      legend: ["Umidade Solo por planta"]
+    }
+
+    this.setState({ temperaturaChart, umidadeArChart, umidadeSoloChart })
   }
 }

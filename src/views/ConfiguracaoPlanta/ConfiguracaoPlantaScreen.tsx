@@ -21,6 +21,8 @@ interface State {
   minTemp: string,
   maxUmid: string,
   minUmid: string,
+  minUmidSolo: string,
+  maxUmidSolo: string,
 
   hasPlantConfig: Boolean,
 }
@@ -37,6 +39,8 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
       minTemp: "",
       maxUmid: "",
       minUmid: "",
+      minUmidSolo: "",
+      maxUmidSolo: "",
 
       hasPlantConfig: false,
     }
@@ -89,13 +93,23 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
               </Item>
 
               <Item stackedLabel >
-                <Label>Umidade Mínima %</Label>
+                <Label>Umidade Ar Mínima UR</Label>
                 <Input keyboardType="number-pad" placeholder={" - "} value={this.state.minUmid} onChangeText={(text) => this.setState({ minUmid: text })} />
               </Item>
 
               <Item stackedLabel >
-                <Label>Umidade Máxima %</Label>
+                <Label>Umidade Ar Máxima UR</Label>
                 <Input keyboardType="number-pad" placeholder={" - "} value={this.state.maxUmid} onChangeText={(text) => this.setState({ maxUmid: text })} />
+              </Item>
+
+              <Item stackedLabel >
+                <Label>Umidade Solo Mínima %</Label>
+                <Input keyboardType="number-pad" placeholder={" - "} value={this.state.minUmidSolo} onChangeText={(text) => this.setState({ minUmidSolo: text })} />
+              </Item>
+
+              <Item stackedLabel >
+                <Label>Umidade Solo Máxima %</Label>
+                <Input keyboardType="number-pad" placeholder={" - "} value={this.state.maxUmidSolo} onChangeText={(text) => this.setState({ maxUmidSolo: text })} />
               </Item>
             </Form>
 
@@ -123,11 +137,11 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
     }
 
     if (this.state.hasPlantConfig) {
-      const query = "UPDATE ConfigTable SET tempMax = (?), tempMin = (?), umidMax = (?), umidMin = (?) WHERE planta = (?)"
-      await sqlLiteThenFunctionQuery(query, [this.state.maxTemp, this.state.minTemp, this.state.maxUmid, this.state.minUmid, this.state.planta.planta], thenFunction);
+      const query = "UPDATE ConfigTable SET tempMax = (?), tempMin = (?), umidMax = (?), umidMin = (?), umidSoloMax = (?), umidSoloMin = (?) WHERE planta = (?)"
+      await sqlLiteThenFunctionQuery(query, [this.state.maxTemp, this.state.minTemp, this.state.maxUmid, this.state.minUmid, this.state.maxUmidSolo, this.state.minUmidSolo, this.state.planta.planta], thenFunction);
     } else {
-      const query = "INSERT INTO ConfigTable (planta, tempMax, tempMin, umidMax, umidMin) VALUES (?,?,?,?,?)  "
-      await sqlLiteThenFunctionQuery(query, [this.state.planta.planta, this.state.maxTemp, this.state.minTemp, this.state.maxUmid, this.state.minUmid], thenFunction);
+      const query = "INSERT INTO ConfigTable (planta, tempMax, tempMin, umidMax, umidMin, umidSoloMax, umidSoloMin) VALUES (?,?,?,?,?,?,?)  "
+      await sqlLiteThenFunctionQuery(query, [this.state.planta.planta, this.state.maxTemp, this.state.minTemp, this.state.maxUmid, this.state.minUmid, this.state.maxUmidSolo, this.state.minUmidSolo], thenFunction);
     }
 
   }

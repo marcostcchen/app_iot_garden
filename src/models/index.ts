@@ -19,6 +19,7 @@ export interface ISensor {
 export interface IMedicao {
     umid: string,
     temp: string,
+    umidsolo: string,
 }
 
 export interface INotification {
