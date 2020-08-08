@@ -140,7 +140,7 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
       const query = "UPDATE ConfigTable SET tempMax = (?), tempMin = (?), umidMax = (?), umidMin = (?), umidSoloMax = (?), umidSoloMin = (?) WHERE planta = (?)"
       await sqlLiteThenFunctionQuery(query, [this.state.maxTemp, this.state.minTemp, this.state.maxUmid, this.state.minUmid, this.state.maxUmidSolo, this.state.minUmidSolo, this.state.planta.planta], thenFunction);
     } else {
-      const query = "INSERT INTO ConfigTable (planta, tempMax, tempMin, umidMax, umidMin, umidSoloMax, umidSoloMin) VALUES (?,?,?,?,?,?,?)  "
+      const query = "INSERT INTO ConfigTable (planta, tempMax, tempMin, umidMax, umidMin, umidSoloMax, umidSoloMin) VALUES (?,?,?,?,?,?,?)"
       await sqlLiteThenFunctionQuery(query, [this.state.planta.planta, this.state.maxTemp, this.state.minTemp, this.state.maxUmid, this.state.minUmid, this.state.maxUmidSolo, this.state.minUmidSolo], thenFunction);
     }
 
