@@ -2,7 +2,6 @@ import { urlAPI } from "./constants";
 import NetInfo from "@react-native-community/netinfo";
 import { openDatabase } from 'react-native-sqlite-storage';
 import { MockedFetch } from "./MockedFetch";
-import { Toast } from "native-base";
 
 export const NetInfoFetchPOST = async (url: string, jsonBody: any, noConnectionFunction: () => void, badRequestFuction: (erro?: any) => void, successFunction: (responseJson?: any) => void) => {
   try {
@@ -53,25 +52,25 @@ export const NetInfoFetchGET = async (url: string, noConnectionFunction: () => v
 
 export const getDataFetch = async (login: String, onSuccess: (responseJson) => void, onFail: () => void) => {
   // For api
-  const noConnectionFunction = () => {
-    Toast.show({ text: "Sem conexão de internet, tente novamente", duration: 4000, type: "danger" });
-    onFail();
-  }
+  // const noConnectionFunction = () => {
+  //   Toast.show({ text: "Sem conexão de internet, tente novamente", duration: 4000, type: "danger" });
+  //   onFail();
+  // }
 
-  const badRequestFunction = (responseJson) => {
-    Toast.show({ text: "Login não disponível", duration: 4000, type: "warning"});
-    onFail();
-  }
+  // const badRequestFunction = (responseJson) => {
+  //   Toast.show({ text: "Login não disponível", duration: 4000, type: "warning"});
+  //   onFail();
+  // }
 
-  const successFunction = (responseJson) => {
-    onSuccess(responseJson);
-  }
+  // const successFunction = (responseJson) => {
+  //   onSuccess(responseJson);
+  // }
 
-  await NetInfoFetchGET("/usuarios/" + login, noConnectionFunction, badRequestFunction, successFunction);
+  // await NetInfoFetchGET("/usuarios/" + login, noConnectionFunction, badRequestFunction, successFunction);
   // Local
-  // this.setTimeout(() => {
-  //   onSuccess(MockedFetch);
-  // }, 1000)
+  this.setTimeout(() => {
+    onSuccess(MockedFetch);
+  }, 1000)
 }
 
 
