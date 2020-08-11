@@ -5,6 +5,8 @@ Sistema de monitoramento de jardins
 React native project for Network Laboratory PCS 3734 - 2020 of Polytechnic School of the University of São Paulo  
 System of monitoring umity and temperature from sensors that stores in a AWS DynamoBD and serves the app
 
+The server project https://github.com/gludescher/iot_garden_aws
+
 Project Team:  
 Guilherme Ludescher  
 Marcos Chen  
