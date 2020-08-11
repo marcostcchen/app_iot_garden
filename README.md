@@ -12,15 +12,15 @@ Matheus Sato
 Victor Dias  
 
 ## To Start Project
-1. Install the enviroment to run react-native project
-2. yarn install on the project directory
+1 Install the enviroment to run react-native project  
+2 yarn install on the project directory  
 
-For Android
-3. react-native link
-4. yarn android
+For Android  
+3 react-native link  
+4 yarn android    
 
-For iOS
-3. cd ios
-4. pod install
-5. cd..
-6. yarn ios
+For iOS  
+3 cd ios  
+4 pod install  
+5 cd..  
+6 yarn ios  
