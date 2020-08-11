@@ -7,7 +7,7 @@ System of monitoring umity and temperature from sensors that stores in a AWS Dyn
 
 Project Team:  
 Guilherme Ludescher  
-Marcos Tan Chi Chen  
+Marcos Chen  
 Matheus Sato  
 Victor Dias  
 
