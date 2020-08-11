@@ -14,10 +14,10 @@ Matheus Sato
 Victor Dias  
 
 ## Tecnologies
-- React Native CLI
-- Typescript 
-- React Native SQL Lite and Async Storage for storage
-- Charts using React Native Charts Kit
+React Native CLI
+Typescript 
+React Native SQL Lite and Async Storage for storage
+Charts using React Native Charts Kit
 
 ## To Start Project
 1 Install the enviroment to run react-native project  
