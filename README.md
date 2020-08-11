@@ -14,9 +14,10 @@ Matheus Sato
 Victor Dias  
 
 ## Tecnologies
-- React Native with Typescript 
-- Using React Native SQL Lite and Async Storage
-- Charts using React Native Charts Kit
+React Native CLI
+Typescript 
+Using React Native SQL Lite and Async Storage
+Charts using React Native Charts Kit
 
 ## To Start Project
 1 Install the enviroment to run react-native project  
