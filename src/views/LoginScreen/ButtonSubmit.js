@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Animated, Easing, View, Dimensions, ActivityIndicator } from 'react-native';
 import { getDataFetch } from '../../utils';
 import AsyncStorage from '@react-native-community/async-storage';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const MARGIN = 40;
@@ -20,6 +21,7 @@ export default class ButtonSubmit extends Component {
   }
 
   _onPress = async () => {
+    crashlytics().log('Logou');
     if (this.state.isLoading) return;
     this.setState({ isLoading: true });
 

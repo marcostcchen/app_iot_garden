@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "175573046188",
+    "firebase_url": "https://iotproject-9c3b4.firebaseio.com",
+    "project_id": "iotproject-9c3b4",
+    "storage_bucket": "iotproject-9c3b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175573046188:android:462196ad82fb76a6f2a009",
+        "android_client_info": {
+          "package_name": "com.app_iot_garden"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175573046188-ppr95skmdt9ulfnro6om7cb098emig6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGxw5YBheSzvH67HHmSz5PDTRIzWWvmIE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175573046188-ppr95skmdt9ulfnro6om7cb098emig6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
