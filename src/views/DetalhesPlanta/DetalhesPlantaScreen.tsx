@@ -77,7 +77,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
         <View style={{ width: '100%', alignItems: 'center' }}>
           <View style={{ flex: 1, width: '100%', alignItems: 'flex-end', marginTop: 15 }}>
             <TouchableOpacity style={{ height: 20, width: 40 }} onPress={this.navigateToConfigPlanta}>
-              <Image resizeMode='contain' source={require('../images/threedots.png')} style={{ height: 20, width: '100%' }} />
+              <Image resizeMode='contain' source={require('../../images/threedots.png')} style={{ height: 20, width: '100%' }} />
             </TouchableOpacity>
           </View>
 

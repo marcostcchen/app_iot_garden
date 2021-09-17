@@ -56,7 +56,7 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
                 <Avatar
                   size="medium"
                   rounded
-                  source={require('../images/avatar.png')}
+                  source={require('../../images/avatar.png')}
                 />
               </View>
             </View>

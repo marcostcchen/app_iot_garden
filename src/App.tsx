@@ -53,10 +53,10 @@ export default class App extends React.Component<Props, State> {
   headerRight = (navigation, route) => (
     <View style={{ width: '100%', flexDirection: 'row' }}>
       <TouchableOpacity style={{ height: 20, width: 20, marginRight: 20, marginTop: 5 }} onPress={this.updateBadge}>
-        <Image style={{ height: '100%', width: '100%' }} source={require('./views/images/refreshButtonDark.png')} />
+        <Image style={{ height: '100%', width: '100%' }} source={require('./images/refreshButtonDark.png')} />
       </TouchableOpacity>
       <TouchableOpacity style={{ height: 20, width: 20, marginRight: 20, marginTop: 5 }} onPress={() => navigation.navigate("Notificações")}>
-        <Image style={{ height: '100%', width: '100%' }} source={require('./views/images/notificationIcon.png')} />
+        <Image style={{ height: '100%', width: '100%' }} source={require('./images/notificationIcon.png')} />
         <Badge style={{ position: "absolute", right: -5, top: -5, height: 20, width: 20 }} warning >
           <Text>{this.state.badgeValue}</Text>
         </Badge>
@@ -84,4 +84,3 @@ export default class App extends React.Component<Props, State> {
   }
 }
 
-LogBox.ignoreAllLogs(true); // <-- This is to remove the deprecated component warning
