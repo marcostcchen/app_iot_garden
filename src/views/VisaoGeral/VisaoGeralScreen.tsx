@@ -9,7 +9,6 @@ import * as chartConfig from './chart.config';
 import * as utils from './utils';
 import { getDataFetch } from '../../utils';
 import { Toast } from 'native-base';
-import crashlytics from '@react-native-firebase/crashlytics';
 
 interface Props {
   navigation: any,
@@ -115,12 +114,6 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
     const asyncString = await AsyncStorage.getItem("@login");
     if (asyncString !== null) {
       const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
-      crashlytics().log('setUser' + UsuariosLoginResponse.nome);
-      crashlytics().setUserId('1');
-      crashlytics().setAttributes({
-        login: UsuariosLoginResponse.login,
-        nome: UsuariosLoginResponse.nome,
-      });
 
       this.setCharts(UsuariosLoginResponse.plantacoes)
       await this.checkNotifications(UsuariosLoginResponse.plantacoes);
@@ -128,9 +121,6 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
         this.setState({ nome: UsuariosLoginResponse.nome, refresh: false })
       }, 1000)
     }
-
-    const erro = new Error('errou!');
-    crashlytics().recordError(erro);
   }
 
   checkNotifications = async (plantacoes: Map<String, IPlantacao>) => {
