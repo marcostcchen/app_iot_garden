@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { IPlantacao, IUsuariosLoginResponse } from '../../models';
-import { LoadingScreen } from '../../components';
 // import { Item, Label, Input, Form, Toast } from 'native-base';
 import { sqlLiteThenFunctionQuery, sqlLiteMakeQuery } from '../../utils';
 import { ResultSet } from 'react-native-sqlite-storage';
@@ -65,15 +64,8 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (
-        <LoadingScreen isLoading={this.state.isLoading} text={"Carregando informações da planta..."} />
-      )
-    }
-
     return (
       <>
-        <LoadingScreen isLoading={this.state.isSaving} text={"Salvando..."} />
         <KeyboardAvoidingView behavior="padding" style={{ width: '100%', alignItems: 'center', marginTop: 20 }}>
           <ScrollView style={{ width: '100%' }}>
             <View style={{ width: '100%', alignItems: 'center' }}>

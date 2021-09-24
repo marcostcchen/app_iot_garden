@@ -18,7 +18,7 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
 
     setTimeout(() => {
       setIsLoading(false);
-      navigation.navigate("Home")
+      navigation.navigate("Drawer")
 
     }, 2000)
   }

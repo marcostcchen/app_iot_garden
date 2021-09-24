@@ -1,2 +1,2 @@
 export * from './MainStackNavigation';
-export * from './HomeTabNavigation';
+export * from './DrawerNavigation';

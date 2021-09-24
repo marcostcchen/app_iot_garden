@@ -8,6 +8,7 @@ import { styles } from './styles';
 import * as chartConfig from './chart.config';
 import * as utils from './utils';
 import { getDataFetch } from '../../utils';
+import { Header } from '../../components';
 
 interface Props {
   navigation: any,
