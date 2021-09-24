@@ -1,6 +1,5 @@
 import React from 'react'
-import { Image, Pressable, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, Pressable,  Text,  View } from 'react-native'
 import { grayLight } from '../../utils';
 import { styles } from './styles';
 
