@@ -1,12 +1,11 @@
 import React from 'react';
-import { ListItem } from 'react-native-elements';
+// import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import { IUsuariosLoginResponse, IPlantacao } from '../../models';
 import * as utils from './utils';
 import { styles } from './styles';
 import { isObjEmpty } from '../../utils';
 import { ScrollView, RefreshControl } from 'react-native';
-import { List, Container } from 'native-base';
 
 interface Props {
   navigation: any
@@ -41,15 +40,17 @@ export class MinhasPlantasScreen extends React.Component<Props, State> {
             if (!isObjEmpty(planta.sensores)) {
               let quantidadeSensores = Object.values(planta.sensores).length
               return (
-                <ListItem
-                  key={index}
-                  title={planta.planta}
-                  subtitle={"N° Sensores: " + quantidadeSensores}
-                  leftAvatar={{ source: image }}
-                  onPress={() => this.onListItemPress(planta, index)}
-                  containerStyle={styles.container}
-                  bottomDivider
-                  chevron />
+                <>
+                </>
+                // <ListItem
+                //   key={index}
+                //   title={planta.planta}
+                //   subtitle={"N° Sensores: " + quantidadeSensores}
+                //   leftAvatar={{ source: image }}
+                //   onPress={() => this.onListItemPress(planta, index)}
+                //   containerStyle={styles.container}
+                //   bottomDivider
+                //   chevron />
               )
             }
           })}
