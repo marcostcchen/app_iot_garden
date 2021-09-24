@@ -40,7 +40,13 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
           <Input size="md" style={styles.input} placeholder="Senha" />
           <View style={{ height: 20 }} />
           <View style={styles.buttonContainer}>
-            <Button style={styles.button} isLoading={isLoading} spinnerPlacement="end" isLoadingText="" onPress={handleLogin}>
+            <Button
+              style={styles.button}
+              isLoading={isLoading}
+              spinnerPlacement="end"
+              isLoadingText=""
+              onPress={handleLogin}
+            >
               {!isLoading && (
                 <Text style={styles.entrarText}>{">"}</Text>
               )}

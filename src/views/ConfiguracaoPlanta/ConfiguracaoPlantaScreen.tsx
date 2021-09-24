@@ -6,7 +6,7 @@ import { LoadingScreen } from '../../components';
 // import { Item, Label, Input, Form, Toast } from 'native-base';
 import { sqlLiteThenFunctionQuery, sqlLiteMakeQuery } from '../../utils';
 import { ResultSet } from 'react-native-sqlite-storage';
-import { checkNotifications } from '../VisaoGeral/utils';
+import { checkNotifications } from '../Home/utils';
 
 interface Props {
   navigation: any,

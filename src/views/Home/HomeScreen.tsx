@@ -23,7 +23,7 @@ interface State {
   refresh: boolean,
 }
 
-export class VisaoGeralScreen extends React.Component<Props, State> {
+export class HomeScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
