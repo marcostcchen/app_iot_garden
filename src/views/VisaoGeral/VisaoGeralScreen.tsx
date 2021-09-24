@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, } from "react-native-chart-kit";
-import { Avatar } from 'react-native-elements';
+// import { Avatar } from 'react-native-elements';
 import { View, ScrollView, Text, Image, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { IUsuariosLoginResponse, IPlantacao } from '../../models'
@@ -8,7 +8,6 @@ import { styles } from './styles';
 import * as chartConfig from './chart.config';
 import * as utils from './utils';
 import { getDataFetch } from '../../utils';
-import { Toast } from 'native-base';
 
 interface Props {
   navigation: any,
@@ -53,11 +52,11 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
                 <Text style={styles.bemVindoNameText}>{this.state.nome}</Text>
               </View>
               <View style={{ width: '30%', alignItems: 'center', justifyContent: 'center' }}>
-                <Avatar
+                {/* <Avatar
                   size="medium"
                   rounded
                   source={require('../../images/avatar.png')}
-                />
+                /> */}
               </View>
             </View>
 
@@ -104,7 +103,7 @@ export class VisaoGeralScreen extends React.Component<Props, State> {
     }
 
     const onFail = () => {
-      Toast.show({ text: "Login não disponível", duration: 4000, type: "warning" });
+      // Toast.show({ text: "Login não disponível", duration: 4000, type: "warning" });
     }
 
     await getDataFetch(login, onSuccess, onFail);

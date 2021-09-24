@@ -4,7 +4,7 @@ import { sqlLiteThenFunctionQuery } from '../../utils';
 import { ResultSet } from 'react-native-sqlite-storage';
 import { INotification } from '../../models';
 import { LoadingScreen } from '../../components';
-import { ListItem } from 'react-native-elements';
+// import { ListItem } from 'react-native-elements';
 
 interface Props {
   navigation: any,
@@ -40,11 +40,13 @@ export class NotificacoesScreen extends React.Component<Props, State> {
       <ScrollView>
         {this.state.notifications.map((notification, index) => {
           return (
-            <ListItem
-              key={index}
-              title={notification.nome}
-              subtitle={notification.message}
-              bottomDivider />
+            <>
+            </>
+            // <ListItem
+            //   key={index}
+            //   title={notification.nome}
+            //   subtitle={notification.message}
+            //   bottomDivider />
           )
         })}
       </ScrollView>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Avatar } from 'react-native-elements';
+// import { Avatar } from 'react-native-elements';
 import { LineChart } from 'react-native-chart-kit';
 import * as chartConfig from './chart.config';
 import { styles } from './styles';
@@ -82,7 +82,7 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
           </View>
 
           <View style={{ width: '70%', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20 }}>
-            <Avatar size="xlarge" rounded source={this.state.image} />
+            {/* <Avatar size="xlarge" rounded source={this.state.image} /> */}
             <Text style={{ marginTop: 10, fontSize: 24, color: 'gray' }}>{this.state.planta.planta}</Text>
           </View>
 

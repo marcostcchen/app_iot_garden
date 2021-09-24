@@ -19,11 +19,10 @@
     "@react-navigation/material-top-tabs": "^6.0.2",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.0.7",
-    "native-base": "^2.13.13",
+    "native-base": "^3.2.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-native-chart-kit": "^6.11.0",
-    "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-pager-view": "^5.4.4",
     "react-native-reanimated": "^2.2.2",
@@ -31,8 +30,11 @@
     "react-native-screens": "^3.7.2",
     "react-native-splash-screen": "^3.2.0",
     "react-native-sqlite-storage": "^5.0.0",
-    "react-native-svg": "^12.1.0",
-    "react-native-tab-view": "^3.1.1"
+    "react-native-svg": "^12.1.1",
+    "react-native-tab-view": "^3.1.1",
+    "react-native-vector-icons": "^8.1.0",
+    "styled-components": "^5.3.1",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",

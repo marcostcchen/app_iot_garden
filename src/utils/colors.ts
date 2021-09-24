@@ -1,0 +1,1 @@
+export const grayLight = "#d3d3d3"
