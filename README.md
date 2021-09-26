@@ -1,4 +1,9 @@
-# WIP New Project
+# WIP New Project 2.0
+
+## Screen Shots
+<img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823350-ab4aad59-9a7a-41d7-a240-ebe9ef70d30a.jpeg">
+<img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823352-35dd9e22-1461-4032-8f8c-516ccd1f20b3.jpeg">
+<img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823355-7150b551-d47f-4f83-9849-442baefa65ee.jpeg">
 
 
 # RELEASE 1.0
