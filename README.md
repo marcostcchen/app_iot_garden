@@ -1,5 +1,11 @@
 # WIP New Project 2.0
 
+Project Team:  
+Naiane 
+Marcos Chen  
+Samuel Ducca
+Victor Dias 
+
 ## Screen Shots
 <img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823350-ab4aad59-9a7a-41d7-a240-ebe9ef70d30a.jpeg">
 <img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823352-35dd9e22-1461-4032-8f8c-516ccd1f20b3.jpeg">
@@ -7,7 +13,6 @@
 
 
 # RELEASE 1.0
-Projeto IoT  - PCS 3734 - 2020
 Projeto IoT  - PCS 3734 - 2020
 Sistema de monitoramento de jardins
 
