@@ -1,4 +1,8 @@
-# Projeto IoT  - PCS 3734 - 2020
+# WIP New Project
+
+
+# RELEASE 1.0
+Projeto IoT  - PCS 3734 - 2020
 Projeto IoT  - PCS 3734 - 2020
 Sistema de monitoramento de jardins
 

@@ -1,7 +1,6 @@
-export * from './HomeScreen';
 export * from './MinhasPlantas/MinhasPlantasScreen';
 export * from './DetalhesPlanta/DetalhesPlantaScreen';
-export * from './VisaoGeral/VisaoGeralScreen';
+export * from './Home/HomeScreen';
 export * from './ConfiguracaoPlanta/ConfiguracaoPlantaScreen';
 export * from './Notificacoes/NotificacoesScreen';
 

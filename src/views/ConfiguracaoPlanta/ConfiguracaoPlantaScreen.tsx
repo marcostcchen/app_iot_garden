@@ -2,11 +2,10 @@ import React from 'react';
 import { Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { IPlantacao, IUsuariosLoginResponse } from '../../models';
-import { LoadingScreen } from '../../components';
-import { Item, Label, Input, Form, Toast } from 'native-base';
+// import { Item, Label, Input, Form, Toast } from 'native-base';
 import { sqlLiteThenFunctionQuery, sqlLiteMakeQuery } from '../../utils';
 import { ResultSet } from 'react-native-sqlite-storage';
-import { checkNotifications } from '../VisaoGeral/utils';
+import { checkNotifications } from '../Home/utils';
 
 interface Props {
   navigation: any,
@@ -65,15 +64,8 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (
-        <LoadingScreen isLoading={this.state.isLoading} text={"Carregando informações da planta..."} />
-      )
-    }
-
     return (
       <>
-        <LoadingScreen isLoading={this.state.isSaving} text={"Salvando..."} />
         <KeyboardAvoidingView behavior="padding" style={{ width: '100%', alignItems: 'center', marginTop: 20 }}>
           <ScrollView style={{ width: '100%' }}>
             <View style={{ width: '100%', alignItems: 'center' }}>
@@ -81,7 +73,7 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
                 <Text style={{ fontSize: 40, color: 'green', marginBottom: 5 }}> {this.state.planta.planta} </Text>
               </View>
             </View>
-            <Form>
+            {/* <Form>
               <Item stackedLabel >
                 <Label>Umidade Ar Mínima UR</Label>
                 <Input keyboardType="number-pad" placeholder={" - "} value={this.state.minUmid} onChangeText={(text) => this.setState({ minUmid: text })} />
@@ -111,7 +103,7 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
                 <Label>Umidade Solo Máxima %</Label>
                 <Input keyboardType="number-pad" placeholder={" - "} value={this.state.maxUmidSolo} onChangeText={(text) => this.setState({ maxUmidSolo: text })} />
               </Item>
-            </Form>
+            </Form> */}
 
             <View style={{ alignItems: 'center', width: '100%', marginBottom: 20, marginTop: 20 }}>
               <TouchableOpacity onPress={this.handleSaveButton} style={{ width: 120, height: 60, alignItems: "center", justifyContent: 'center', borderWidth: 0.5, backgroundColor: 'green', borderRadius: 15 }}>
@@ -132,7 +124,7 @@ export class ConfiguracaoPlantaScreen extends React.Component<Props, State> {
         const UsuariosLoginResponse: IUsuariosLoginResponse = JSON.parse(asyncString);
         await checkNotifications(UsuariosLoginResponse.plantacoes);
       }
-      Toast.show({ text: "Configuração salvo!", duration: 5000, type: "success", buttonText: "Fechar" });
+      // Toast.show({ text: "Configuração salvo!", duration: 5000, type: "success", buttonText: "Fechar" });
       this.props.navigation.goBack();
     }
 
