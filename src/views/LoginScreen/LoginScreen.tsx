@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Image, ImageBackground, Platform, StatusBar, Text, View } from 'react-native'
 import { Button, Input, } from 'native-base';
 import { styles } from './styles';
+import { grayLight } from '../../utils';
+
 interface Props {
   navigation: any
 }
@@ -18,7 +20,7 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
 
     setTimeout(() => {
       setIsLoading(false);
-      navigation.navigate("Home")
+      navigation.navigate("Drawer")
 
     }, 2000)
   }
@@ -40,7 +42,13 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
           <Input size="md" style={styles.input} placeholder="Senha" />
           <View style={{ height: 20 }} />
           <View style={styles.buttonContainer}>
-            <Button style={styles.button} isLoading={isLoading} spinnerPlacement="end" isLoadingText="" onPress={handleLogin}>
+            <Button
+              style={styles.button}
+              isLoading={isLoading}
+              spinnerPlacement="end"
+              isLoadingText=""
+              onPress={handleLogin}
+            >
               {!isLoading && (
                 <Text style={styles.entrarText}>{">"}</Text>
               )}
