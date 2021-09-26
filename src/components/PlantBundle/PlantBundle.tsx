@@ -3,13 +3,12 @@ import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native
 
 interface Props {
   nome: string,
-  temperatura: number,
-  umidade: number,
+  price: string,
   image: ImageSourcePropType
 }
 
-export const PlantCard: React.FC<Props> = (props: Props) => {
-  const { nome, temperatura, umidade, image } = props;
+export const PlantBundle: React.FC<Props> = (props: Props) => {
+  const { nome, price, image } = props;
 
   return (
     <View style={styles.card}>
@@ -20,8 +19,7 @@ export const PlantCard: React.FC<Props> = (props: Props) => {
       </View>
       <View style={{ height: '40%', width: '100%' }}>
         <Text style={[styles.text, { fontSize: 15 }]}>{nome}</Text>
-        <Text style={[styles.text, { color: 'red' }]}>T: {temperatura}°C</Text>
-        <Text style={[styles.text, { color: 'blue' }]}>U: {umidade}%</Text>
+        <Text style={[styles.text, { color: 'green' }]}>R$: {price}</Text>
       </View>
     </View>
   )

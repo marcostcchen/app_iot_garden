@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Text, RefreshControl, FlatList } from 'react-native';
 import { Heading } from 'native-base'
 import { styles } from './styles';
-import { PlantCard } from '../../components';
+import { PlantBundle, PlantCard } from '../../components';
 
 interface Props {
   navigation: any,
@@ -10,30 +10,121 @@ interface Props {
 
 const DATA = [
   {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
+    nome: "Beterraba",
+    temperatura: 35,
+    umidade: 20,
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
+    nome: "Orquidea",
+    temperatura: 25,
+    umidade: 50
   },
   {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
+    nome: "Tomate",
+    temperatura: 27,
+    umidade: 26
   },
 ];
 
+
+const DATA_Pacotes = [
+  {
+    nome: "Hortela Kit",
+    price: "3,00"
+  },
+  {
+    nome: "Maça Kit",
+    price: "5,00"
+  },
+  {
+    nome: "Alface Kit",
+    price: "4,00"
+  },
+];
+
+
 export const HomeScreen: React.FC<Props> = (props: Props) => {
-  const renderItem = ({ item, index }) => (
-    <>
-      {index == 0 && (
-        <View style={{ marginLeft: 10 }}>
-          <PlantCard />
-        </View>
-      )}
-      <PlantCard />
-    </>
-  );
+  const renderItem = ({ item, index }) => {
+    let image = require("../../images/plant1.png")
+    let rest = index % 3;
+
+    switch (rest) {
+      case 0:
+        image = require("../../images/plant1.png")
+        break;
+      case 1:
+        image = require("../../images/plant2.png")
+        break;
+      case 2:
+        image = require("../../images/plant3.png")
+        break;
+    }
+
+    return (
+      <>
+        {index == 0 && (
+          <View style={{ marginLeft: 10 }}>
+            <PlantCard
+              key={index}
+              nome={item.nome}
+              temperatura={item.temperatura}
+              umidade={item.umidade}
+              image={image}
+            />
+          </View>
+        )}
+        {index != 0 && (
+          <PlantCard
+            key={index}
+            nome={item.nome}
+            temperatura={item.temperatura}
+            umidade={item.umidade}
+            image={image}
+          />
+        )}
+      </>
+    )
+  };
+
+  const renderBundles = ({ item, index }) => {
+    let image = require("../../images/plant1.png")
+    let rest = index % 3;
+
+    switch (rest) {
+      case 0:
+        image = require("../../images/plant2.png")
+        break;
+      case 1:
+        image = require("../../images/plant3.png")
+        break;
+      case 2:
+        image = require("../../images/plant1.png")
+        break;
+    }
+
+    return (
+      <>
+        {index == 0 && (
+          <View style={{ marginLeft: 10 }}>
+            <PlantBundle
+              key={index}
+              nome={item.nome}
+              price={item.price}
+              image={image}
+            />
+          </View>
+        )}
+        {index != 0 && (
+          <PlantBundle
+            key={index}
+            nome={item.nome}
+            price={item.price}
+            image={image}
+          />
+        )}
+      </>
+    )
+  };
 
   return (
     <>
@@ -45,12 +136,16 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               horizontal
               data={DATA}
               renderItem={renderItem}
-              keyExtractor={item => item.id}
             />
           </View>
 
           <View style={styles.menuContainer}>
             <Heading style={styles.title}>Pacotes</Heading>
+            <FlatList
+              horizontal
+              data={DATA_Pacotes}
+              renderItem={renderBundles}
+            />
           </View>
         </View>
 
