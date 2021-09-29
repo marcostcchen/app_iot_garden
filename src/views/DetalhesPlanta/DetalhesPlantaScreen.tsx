@@ -6,7 +6,6 @@ import { LineChart } from 'react-native-chart-kit';
 import * as chartConfig from './chart.config';
 import { styles } from './styles';
 import { IPlantacao, ISensor } from '../../models';
-import { LoadingScreen } from '../../components';
 import * as utils from './utils';
 import { isObjEmpty } from '../../utils';
 
@@ -66,12 +65,6 @@ export class DetalhesPlantaScreen extends React.Component<Props, State> {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (
-        <LoadingScreen isLoading={this.state.isLoading} text={"Carregando planta..."} />
-      )
-    }
-
     return (
       <ScrollView>
         <View style={{ width: '100%', alignItems: 'center' }}>

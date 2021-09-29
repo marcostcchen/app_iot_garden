@@ -44,6 +44,8 @@ const DATA_Pacotes = [
 
 
 export const HomeScreen: React.FC<Props> = (props: Props) => {
+  const { navigation } = props;
+
   const renderItem = ({ item, index }) => {
     let image = require("../../images/plant1.png")
     let rest = index % 3;
@@ -70,6 +72,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               temperatura={item.temperatura}
               umidade={item.umidade}
               image={image}
+              onPress={() => navigation.navigate("DetalhePlanta", { nome: item.nome })}
             />
           </View>
         )}
@@ -80,6 +83,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             temperatura={item.temperatura}
             umidade={item.umidade}
             image={image}
+            onPress={() => navigation.navigate("DetalhePlanta", { nome: item.nome })}
           />
         )}
       </>
@@ -111,6 +115,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               nome={item.nome}
               price={item.price}
               image={image}
+              onPress={() => navigation.navigate("PacotePlanta", { nome: item.nome })}
             />
           </View>
         )}
@@ -120,6 +125,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             nome={item.nome}
             price={item.price}
             image={image}
+            onPress={() => navigation.navigate("PacotePlanta", { nome: item.nome })}
           />
         )}
       </>

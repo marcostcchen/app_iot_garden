@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Image, ImageBackground, Platform, StatusBar, Text, View } from 'react-native'
+import { Image, ImageBackground, StatusBar, Text, View } from 'react-native'
 import { Button, Input, } from 'native-base';
 import { styles } from './styles';
-import { grayLight } from '../../utils';
 
 interface Props {
   navigation: any

@@ -1,14 +1,17 @@
 import React from 'react'
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
+import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from 'react-native'
+import { grayLight } from '../../utils';
 
 interface Props {
   nome: string,
   price: string,
-  image: ImageSourcePropType
+  image: ImageSourcePropType,
+  onPress: () => void
+
 }
 
 export const PlantBundle: React.FC<Props> = (props: Props) => {
-  const { nome, price, image } = props;
+  const { nome, price, image, onPress } = props;
 
   return (
     <View style={styles.card}>
@@ -21,6 +24,13 @@ export const PlantBundle: React.FC<Props> = (props: Props) => {
         <Text style={[styles.text, { fontSize: 15 }]}>{nome}</Text>
         <Text style={[styles.text, { color: 'green' }]}>R$: {price}</Text>
       </View>
+      <Pressable
+        style={styles.detalhesButton}
+        onPress={onPress}
+        android_ripple={{ color: grayLight, radius: 20, borderless: true }}
+      >
+        <Text style={styles.buttonText}>{">"}</Text>
+      </Pressable >
     </View>
   )
 }
@@ -70,5 +80,18 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  detalhesButton: {
+    right: 5,
+    bottom: 5,
+    position: 'absolute',
+    borderRadius: 50,
+    backgroundColor: 'brown',
+    width: 40,
+    height: 40,
+    justifyContent: 'center'
+  },
+  buttonText: {
+    color: "white", textAlign: 'center', fontSize: 18, fontWeight: 'bold'
   }
 })
