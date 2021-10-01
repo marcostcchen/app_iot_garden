@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
-import { InitialStackNavigation } from './navigation';
+import { StackNavigation } from './navigation';
 import { NativeBaseProvider } from 'native-base';
 
 export const App: React.FC = () => {
@@ -13,7 +13,7 @@ export const App: React.FC = () => {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <InitialStackNavigation />
+        <StackNavigation />
       </NavigationContainer>
     </NativeBaseProvider>
   )

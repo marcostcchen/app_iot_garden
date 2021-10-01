@@ -115,7 +115,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               nome={item.nome}
               price={item.price}
               image={image}
-              onPress={() => navigation.navigate("PacotePlanta", { nome: item.nome })}
+              onPress={() => navigation.navigate("DetalhePlanta", { nome: item.nome })}
             />
           </View>
         )}

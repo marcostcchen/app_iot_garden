@@ -1,2 +1,2 @@
-export * from './InitialStackNavigation';
+export * from './StackNavigation';
 export * from './DrawerNavigation';
