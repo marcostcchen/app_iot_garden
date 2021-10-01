@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, Text, RefreshControl, FlatList } from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 import { Heading } from 'native-base'
 import { styles } from './styles';
 import { PlantBundle, PlantCard } from '../../components';
