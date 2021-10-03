@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
-import { Heading } from 'native-base'
+import { Heading, Toast } from 'native-base'
 import { styles } from './styles';
 import { PlantBundle, PlantCard } from '../../components';
+import { Pacote } from '../../models';
+import * as fetchUtils from './fetch';
 
 interface Props {
   navigation: any,
@@ -27,24 +29,32 @@ const DATA = [
 ];
 
 
-const DATA_Pacotes = [
-  {
-    nome: "Hortela Kit",
-    price: "3,00"
-  },
-  {
-    nome: "Maça Kit",
-    price: "5,00"
-  },
-  {
-    nome: "Alface Kit",
-    price: "4,00"
-  },
-];
-
 
 export const HomeScreen: React.FC<Props> = (props: Props) => {
   const { navigation } = props;
+  const [pacotes, setPacotes] = useState<Array<Pacote>>([]);
+  // const [plantas, setPlantas] = useState<Array<Planta>>([]);
+
+
+  useEffect(() => {
+    getPacotes();
+    getPlantas();
+  }, [])
+
+  const getPacotes = async () => {
+    const pacotes = await fetchUtils.getBundles();
+
+    if (pacotes == null) {
+      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar os pacotes!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
+
+    setPacotes(pacotes);
+  }
+
+  const getPlantas = async () => {
+
+  }
 
   const renderItem = ({ item, index }) => {
     let image = require("../../images/plant1.png")
@@ -112,8 +122,8 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
           <View style={{ marginLeft: 10 }}>
             <PlantBundle
               key={index}
-              nome={item.nome}
-              price={item.price}
+              nome={item.especie}
+              price={item.preco}
               image={image}
               onPress={() => navigation.navigate("DetalhePlanta", { nome: item.nome })}
             />
@@ -122,8 +132,8 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
         {index != 0 && (
           <PlantBundle
             key={index}
-            nome={item.nome}
-            price={item.price}
+            nome={item.especie}
+            price={item.preco}
             image={image}
             onPress={() => navigation.navigate("PacotePlanta", { nome: item.nome })}
           />
@@ -149,7 +159,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             <Heading style={styles.title}>Pacotes</Heading>
             <FlatList
               horizontal
-              data={DATA_Pacotes}
+              data={pacotes}
               renderItem={renderBundles}
             />
           </View>

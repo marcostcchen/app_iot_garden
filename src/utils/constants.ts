@@ -1,1 +1,0 @@
-export const urlAPI = "https://on00qnj8jh.execute-api.us-east-1.amazonaws.com/dev";
