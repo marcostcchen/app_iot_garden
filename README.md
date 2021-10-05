@@ -2,8 +2,11 @@
 
 Project Team:  
 Naiane 
+
 Marcos Chen  
+
 Samuel Ducca
+
 Victor Dias 
 
 ## Screen Shots
