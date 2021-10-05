@@ -1,9 +1,10 @@
 import { Heading } from 'native-base';
-import React from 'react'
-import { Image, StyleSheet, Text, View, ScrollView } from 'react-native'
+import React, { useCallback, useMemo, useRef } from 'react'
+import { Image, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { MeasureIndicator } from '../../components';
 import { Pacote } from '../../models';
-import { getImageSource } from '../../utils';
+import { getImageSource, grayLight } from '../../utils';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 interface Props {
   route: any
@@ -14,7 +15,17 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   const { pacote, image }: { pacote: Pacote, image: string } = route.params;
 
   let imageSource = getImageSource(image);
-  
+
+  const buyPacote = () => {
+
+  }
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  // variables  
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  // callbacks  
+  const handleSheetChanges = useCallback((index: number) => { console.log('handleSheetChanges', index); }, []);
+
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
       <View style={styles.mainContainer}>
@@ -28,7 +39,15 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
         <View style={styles.infoContainer}>
           <View style={styles.overview}>
             <View style={{ height: 20 }} />
-            <Heading size="md">{pacote.especie}</Heading>
+            <View style={{ flexDirection: 'row' }}>
+              <Heading style={{ width: "80%" }} size="md">{pacote.especie}</Heading>
+              <Pressable
+                android_ripple={{ color: grayLight, radius: 40 }}
+                onPress={buyPacote}
+                style={styles.button}>
+                <Image resizeMode="contain" style={{ height: '100%', width: '100%' }} source={require("../../images/cartIcon.png")} />
+              </Pressable>
+            </View>
             <View style={{ height: 20 }} />
 
             <Heading size="sm" style={{ color: 'green' }}>Configurações Recomendadas</Heading>
@@ -71,12 +90,19 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
             <Heading size="sm" style={{ color: 'green' }}>Descrição</Heading>
             <Text style={styles.text}>{pacote.descricao}</Text>
 
-
             <View style={{ height: 40 }} />
           </View>
         </View>
       </View>
-
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}>
+        <View style={styles.contentContainer}>
+          <Text>Awesome 🎉</Text>
+        </View>
+      </BottomSheet>
     </ScrollView>
   )
 }
@@ -84,6 +110,20 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     alignItems: "center",
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  button: {
+    width: 70,
+    height: 50,
+    padding: 7,
+    paddingRight: 9,
+    backgroundColor: 'green',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   text: {
     color: 'gray',

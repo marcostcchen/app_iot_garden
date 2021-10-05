@@ -1,6 +1,6 @@
 import { Heading } from 'native-base';
 import React from 'react'
-import { Image, StyleSheet, Text, View, ScrollView, ImageSourcePropType } from 'react-native'
+import { Image, StyleSheet, View, ScrollView } from 'react-native'
 import { MeasureIndicator } from '../../components';
 import { Pacote } from '../../models';
 import { getImageSource } from '../../utils';
