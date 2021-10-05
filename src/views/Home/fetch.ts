@@ -7,7 +7,6 @@ export interface getBundlesRes {
 
 export const getBundles: () => Promise<Array<Pacote> | null> = () => {
   return new Promise((res, rej) => {
-    console.log('aqui')
     fetch(`${apiUrl}/plants`)
       .then(function (response) { return response.text() })
       .then(textRes => {

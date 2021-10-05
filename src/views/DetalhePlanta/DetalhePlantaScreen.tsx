@@ -1,14 +1,19 @@
 import { Heading } from 'native-base';
 import React from 'react'
-import { Image, StyleSheet, Text, View, ScrollView } from 'react-native'
+import { Image, StyleSheet, Text, View, ScrollView, ImageSourcePropType } from 'react-native'
 import { MeasureIndicator } from '../../components';
+import { Pacote } from '../../models';
+import { getImageSource } from '../../utils';
 
 interface Props {
-
+  route: any,
 }
 
 export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
-  const { } = props;
+  const { route } = props;
+  const { pacote, image }: { pacote: Pacote, image: string } = route.params;
+
+  let imageSource = getImageSource(image);
 
   const plantaDetail = {
     temperatura: "30",
@@ -22,7 +27,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
       <View style={styles.mainContainer}>
         <View style={styles.imageContainer}>
           <View style={styles.circle}>
-            <Image resizeMode="contain" style={{ height: 150, width: 150, borderRadius: 50 }} source={require("../../images/plant1.png")} />
+            <Image resizeMode="contain" style={{ height: 150, width: 150, borderRadius: 50 }} source={imageSource} />
           </View>
           <View style={{ height: 40 }} />
         </View>

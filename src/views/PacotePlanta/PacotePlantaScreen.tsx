@@ -3,6 +3,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, View, ScrollView } from 'react-native'
 import { MeasureIndicator } from '../../components';
 import { Pacote } from '../../models';
+import { getImageSource } from '../../utils';
 
 interface Props {
   route: any
@@ -10,14 +11,16 @@ interface Props {
 
 export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   const { route } = props;
-  const { pacote }: { pacote: Pacote } = route.params;
+  const { pacote, image }: { pacote: Pacote, image: string } = route.params;
 
+  let imageSource = getImageSource(image);
+  
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
       <View style={styles.mainContainer}>
         <View style={styles.imageContainer}>
           <View style={styles.circle}>
-            <Image resizeMode="contain" style={{ height: 150, width: 150, borderRadius: 50 }} source={require("../../images/plant1.png")} />
+            <Image resizeMode="contain" style={{ height: 150, width: 150, borderRadius: 50 }} source={imageSource} />
           </View>
           <View style={{ height: 40 }} />
         </View>
@@ -64,7 +67,7 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
               />
             </View>
             <View style={{ height: 20 }} />
-            
+
             <Heading size="sm" style={{ color: 'green' }}>Descrição</Heading>
             <Text style={styles.text}>{pacote.descricao}</Text>
 
