@@ -125,7 +125,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               nome={item.especie}
               price={item.preco}
               image={image}
-              onPress={() => navigation.navigate("DetalhePlanta", { nome: item.nome })}
+              onPress={() => navigation.navigate("PacotePlanta", { pacote: item })}
             />
           </View>
         )}
@@ -135,7 +135,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             nome={item.especie}
             price={item.preco}
             image={image}
-            onPress={() => navigation.navigate("PacotePlanta", { nome: item.nome })}
+            onPress={() => navigation.navigate("PacotePlanta", { pacote: item })}
           />
         )}
       </>
@@ -150,6 +150,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             <Heading style={styles.title}>Minhas Plantas</Heading>
             <FlatList
               horizontal
+              showsHorizontalScrollIndicator={false}
               data={DATA}
               renderItem={renderItem}
             />
@@ -159,6 +160,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             <Heading style={styles.title}>Pacotes</Heading>
             <FlatList
               horizontal
+              showsHorizontalScrollIndicator={false}
               data={pacotes}
               renderItem={renderBundles}
             />

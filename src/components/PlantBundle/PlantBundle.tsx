@@ -21,7 +21,7 @@ export const PlantBundle: React.FC<Props> = (props: Props) => {
         </View>
       </View>
       <View style={{ height: '40%', width: '100%' }}>
-        <Text style={[styles.text, { fontSize: 15 }]}>{nome}</Text>
+        <Text style={[styles.text, { fontSize: 15 }]} numberOfLines={2} ellipsizeMode='tail'>{nome}</Text>
         <Text style={[styles.text, { color: 'green' }]}>R$: {price}</Text>
       </View>
       <Pressable
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     margin: 10,
     borderRadius: 10,
-    height: 200,
+    height: 230,
     width: 150,
     alignItems: 'center',
     justifyContent: 'center',

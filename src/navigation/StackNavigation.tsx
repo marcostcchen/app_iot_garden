@@ -11,7 +11,8 @@ export const StackNavigation: React.FC = () => {
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerTintColor: 'green', headerStyle: styles.headerStyle, }} >
       <Stack.Screen name="Login" component={Views.LoginScreen} options={{ headerShown: false, }} />
       <Stack.Screen name="Drawer" component={DrawerNavigation} options={{ headerShown: false, }} />
-      <Stack.Screen name="DetalhePlanta" component={Views.DetalhesPlantaScreen} />
+      <Stack.Screen name="DetalhePlanta" component={Views.DetalhesPlantaScreen} options={{title: "Detalhe da Planta"}}/>
+      <Stack.Screen name="PacotePlanta" component={Views.PacotePlantaScreen} options={{title: "Pacote da Planta"}}/>
 
     </Stack.Navigator>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 interface Props {
-  value: number,
+  value: string,
   unit: string
   description: string,
   width?: string,

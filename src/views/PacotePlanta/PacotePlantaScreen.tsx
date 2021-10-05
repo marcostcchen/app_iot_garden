@@ -2,20 +2,15 @@ import { Heading } from 'native-base';
 import React from 'react'
 import { Image, StyleSheet, Text, View, ScrollView } from 'react-native'
 import { MeasureIndicator } from '../../components';
+import { Pacote } from '../../models';
 
 interface Props {
-
+  route: any
 }
 
-export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
-  const { } = props;
-
-  const plantaDetail = {
-    temperatura: "30",
-    umidadeAr: "20",
-    umidadeSolo: "40",
-    luminosidade: "30",
-  }
+export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
+  const { route } = props;
+  const { pacote }: { pacote: Pacote } = route.params;
 
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
@@ -30,24 +25,24 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
         <View style={styles.infoContainer}>
           <View style={styles.overview}>
             <View style={{ height: 20 }} />
-            <Heading size="md" >Planta Nome</Heading>
+            <Heading size="md">{pacote.especie}</Heading>
+            <View style={{ height: 20 }} />
 
-            <View style={{ height: 10 }} />
-            <Heading size="sm" style={{ color: 'green' }}>Ultimas Medições</Heading>
+            <Heading size="sm" style={{ color: 'green' }}>Configurações Recomendadas</Heading>
             <View style={{ height: 10 }} />
             <View style={{ flexDirection: 'row' }}>
               <MeasureIndicator
                 width={"50%"}
                 unit={"°C"}
                 description={"Temp."}
-                value={plantaDetail.temperatura}
+                value={pacote.temperatura_ideal}
               />
 
               <MeasureIndicator
                 width={"50%"}
                 unit={"%"}
                 description={"Ar"}
-                value={plantaDetail.umidadeAr}
+                value={pacote.umidade_ar_ideal}
               />
             </View>
 
@@ -58,19 +53,23 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
                 width={"50%"}
                 unit={"%"}
                 description={"Solo"}
-                value={plantaDetail.umidadeSolo}
+                value={pacote.umidade_solo_ideal}
               />
 
               <MeasureIndicator
                 width={"50%"}
                 unit={"%"}
                 description={"Luz"}
-                value={plantaDetail.luminosidade}
+                value={pacote.luminosidade_ideal}
               />
             </View>
-
             <View style={{ height: 20 }} />
-            <Heading size="sm" style={{ color: 'green' }}>Histórico</Heading>
+            
+            <Heading size="sm" style={{ color: 'green' }}>Descrição</Heading>
+            <Text style={styles.text}>{pacote.descricao}</Text>
+
+
+            <View style={{ height: 40 }} />
           </View>
         </View>
       </View>
@@ -82,6 +81,10 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     alignItems: "center",
+  },
+  text: {
+    color: 'gray',
+    textAlign: 'justify',
   },
   imageContainer: {
     paddingTop: 30,
