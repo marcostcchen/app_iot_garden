@@ -1,10 +1,10 @@
 import { Heading } from 'native-base';
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Image, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { MeasureIndicator } from '../../components';
 import { Pacote } from '../../models';
 import { getImageSource, grayLight } from '../../utils';
-import BottomSheet from '@gorhom/bottom-sheet';
+import RBSheet from "react-native-raw-bottom-sheet";
 
 interface Props {
   route: any
@@ -17,14 +17,10 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   let imageSource = getImageSource(image);
 
   const buyPacote = () => {
-
+    rbSheetRef.open()
   }
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  // variables  
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
-  // callbacks  
-  const handleSheetChanges = useCallback((index: number) => { console.log('handleSheetChanges', index); }, []);
+  let rbSheetRef: any = useRef();
 
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
@@ -94,15 +90,18 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
           </View>
         </View>
       </View>
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}>
-        <View style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
+
+      <RBSheet
+        ref={ref => { rbSheetRef = ref; }}
+        height={300}
+        openDuration={250}
+        customStyles={{ container: { justifyContent: "center", alignItems: "center" } }}
+      >
+        <View style={{ height: 300 }}>
+          <View style={{ height: 20 }} />
+          <Text style={{ color: 'black' }}>Selecione a planta para as configurações</Text>
         </View>
-      </BottomSheet>
+      </RBSheet>
     </ScrollView>
   )
 }
