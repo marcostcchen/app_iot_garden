@@ -1,3 +1,1 @@
-// @login
-// @selectedPlanta
-// @selectedPlantaImg
+export const MyPlantsConstant = "@myPlants";

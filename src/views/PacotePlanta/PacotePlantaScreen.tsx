@@ -1,10 +1,13 @@
 import { Heading } from 'native-base';
-import React, { useRef } from 'react'
-import { Image, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Image, Text, View, ScrollView, Pressable, Touchable, TouchableOpacity } from 'react-native'
 import { MeasureIndicator } from '../../components';
-import { Pacote } from '../../models';
+import { Pacote, Planta } from '../../models';
 import { getImageSource, grayLight } from '../../utils';
 import RBSheet from "react-native-raw-bottom-sheet";
+import { styles } from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MyPlantsConstant } from '../../utils/storedConstants';
 
 interface Props {
   route: any
@@ -13,15 +16,26 @@ interface Props {
 export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   const { route } = props;
   const { pacote, image }: { pacote: Pacote, image: string } = route.params;
+  const [myPlants, setMyPlants] = useState<Array<Planta>>([]);
 
-  let imageSource = getImageSource(image);
+  useEffect(() => {
+    getMyPlants();
+  }, [])
 
-  const buyPacote = () => {
-    rbSheetRef.open()
+  const getMyPlants = async () => {
+    let myPlantsString = await AsyncStorage.getItem(MyPlantsConstant)
+    if (myPlantsString != null) {
+      let myPlants: Array<Planta> = JSON.parse(myPlantsString);
+      setMyPlants(myPlants)
+    }
+  }
+
+  const handleSetConfigOnMyPlant = () => {
+
   }
 
   let rbSheetRef: any = useRef();
-
+  let imageSource = getImageSource(image);
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
       <View style={styles.mainContainer}>
@@ -39,7 +53,7 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
               <Heading style={{ width: "80%" }} size="md">{pacote.especie}</Heading>
               <Pressable
                 android_ripple={{ color: grayLight, radius: 40 }}
-                onPress={buyPacote}
+                onPress={() => rbSheetRef.open()}
                 style={styles.button}>
                 <Image resizeMode="contain" style={{ height: '100%', width: '100%' }} source={require("../../images/cartIcon.png")} />
               </Pressable>
@@ -93,88 +107,33 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
 
       <RBSheet
         ref={ref => { rbSheetRef = ref; }}
-        height={300}
+        height={400}
         openDuration={250}
-        customStyles={{ container: { justifyContent: "center", alignItems: "center" } }}
+        customStyles={{ container: { justifyContent: "center", } }}
       >
-        <View style={{ height: 300 }}>
+        <View style={{ height: 400 }}>
           <View style={{ height: 20 }} />
-          <Text style={{ color: 'black' }}>Selecione a planta para as configurações</Text>
+          <Text style={{ color: 'gray', fontSize: 16, marginLeft: 15 }}>Selecione a planta{"\n"}para definir as configurações</Text>
+          <ScrollView>
+            <View style={{ alignItems: 'center' }}>
+              <View style={{ height: 10 }} />
+              {myPlants.map((plant, index) => (
+                <>
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.myPlantOptionContainer}
+                    onPress={handleSetConfigOnMyPlant}
+                  >
+                    <Text style={styles.myPlantText}>{plant.nome}</Text>
+                  </TouchableOpacity>
+                  <View style={{ height: 10 }} />
+                </>
+              ))}
+            </View>
+          </ScrollView>
+
         </View>
       </RBSheet>
     </ScrollView>
   )
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    alignItems: "center",
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  button: {
-    width: 70,
-    height: 50,
-    padding: 7,
-    paddingRight: 9,
-    backgroundColor: 'green',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  text: {
-    color: 'gray',
-    textAlign: 'justify',
-  },
-  imageContainer: {
-    paddingTop: 30,
-    backgroundColor: 'rgb(81, 149, 97)',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  circle: {
-    borderRadius: 50,
-    padding: 10,
-    shadowColor: "#000",
-    backgroundColor: "white",
-
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-
-    elevation: 5,
-  },
-  infoContainer: {
-    marginTop: -10,
-    alignItems: "center",
-    minHeight: 300,
-    backgroundColor: 'white',
-    width: '100%',
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.51,
-    shadowRadius: 13.16,
-
-    elevation: 20,
-  },
-  overview: {
-    width: "90%",
-  },
-  title: {
-    height: 30,
-    color: 'black',
-    fontSize: 18,
-    fontWeight: 'bold'
-  }
-})

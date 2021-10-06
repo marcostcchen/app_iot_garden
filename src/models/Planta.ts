@@ -1,6 +1,7 @@
 export interface Planta {
-    id: string,
-    temperatura: number,
-    umidade: number,
-    
+    id?: string,
+    nome: string,
+    temperatura: string,
+    umidade: string,
+    temperaturaMinima: string
   }

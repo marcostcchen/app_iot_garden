@@ -3,43 +3,26 @@ import { View, ScrollView, FlatList } from 'react-native';
 import { Heading, Toast } from 'native-base'
 import { styles } from './styles';
 import { PlantBundle, PlantCard } from '../../components';
-import { Pacote } from '../../models';
+import { Pacote, Planta } from '../../models';
 import * as fetchUtils from './fetch';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MyPlantsConstant } from '../../utils/storedConstants';
 
 interface Props {
   navigation: any,
 }
 
-const DATA = [
-  {
-    nome: "Beterraba",
-    temperatura: 35,
-    umidade: 20,
-  },
-  {
-    nome: "Orquidea",
-    temperatura: 25,
-    umidade: 50
-  },
-  {
-    nome: "Tomate",
-    temperatura: 27,
-    umidade: 26
-  },
-];
-
-
-
 export const HomeScreen: React.FC<Props> = (props: Props) => {
   const { navigation } = props;
   const [pacotes, setPacotes] = useState<Array<Pacote>>([]);
+  const [plantas, setPlantas] = useState<Array<any>>([]);
   const [isLoadingPlantas, setIsLoadingPlantas] = useState(true);
   const [isLoadingPacotes, setIsLoadingPacotes] = useState(true);
 
   useEffect(() => {
-    getPacotes();
     getPlantas();
+    getPacotes();
   }, [])
 
   const getPacotes = async () => {
@@ -57,8 +40,32 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
   }
 
   const getPlantas = async () => {
+    const plants:Array<Planta> = [
+      {
+        nome: "Beterraba",
+        temperatura: "35",
+        umidade: "20",
+        temperaturaMinima: "20",
+      },
+      {
+        nome: "Orquidea",
+        temperatura: "25",
+        umidade: "50",
+        temperaturaMinima: "20",
+
+      },
+      {
+        nome: "Tomate",
+        temperatura: "27",
+        umidade: "26",
+        temperaturaMinima: "20",
+      },
+    ];
+    
+    await AsyncStorage.setItem(MyPlantsConstant, JSON.stringify(plants))
 
     setTimeout(() => {
+      setPlantas(plants);
       setIsLoadingPlantas(false);
     }, 1000)
   }
@@ -180,7 +187,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={DATA}
+                data={plantas}
                 renderItem={renderItem}
               />
             )}
