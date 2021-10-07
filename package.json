@@ -31,6 +31,7 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.7.2",
     "react-native-skeleton-placeholder": "^5.0.0",
+    "react-native-snackbar": "^2.4.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-sqlite-storage": "^5.0.0",
     "react-native-svg": "^12.1.1",

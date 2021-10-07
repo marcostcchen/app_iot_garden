@@ -1,1 +1,10 @@
 export const grayLight = "#d3d3d3"
+export const gray = "#435560";
+export const darkBlue = '#00365f';
+export const red = '#e7002a';
+export const darkBluePlaceholder = '#00365f85';
+export const lightBlue = '#00365f36';
+export const redDanger = '#dc3545';
+export const yellowWarning = '#ffc107';
+export const greenSucess = '#28a745';
+export const lightGray = '#A9A9A9';
