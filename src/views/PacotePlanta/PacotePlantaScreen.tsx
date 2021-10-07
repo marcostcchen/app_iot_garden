@@ -31,7 +31,7 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   }
 
   const handleSetConfigOnMyPlant = () => {
-    
+
   }
 
   let rbSheetRef: any = useRef();
@@ -118,15 +118,13 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
             <View style={{ alignItems: 'center' }}>
               <View style={{ height: 10 }} />
               {plantasUsuario.map((plant, index) => (
-                <>
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.myPlantOptionContainer}
-                    onPress={handleSetConfigOnMyPlant}
-                  >
-                    <Text style={styles.myPlantText}>{plant.nome}</Text>
-                  </TouchableOpacity>
-                </>
+                <TouchableOpacity
+                  key={index}
+                  style={styles.myPlantOptionContainer}
+                  onPress={handleSetConfigOnMyPlant}
+                >
+                  <Text style={styles.myPlantText}>{plant.nome}</Text>
+                </TouchableOpacity>
               ))}
             </View>
           </ScrollView>
