@@ -22,7 +22,7 @@ export const SnackbarDanger = (text: string, duration: number = 5000): SnackbarC
       textColor: 'white',
       onPress: () => Snackbar.dismiss()
     },
-  }
+  } 
 }
 
 export const SnackbarWarning = (text: string, duration: number = 5000): SnackbarConfig => {
