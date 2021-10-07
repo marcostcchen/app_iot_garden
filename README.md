@@ -1,19 +1,19 @@
 # WIP New Project 2.0
+Jardim Inteligente - PCS3858 - Laboratório de Sistemas Embarcados (2021)
+Sistema de monitoramento de jardins
+
+React native project for Embedded Systems Laboratory PCS3858 2021 of Polytechnic School of the University of São Paulo  
+System of monitoring air umity, ground umity, temperature and luminosity from sensors that stores in a Postgres DB using AWS Lambda that serves the App
 
 Project Team:  
-Naiane 
-
+Naiane  
 Marcos Chen  
-
-Samuel Ducca
-
-Victor Dias 
+Samuel Ducca  
+Victor Dias   
 
 ## Screen Shots
-<img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823350-ab4aad59-9a7a-41d7-a240-ebe9ef70d30a.jpeg">
-<img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823352-35dd9e22-1461-4032-8f8c-516ccd1f20b3.jpeg">
-<img width="217" alt="Captura de Tela 2020-08-11 às 09 45 20" src="https://user-images.githubusercontent.com/22487037/134823355-7150b551-d47f-4f83-9849-442baefa65ee.jpeg">
-
+![Shot1](https://user-images.githubusercontent.com/22487037/136424922-a5cc8965-96be-4174-acca-cbec371665fb.png)
+![Shot2](https://user-images.githubusercontent.com/22487037/136424929-9c848767-c4af-433c-90fc-1be99fa22244.png)
 
 # RELEASE 1.0
 Projeto IoT  - PCS 3734 - 2020
