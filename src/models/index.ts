@@ -1,3 +1,3 @@
-export * from './Pacote';
-export * from './User';
 export * from './Planta';
+export * from './User';
+export * from './PlantaUsuario';

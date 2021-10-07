@@ -52,5 +52,15 @@ export const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold'
+  },
+  threedotsContainer: {
+    width: '20%',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  threedotsButton: {
+    height: 30,
+    width: 20,
+    alignItems: 'flex-end'
   }
 })

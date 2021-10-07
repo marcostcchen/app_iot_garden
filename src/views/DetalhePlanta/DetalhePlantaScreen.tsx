@@ -1,10 +1,13 @@
-import { Heading } from 'native-base';
-import React from 'react'
-import { Image, StyleSheet, View, ScrollView } from 'react-native'
+import { Heading, } from 'native-base';
+import React, { useState } from 'react'
+import { Image, View, ScrollView, Pressable } from 'react-native'
 import { MeasureIndicator } from '../../components';
-import { Pacote } from '../../models';
-import { getImageSource } from '../../utils';
+import { PlantaUsuario } from '../../models';
+import { getImageSource, grayLight } from '../../utils';
+import { Historico } from './Historico';
+import { ModalConfigs } from './ModalConfigs';
 import { styles } from './styles';
+import { UltimasMedicoes } from './UltimasMedicoes';
 
 interface Props {
   route: any,
@@ -12,74 +15,60 @@ interface Props {
 
 export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
   const { route } = props;
-  const { pacote, image }: { pacote: Pacote, image: string } = route.params;
+  const { plantaUsuario, image }: { plantaUsuario: PlantaUsuario, image: string } = route.params;
+  const [showModalConfig, setShowModalConfig] = useState(false);
 
   let imageSource = getImageSource(image);
 
-  const plantaDetail = {
-    temperatura: "30",
-    umidadeAr: "20",
-    umidadeSolo: "40",
-    luminosidade: "30",
-  }
-
   return (
-    <ScrollView style={{ backgroundColor: 'white' }}>
-      <View style={styles.mainContainer}>
-        <View style={styles.imageContainer}>
-          <View style={styles.circle}>
-            <Image resizeMode="contain" style={{ height: 150, width: 150, borderRadius: 50 }} source={imageSource} />
+    <>
+      <ScrollView style={{ backgroundColor: 'white' }}>
+        <View style={styles.mainContainer}>
+          <View style={styles.imageContainer}>
+            <View style={styles.circle}>
+              <Image resizeMode="contain" style={{ height: 150, width: 150, borderRadius: 50 }} source={imageSource} />
+            </View>
+            <View style={{ height: 40 }} />
           </View>
-          <View style={{ height: 40 }} />
-        </View>
 
-        <View style={styles.infoContainer}>
-          <View style={styles.overview}>
-            <View style={{ height: 20 }} />
-            <Heading size="md" >Planta Nome</Heading>
+          <View style={styles.infoContainer}>
+            <View style={styles.overview}>
+              <View style={{ height: 20 }} />
 
-            <View style={{ height: 10 }} />
-            <Heading size="sm" style={{ color: 'green' }}>Ultimas Medições</Heading>
-            <View style={{ height: 10 }} />
-            <View style={{ flexDirection: 'row' }}>
-              <MeasureIndicator
-                width={"50%"}
-                unit={"°C"}
-                description={"Temp."}
-                value={plantaDetail.temperatura}
-              />
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ width: '80%' }}>
+                  <Heading size="md" >{plantaUsuario.nome}</Heading>
+                </View>
+                <View style={styles.threedotsContainer}>
+                  <Pressable
+                    style={styles.threedotsButton}
+                    android_ripple={{ color: grayLight, radius: 20, borderless: true }}
+                    onPress={() => setShowModalConfig(true)}
+                  >
+                    <Image resizeMode="contain" style={{ width: '100%', height: '100%' }} source={require("../../images/threedots.png")} />
+                  </Pressable>
+                </View>
+              </View>
 
-              <MeasureIndicator
-                width={"50%"}
-                unit={"%"}
-                description={"Ar"}
-                value={plantaDetail.umidadeAr}
-              />
+              <View style={{ height: 10 }} />
+
+              <UltimasMedicoes plantaUsuario={plantaUsuario} />
+
+              <View style={{ height: 20 }} />
+
+              <Historico />
+
             </View>
-
-            <View style={{ height: 10 }} />
-
-            <View style={{ flexDirection: 'row' }}>
-              <MeasureIndicator
-                width={"50%"}
-                unit={"%"}
-                description={"Solo"}
-                value={plantaDetail.umidadeSolo}
-              />
-
-              <MeasureIndicator
-                width={"50%"}
-                unit={"%"}
-                description={"Luz"}
-                value={plantaDetail.luminosidade}
-              />
-            </View>
-
-            <View style={{ height: 20 }} />
-            <Heading size="sm" style={{ color: 'green' }}>Histórico</Heading>
+            <View style={{ height: 80 }} />
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+
+      <ModalConfigs
+        plantaUsuario={plantaUsuario}
+        setShowModalConfig={setShowModalConfig}
+        showModalConfig={showModalConfig}
+      />
+    </>
   )
 }

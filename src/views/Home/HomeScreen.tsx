@@ -3,7 +3,7 @@ import { View, ScrollView, FlatList } from 'react-native';
 import { Heading, Toast } from 'native-base'
 import { styles } from './styles';
 import { PlantBundle, PlantCard } from '../../components';
-import { Pacote, Planta } from '../../models';
+import { Planta, PlantaUsuario } from '../../models';
 import * as fetchUtils from './fetch';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,7 +15,7 @@ interface Props {
 
 export const HomeScreen: React.FC<Props> = (props: Props) => {
   const { navigation } = props;
-  const [pacotes, setPacotes] = useState<Array<Pacote>>([]);
+  const [pacotes, setPacotes] = useState<Array<Planta>>([]);
   const [plantas, setPlantas] = useState<Array<any>>([]);
   const [isLoadingPlantas, setIsLoadingPlantas] = useState(true);
   const [isLoadingPacotes, setIsLoadingPacotes] = useState(true);
@@ -40,24 +40,30 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
   }
 
   const getPlantas = async () => {
-    const plants:Array<Planta> = [
+    const plants:Array<PlantaUsuario> = [
       {
         nome: "Beterraba",
         temperatura: "35",
-        umidade: "20",
+        umidadeAr: "20",
+        luminosidade: "30",
+        umidadeSolo: "40",
         temperaturaMinima: "20",
       },
       {
         nome: "Orquidea",
         temperatura: "25",
-        umidade: "50",
+        luminosidade: "30",
+        umidadeSolo: "40",
+        umidadeAr: "50",
         temperaturaMinima: "20",
 
       },
       {
         nome: "Tomate",
         temperatura: "27",
-        umidade: "26",
+        luminosidade: "30",
+        umidadeSolo: "40",
+        umidadeAr: "26",
         temperaturaMinima: "20",
       },
     ];
@@ -100,7 +106,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               temperatura={item.temperatura}
               umidade={item.umidade}
               image={image}
-              onPress={() => navigation.navigate("DetalhePlanta", { planta: item, image: imageName })}
+              onPress={() => navigation.navigate("DetalhePlanta", { plantaUsuario: item, image: imageName })}
             />
           </View>
         )}
@@ -111,7 +117,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             temperatura={item.temperatura}
             umidade={item.umidade}
             image={image}
-            onPress={() => navigation.navigate("DetalhePlanta", { planta: item, image: imageName })}
+            onPress={() => navigation.navigate("DetalhePlanta", { plantaUsuario: item, image: imageName })}
           />
         )}
       </>
@@ -147,7 +153,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               nome={item.especie}
               price={item.preco}
               image={image}
-              onPress={() => navigation.navigate("PacotePlanta", { pacote: item, image: imageName })}
+              onPress={() => navigation.navigate("PacotePlanta", { planta: item, image: imageName })}
             />
           </View>
         )}
@@ -157,7 +163,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             nome={item.especie}
             price={item.preco}
             image={image}
-            onPress={() => navigation.navigate("PacotePlanta", { pacote: item, image: imageName })}
+            onPress={() => navigation.navigate("PacotePlanta", { planta: item, image: imageName })}
           />
         )}
       </>
@@ -175,9 +181,9 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               <View style={{ height: 240, justifyContent: 'center' }}>
                 <SkeletonPlaceholder highlightColor="rgba(4, 255, 4, 0.108)">
                   <SkeletonPlaceholder.Item flexDirection="row" >
-                    <SkeletonPlaceholder.Item width={150} marginLeft={10} height={200} borderRadius={10} />
-                    <SkeletonPlaceholder.Item width={150} marginLeft={10} height={200} borderRadius={10} />
-                    <SkeletonPlaceholder.Item width={150} marginLeft={10} height={200} borderRadius={10} />
+                    <SkeletonPlaceholder.Item width={155} marginLeft={20} height={210} borderRadius={10} />
+                    <SkeletonPlaceholder.Item width={155} marginLeft={10} height={210} borderRadius={10} />
+                    <SkeletonPlaceholder.Item width={155} marginLeft={10} height={210} borderRadius={10} />
                   </SkeletonPlaceholder.Item>
                 </SkeletonPlaceholder>
               </View>
@@ -200,9 +206,9 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               <View style={{ height: 240, justifyContent: 'center' }}>
                 <SkeletonPlaceholder highlightColor="rgba(4, 255, 4, 0.108)">
                   <SkeletonPlaceholder.Item flexDirection="row" >
-                    <SkeletonPlaceholder.Item width={150} marginLeft={10} height={200} borderRadius={10} />
-                    <SkeletonPlaceholder.Item width={150} marginLeft={10} height={200} borderRadius={10} />
-                    <SkeletonPlaceholder.Item width={150} marginLeft={10} height={200} borderRadius={10} />
+                    <SkeletonPlaceholder.Item width={155} marginLeft={20} height={230} borderRadius={10} />
+                    <SkeletonPlaceholder.Item width={155} marginLeft={10} height={230} borderRadius={10} />
+                    <SkeletonPlaceholder.Item width={155} marginLeft={10} height={230} borderRadius={10} />
                   </SkeletonPlaceholder.Item>
                 </SkeletonPlaceholder>
               </View>
