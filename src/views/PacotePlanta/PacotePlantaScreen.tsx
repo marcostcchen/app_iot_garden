@@ -2,7 +2,7 @@ import { Heading } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react'
 import { Image, Text, View, ScrollView, Pressable, Touchable, TouchableOpacity } from 'react-native'
 import { MeasureIndicator } from '../../components';
-import { Planta, PlantaUsuario } from '../../models';
+import { Planta, UsuarioPlanta } from '../../models';
 import { getImageSource, grayLight } from '../../utils';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { styles } from './styles';
@@ -16,7 +16,7 @@ interface Props {
 export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   const { route } = props;
   const { planta, image }: { planta: Planta, image: string } = route.params;
-  const [plantasUsuario, setPlantasUsuario] = useState<Array<PlantaUsuario>>([]);
+  const [plantasUsuario, setPlantasUsuario] = useState<Array<UsuarioPlanta>>([]);
 
   useEffect(() => {
     getMyPlants();
@@ -25,7 +25,7 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   const getMyPlants = async () => {
     let myPlantsString = await AsyncStorage.getItem(MyPlantsConstant)
     if (myPlantsString != null) {
-      let plantasUsuario: Array<PlantaUsuario> = JSON.parse(myPlantsString);
+      let plantasUsuario: Array<UsuarioPlanta> = JSON.parse(myPlantsString);
       setPlantasUsuario(plantasUsuario)
     }
   }

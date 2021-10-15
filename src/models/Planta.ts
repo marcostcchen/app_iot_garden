@@ -1,13 +1,13 @@
 export interface Planta {
-  "descricao": string,
-  "especie": string,
-  "id": string,
-  "luminosidade_ideal": string,
-  "preco": string,
-  "regas": number,
-  "temperatura_ideal": string,
-  "temperatura_maxima": string,
-  "temperatura_minima": string,
-  "umidade_ar_ideal": string,
-  "umidade_solo_ideal": string
+  id: string,
+  especie: string,
+  descricao: string,
+  temperatura_maxima: string,
+  temperatura_minima: string,
+  temperatura_ideal: number,
+  umidade_solo_ideal: string,
+  umidade_ar_ideal: string,
+  luminosidade_ideal: string,
+  regas: string,
+  preco: string
 }

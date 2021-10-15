@@ -3,11 +3,10 @@ import { View, ScrollView, FlatList } from 'react-native';
 import { Heading, Toast } from 'native-base'
 import { styles } from './styles';
 import { PlantBundle, PlantCard } from '../../components';
-import { Planta, PlantaUsuario } from '../../models';
-import * as fetchUtils from './fetch';
+import { Planta, User } from '../../models';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MyPlantsConstant } from '../../utils/storedConstants';
+import { MyPlantsConstant, apiUrl, UserConstant, fetchUtils } from '../../utils';
 
 interface Props {
   navigation: any,
@@ -15,65 +14,68 @@ interface Props {
 
 export const HomeScreen: React.FC<Props> = (props: Props) => {
   const { navigation } = props;
-  const [pacotes, setPacotes] = useState<Array<Planta>>([]);
-  const [plantas, setPlantas] = useState<Array<any>>([]);
-  const [isLoadingPlantas, setIsLoadingPlantas] = useState(true);
-  const [isLoadingPacotes, setIsLoadingPacotes] = useState(true);
+  const [plant, setPlants] = useState<Array<Planta>>([]);
+  const [userPlants, setUserPlants] = useState<Array<any>>([]);
+  const [isLoadingUserPlants, setIsLoadingUserPlants] = useState(true);
+  const [isLoadingPlants, setIsLoadingPlants] = useState(true);
 
   useEffect(() => {
-    getPlantas();
-    getPacotes();
+    getUserPlants();
+    getPlants();
   }, [])
 
-  const getPacotes = async () => {
-    const pacotes = await fetchUtils.getBundles();
+  const getPlants = () => {
+    const path = 'plants';
 
-    if (pacotes == null) {
-      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar os pacotes!", status: "error", duration: 3000, placement: "top", })
+    const successFunc = (res) => {
+      const plant = res;
+      setPlants(plant);
+      setTimeout(() => {
+        setIsLoadingPlants(false);
+      }, 1000)
+    }
+
+    const errorFunc = (err) => {
+      setIsLoadingPlants(false);
+      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar os plant!", status: "error", duration: 3000, placement: "top", })
       return;
     }
 
-    setPacotes(pacotes);
-    setTimeout(() => {
-      setIsLoadingPacotes(false);
-    }, 1000)
+    fetchUtils().getJSON(`${apiUrl}/${path}`)
+      .then(successFunc)
+      .catch(errorFunc);
   }
 
-  const getPlantas = async () => {
-    const plants:Array<PlantaUsuario> = [
-      {
-        nome: "Beterraba",
-        temperatura: "35",
-        umidadeAr: "20",
-        luminosidade: "30",
-        umidadeSolo: "40",
-        temperaturaMinima: "20",
-      },
-      {
-        nome: "Orquidea",
-        temperatura: "25",
-        luminosidade: "30",
-        umidadeSolo: "40",
-        umidadeAr: "50",
-        temperaturaMinima: "20",
+  const getUserPlants = async () => {
+    const userString = await AsyncStorage.getItem(UserConstant);
+    if (userString == null) {
+      setIsLoadingPlants(false);
+      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as suas plantas!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
 
-      },
-      {
-        nome: "Tomate",
-        temperatura: "27",
-        luminosidade: "30",
-        umidadeSolo: "40",
-        umidadeAr: "26",
-        temperaturaMinima: "20",
-      },
-    ];
-    
-    await AsyncStorage.setItem(MyPlantsConstant, JSON.stringify(plants))
+    const user: User = JSON.parse(userString);
+    const path = `user/${user.id}/plants`;
 
-    setTimeout(() => {
-      setPlantas(plants);
-      setIsLoadingPlantas(false);
-    }, 1000)
+    const successFunc = async (res) => {
+      const userPlants = res;
+      await AsyncStorage.setItem(MyPlantsConstant, JSON.stringify(userPlants))
+
+      setTimeout(() => {
+        setUserPlants(userPlants);
+        setIsLoadingUserPlants(false);
+      }, 1000)
+    }
+
+    const errorFunc = (err) => {
+      setIsLoadingPlants(false);
+      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as suas plantas!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
+
+    fetchUtils().getJSON(`${apiUrl}/${path}`)
+      .then(successFunc)
+      .catch(errorFunc);
   }
 
   const renderItem = ({ item, index }) => {
@@ -106,7 +108,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               temperatura={item.temperatura}
               umidade={item.umidade}
               image={image}
-              onPress={() => navigation.navigate("DetalhePlanta", { plantaUsuario: item, image: imageName })}
+              onPress={() => navigation.navigate("DetalhePlanta", { UsuarioPlanta: item, image: imageName })}
             />
           </View>
         )}
@@ -117,7 +119,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             temperatura={item.temperatura}
             umidade={item.umidade}
             image={image}
-            onPress={() => navigation.navigate("DetalhePlanta", { plantaUsuario: item, image: imageName })}
+            onPress={() => navigation.navigate("DetalhePlanta", { UsuarioPlanta: item, image: imageName })}
           />
         )}
       </>
@@ -177,7 +179,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
           <View style={styles.menuContainer}>
             <Heading style={styles.title}>Minhas Plantas</Heading>
 
-            {isLoadingPlantas && (
+            {isLoadingUserPlants && (
               <View style={{ height: 240, justifyContent: 'center' }}>
                 <SkeletonPlaceholder highlightColor="rgba(4, 255, 4, 0.108)">
                   <SkeletonPlaceholder.Item flexDirection="row" >
@@ -189,11 +191,11 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               </View>
             )}
 
-            {!isLoadingPlantas && (
+            {!isLoadingUserPlants && (
               <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={plantas}
+                data={userPlants}
                 renderItem={renderItem}
               />
             )}
@@ -202,7 +204,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
           <View style={styles.menuContainer}>
             <Heading style={styles.title}>Pacotes</Heading>
 
-            {isLoadingPacotes && (
+            {isLoadingPlants && (
               <View style={{ height: 240, justifyContent: 'center' }}>
                 <SkeletonPlaceholder highlightColor="rgba(4, 255, 4, 0.108)">
                   <SkeletonPlaceholder.Item flexDirection="row" >
@@ -214,11 +216,11 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               </View>
             )}
 
-            {!isLoadingPacotes && (
+            {!isLoadingPlants && (
               <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={pacotes}
+                data={plant}
                 renderItem={renderBundles}
               />
             )}

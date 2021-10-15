@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Image, ImageBackground, StatusBar, Text, View } from 'react-native'
-import { Button, Input, } from 'native-base';
+import { Button, Input, Toast, } from 'native-base';
 import { styles } from './styles';
+import { apiUrl, fetchUtils } from '../../utils';
 
 interface Props {
   navigation: any
@@ -14,14 +15,33 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
 
   const handleLogin = () => {
     setIsLoading(true);
+    const path = 'login';
 
-    //Fetch login
+    const successFunc = (res) => {
+      setTimeout(() => {
+        setIsLoading(false);
+        navigation.navigate("Drawer")
 
-    setTimeout(() => {
+      }, 2000)
+    }
+
+    const errorFunc = (err) => {
       setIsLoading(false);
-      navigation.navigate("Drawer")
+      Toast.show({ title: "Erro!", description: "Login inválido!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
 
-    }, 2000)
+    let params = {
+      method: 'POST',
+      body: {
+        nome: 'naiane',
+        senha: 'qwety'
+      }
+    }
+
+    fetchUtils().getHTML(`${apiUrl}/${path}`, params)
+      .then(successFunc)
+      .catch(errorFunc);
   }
 
   return (

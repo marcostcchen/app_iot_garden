@@ -1,16 +1,16 @@
 import { Button, FormControl, Input, Modal } from 'native-base'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { PlantaUsuario } from '../../models'
+import { UsuarioPlanta } from '../../models'
 
 interface Props {
   showModalConfig: boolean,
   setShowModalConfig: (value: boolean) => void,
-  plantaUsuario: PlantaUsuario
+  UsuarioPlanta: UsuarioPlanta
 }
 
 export const ModalConfigs: React.FC<Props> = (props: Props) => {
-  const { plantaUsuario, setShowModalConfig, showModalConfig } = props;
+  const { UsuarioPlanta, setShowModalConfig, showModalConfig } = props;
   return (
     <Modal isOpen={showModalConfig} onClose={() => setShowModalConfig(false)}>
       <Modal.Content width="90%">
@@ -19,17 +19,17 @@ export const ModalConfigs: React.FC<Props> = (props: Props) => {
         <Modal.Body>
           <FormControl>
             <FormControl.Label>Name</FormControl.Label>
-            <Input fontSize={14} value={plantaUsuario.nome} />
+            <Input fontSize={14} value={UsuarioPlanta.nome} />
           </FormControl>
 
           <FormControl mt="3">
             <FormControl.Label>Temperatura Máxima</FormControl.Label>
-            <Input fontSize={14} value={plantaUsuario.temperaturaMaxima} />
+            <Input fontSize={14} value={UsuarioPlanta.temperaturaMaxima} />
           </FormControl>
 
           <FormControl mt="3">
             <FormControl.Label>Temperatura Mínima</FormControl.Label>
-            <Input fontSize={14} value={plantaUsuario.temperaturaMaxima} />
+            <Input fontSize={14} value={UsuarioPlanta.temperaturaMaxima} />
           </FormControl>
         </Modal.Body>
         <Modal.Footer>

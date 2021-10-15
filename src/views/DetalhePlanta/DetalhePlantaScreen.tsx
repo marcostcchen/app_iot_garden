@@ -2,7 +2,7 @@ import { Heading, } from 'native-base';
 import React, { useState } from 'react'
 import { Image, View, ScrollView, Pressable } from 'react-native'
 import { MeasureIndicator } from '../../components';
-import { PlantaUsuario } from '../../models';
+import { UsuarioPlanta } from '../../models';
 import { getImageSource, grayLight } from '../../utils';
 import { Historico } from './Historico';
 import { ModalConfigs } from './ModalConfigs';
@@ -15,7 +15,7 @@ interface Props {
 
 export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
   const { route } = props;
-  const { plantaUsuario, image }: { plantaUsuario: PlantaUsuario, image: string } = route.params;
+  const { UsuarioPlanta, image }: { UsuarioPlanta: UsuarioPlanta, image: string } = route.params;
   const [showModalConfig, setShowModalConfig] = useState(false);
 
   let imageSource = getImageSource(image);
@@ -37,7 +37,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
               <View style={{ flexDirection: 'row' }}>
                 <View style={{ width: '80%' }}>
-                  <Heading size="md" >{plantaUsuario.nome}</Heading>
+                  <Heading size="md" >{UsuarioPlanta.nome}</Heading>
                 </View>
                 <View style={styles.threedotsContainer}>
                   <Pressable
@@ -52,7 +52,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
               <View style={{ height: 10 }} />
 
-              <UltimasMedicoes plantaUsuario={plantaUsuario} />
+              <UltimasMedicoes UsuarioPlanta={UsuarioPlanta} />
 
               <View style={{ height: 20 }} />
 
@@ -65,7 +65,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
       </ScrollView>
 
       <ModalConfigs
-        plantaUsuario={plantaUsuario}
+        UsuarioPlanta={UsuarioPlanta}
         setShowModalConfig={setShowModalConfig}
         showModalConfig={showModalConfig}
       />

@@ -2,14 +2,14 @@ import { Heading } from 'native-base';
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { MeasureIndicator } from '../../components';
-import { PlantaUsuario } from '../../models'
+import { UsuarioPlanta } from '../../models'
 
 interface Props {
-  plantaUsuario: PlantaUsuario
+  UsuarioPlanta: UsuarioPlanta
 }
 
 export const UltimasMedicoes: React.FC<Props> = (props: Props) => {
-  const { plantaUsuario } = props;
+  const { UsuarioPlanta } = props;
   return (
     <View>
       <Heading size="md" style={{ color: 'green' }}>Ultimas Medições</Heading>
@@ -19,14 +19,14 @@ export const UltimasMedicoes: React.FC<Props> = (props: Props) => {
           width={"50%"}
           unit={"°C"}
           description={"Temp."}
-          value={plantaUsuario.temperatura}
+          value={UsuarioPlanta.temperatura}
         />
 
         <MeasureIndicator
           width={"50%"}
           unit={"%"}
           description={"Ar"}
-          value={plantaUsuario.umidadeAr}
+          value={UsuarioPlanta.umidadeAr}
         />
       </View>
 
@@ -37,14 +37,14 @@ export const UltimasMedicoes: React.FC<Props> = (props: Props) => {
           width={"50%"}
           unit={"%"}
           description={"Solo"}
-          value={plantaUsuario.umidadeSolo}
+          value={UsuarioPlanta.umidadeSolo}
         />
 
         <MeasureIndicator
           width={"50%"}
           unit={"%"}
           description={"Luz"}
-          value={plantaUsuario.luminosidade}
+          value={UsuarioPlanta.luminosidade}
         />
       </View>
     </View>

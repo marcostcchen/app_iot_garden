@@ -1,3 +1,5 @@
+export * from './Medicao';
 export * from './Planta';
+export * from './SolicitacoesRega'
 export * from './User';
-export * from './PlantaUsuario';
+export * from './UsuarioPlanta';
