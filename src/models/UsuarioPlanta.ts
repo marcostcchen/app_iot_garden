@@ -1,3 +1,5 @@
+import { Medicao } from ".";
+
 export interface UsuarioPlanta {
   id: string,
   idPlanta: number,
@@ -12,5 +14,5 @@ export interface UsuarioPlanta {
   regas: number,
   usuario: string,
   planta: string,
-  medicoes?: string,
+  medicoes?: Array<Medicao>,
 }
