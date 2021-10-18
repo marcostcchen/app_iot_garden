@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, FlatList, BackHandler, StatusBar, RefreshControl } from 'react-native';
-import { Heading, Toast } from 'native-base'
+import { View, ScrollView, FlatList, BackHandler, StatusBar, RefreshControl, Text, Pressable } from 'react-native';
+import { Button, Heading, Input, Toast } from 'native-base'
 import { styles } from './styles';
-import { PlantCard, UserPlantCard } from '../../components';
+import { PlantCard, UserPlantCard, ModalNewPlant } from '../../components';
 import { Planta, User, UsuarioPlanta } from '../../models';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MyPlantsConstant, apiUrl, UserConstant } from '../../utils';
+import { MyPlantsConstant, apiUrl, UserConstant, grayLight } from '../../utils';
 import axios from 'axios';
 
 interface Props {
@@ -20,6 +20,8 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
   const [isLoadingPlantCards, setIsLoadingPlantCards] = useState(true);
   const [isLoadingPlants, setIsLoadingPlants] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isVisibleModalNewPlant, setIsVisibleModalNewPlant] = useState(false);
+
 
   useEffect(() => {
     getPlantCards();
@@ -133,17 +135,27 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             />
           </View>
         )}
-        {index != 0 && (
+        {index != 0 && index != (userPlants.length - 1) && (
           <UserPlantCard
             key={index}
             nome={usuarioPlanta.nome}
             temperatura={lastMeasure.temperatura ?? " - "}
-            ar={lastMeasure.umidade ?? " - "}
-            solo={" - "}
+            ar={" - "}
+            solo={lastMeasure.umidade ?? " - "}
             luminosidade={lastMeasure.luminosidade ?? " - "}
             image={image}
             onPress={() => navigation.navigate("DetalhePlanta", { usuarioPlanta, image: imageName })}
           />
+        )}
+        {index == userPlants.length - 1 && (
+          <View style={[styles.card, { backgroundColor: '#D3D3D3' }]}>
+            <Pressable
+              onPress={() => setIsVisibleModalNewPlant(true)}
+              android_ripple={{ color: grayLight, radius: 35, borderless: true }}
+              style={[styles.circle, { backgroundColor: '#F5F5F5' }]}>
+              <Text style={styles.plus}>+</Text>
+            </Pressable>
+          </View>
         )}
       </>
     )
@@ -274,6 +286,11 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
 
           <View style={{ height: 50 }} />
         </View>
+
+        <ModalNewPlant
+          isVisibleModal={isVisibleModalNewPlant}
+          setIsVisibleModal={setIsVisibleModalNewPlant}
+        />
 
       </ScrollView>
     </>

@@ -44,7 +44,7 @@ export const Historico: React.FC<Props> = (props: Props) => {
   }
 
   const handleSetAres = () => {
-    const ares = medicoes.map((medicao) => Number(medicao.temperatura))
+    const ares = medicoes.map((medicao) => 0)
     setAres(ares)
   }
 

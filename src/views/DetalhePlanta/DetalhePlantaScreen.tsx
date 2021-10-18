@@ -2,10 +2,10 @@ import axios from 'axios';
 import { Heading, Toast, } from 'native-base';
 import React, { useState } from 'react'
 import { Image, View, ScrollView, Pressable, RefreshControl } from 'react-native'
+import { ModalPlantConfig } from '../../components';
 import { Medicao, UsuarioPlanta } from '../../models';
 import { apiUrl, getImageSource, grayLight } from '../../utils';
 import { Historico } from './Historico';
-import { ModalConfigs } from './ModalConfigs';
 import { styles } from './styles';
 import { UltimasMedicoes } from './UltimasMedicoes';
 
@@ -104,10 +104,10 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
         </View>
       </ScrollView>
 
-      <ModalConfigs
+      <ModalPlantConfig
+        isVisibleModal={showModalConfig}
+        setIsVisibleModal={setShowModalConfig}
         usuarioPlanta={usuarioPlanta}
-        setShowModalConfig={setShowModalConfig}
-        showModalConfig={showModalConfig}
       />
     </>
   )

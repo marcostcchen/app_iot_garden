@@ -26,7 +26,7 @@ export const UltimasMedicoes: React.FC<Props> = (props: Props) => {
           width={"50%"}
           unit={"%"}
           description={"Ar"}
-          value={medicao.umidade}
+          value={" - "}
         />
       </View>
 
