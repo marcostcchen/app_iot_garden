@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Image, ImageBackground, Keyboard, StatusBar, Text, Vibration, View } from 'react-native'
 import { Button, Input, Toast, } from 'native-base';
 import { styles } from './styles';
@@ -17,6 +17,7 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
   const { navigation } = props;
 
   let senhaRef: any = useRef();
+
 
   const handleLogin = () => {
     setIsLoading(true);

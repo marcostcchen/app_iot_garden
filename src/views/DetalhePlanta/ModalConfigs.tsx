@@ -6,11 +6,11 @@ import { UsuarioPlanta } from '../../models'
 interface Props {
   showModalConfig: boolean,
   setShowModalConfig: (value: boolean) => void,
-  UsuarioPlanta: UsuarioPlanta
+  usuarioPlanta: UsuarioPlanta
 }
 
 export const ModalConfigs: React.FC<Props> = (props: Props) => {
-  const { UsuarioPlanta, setShowModalConfig, showModalConfig } = props;
+  const { usuarioPlanta, setShowModalConfig, showModalConfig } = props;
   return (
     <Modal isOpen={showModalConfig} onClose={() => setShowModalConfig(false)}>
       <Modal.Content width="90%">
@@ -19,17 +19,17 @@ export const ModalConfigs: React.FC<Props> = (props: Props) => {
         <Modal.Body>
           <FormControl>
             <FormControl.Label>Name</FormControl.Label>
-            <Input fontSize={14} value={UsuarioPlanta.nome} />
+            <Input fontSize={14} value={usuarioPlanta.nome} />
           </FormControl>
 
           <FormControl mt="3">
             <FormControl.Label>Temperatura Máxima</FormControl.Label>
-            <Input fontSize={14} value={UsuarioPlanta.temperaturaMaxima} />
+            <Input fontSize={14} value={usuarioPlanta.temperaturaMaxima} />
           </FormControl>
 
           <FormControl mt="3">
             <FormControl.Label>Temperatura Mínima</FormControl.Label>
-            <Input fontSize={14} value={UsuarioPlanta.temperaturaMaxima} />
+            <Input fontSize={14} value={usuarioPlanta.temperaturaMaxima} />
           </FormControl>
         </Modal.Body>
         <Modal.Footer>

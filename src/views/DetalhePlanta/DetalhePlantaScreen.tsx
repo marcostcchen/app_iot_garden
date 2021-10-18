@@ -1,9 +1,9 @@
-import { Heading, } from 'native-base';
+import axios from 'axios';
+import { Heading, Toast, } from 'native-base';
 import React, { useState } from 'react'
-import { Image, View, ScrollView, Pressable } from 'react-native'
-import { MeasureIndicator } from '../../components';
-import { UsuarioPlanta } from '../../models';
-import { getImageSource, grayLight } from '../../utils';
+import { Image, View, ScrollView, Pressable, RefreshControl } from 'react-native'
+import { Medicao, UsuarioPlanta } from '../../models';
+import { apiUrl, getImageSource, grayLight } from '../../utils';
 import { Historico } from './Historico';
 import { ModalConfigs } from './ModalConfigs';
 import { styles } from './styles';
@@ -15,14 +15,51 @@ interface Props {
 
 export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
   const { route } = props;
-  const { UsuarioPlanta, image }: { UsuarioPlanta: UsuarioPlanta, image: string } = route.params;
+  const { usuarioPlanta, image }: { usuarioPlanta: UsuarioPlanta, image: string } = route.params;
   const [showModalConfig, setShowModalConfig] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   let imageSource = getImageSource(image);
+  const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes)
+
+  const refreshInfo = () => {
+    setIsRefreshing(true);
+    getLastMeasures();
+  }
+
+  const getLastMeasures = () => {
+    const idUserPlant = usuarioPlanta.id;
+    const path = `user/plant/${idUserPlant}/measurements`;
+
+    const successFunc = (res) => {
+      const medicoes = res.data;
+      setMedicoes(medicoes)
+      setIsRefreshing(false)
+    }
+
+    const errorFunc = (err) => {
+      setIsRefreshing(false)
+      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as plantas!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
+
+    axios.get(`${apiUrl}/${path}`)
+      .then(successFunc)
+      .catch(errorFunc);
+  }
+
+  const ultimaMedicao = medicoes.reduce((max, medicao) => new Date(max.created_at) > new Date(medicao.created_at) ? max : medicao);
 
   return (
     <>
-      <ScrollView style={{ backgroundColor: 'white' }}>
+      <ScrollView
+        style={{ backgroundColor: 'white' }}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={refreshInfo}
+          />}
+      >
         <View style={styles.mainContainer}>
           <View style={styles.imageContainer}>
             <View style={styles.circle}>
@@ -37,7 +74,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
               <View style={{ flexDirection: 'row' }}>
                 <View style={{ width: '80%' }}>
-                  <Heading size="md" >{UsuarioPlanta.nome}</Heading>
+                  <Heading size="md" >{usuarioPlanta.nome}</Heading>
                 </View>
                 <View style={styles.threedotsContainer}>
                   <Pressable
@@ -52,11 +89,14 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
               <View style={{ height: 10 }} />
 
-              <UltimasMedicoes UsuarioPlanta={UsuarioPlanta} />
+              <UltimasMedicoes
+                medicao={ultimaMedicao} />
 
               <View style={{ height: 20 }} />
 
-              <Historico />
+              <Historico
+                medicoes={medicoes}
+              />
 
             </View>
             <View style={{ height: 80 }} />
@@ -65,7 +105,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
       </ScrollView>
 
       <ModalConfigs
-        UsuarioPlanta={UsuarioPlanta}
+        usuarioPlanta={usuarioPlanta}
         setShowModalConfig={setShowModalConfig}
         showModalConfig={showModalConfig}
       />

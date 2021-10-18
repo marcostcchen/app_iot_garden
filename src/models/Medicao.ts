@@ -4,4 +4,5 @@ export interface Medicao {
   temperatura: string
   umidade: string
   luminosidade: string
+  created_at: string
 }
