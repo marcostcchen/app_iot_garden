@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Heading, Toast, } from 'native-base';
 import React, { useState } from 'react'
-import { Image, View, ScrollView, Pressable, RefreshControl } from 'react-native'
+import { Image, View, ScrollView, Pressable, RefreshControl, Text, ActivityIndicator } from 'react-native'
 import { ModalPlantConfig } from '../../components';
-import { Medicao, UsuarioPlanta } from '../../models';
+import { Medicao, UsuarioPlanta, WaterSolicitation } from '../../models';
 import { apiUrl, getImageSource, grayLight } from '../../utils';
 import { Historico } from './Historico';
 import { styles } from './styles';
@@ -18,6 +18,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
   const { usuarioPlanta, image }: { usuarioPlanta: UsuarioPlanta, image: string } = route.params;
   const [showModalConfig, setShowModalConfig] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isRequiringWaterSolictation, setIsRequiringWaterSolictation] = useState(false)
 
   let imageSource = getImageSource(image);
   const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes)
@@ -44,6 +45,59 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
     }
 
     axios.get(`${apiUrl}/${path}`)
+      .then(successFunc)
+      .catch(errorFunc);
+  }
+
+  const handleRegar = () => {
+    setIsRequiringWaterSolictation(true)
+    const idUserPlant = usuarioPlanta.id;
+    const path = `user/plant/${idUserPlant}/water-solicitations?completo`;
+
+    const successFunc = (res) => {
+      const waterSolicitations: Array<WaterSolicitation> = res.data;
+      if (waterSolicitations.find(water => water.completo == false)) {
+        Toast.show({ title: "Alerta!", description: "Você já solicitou a rega!", status: "warning", duration: 3000, placement: "top", })
+        setIsRequiringWaterSolictation(false)
+        return;
+      }
+
+      makeRega();
+      return;
+    }
+
+    const errorFunc = (err) => {
+      setIsRequiringWaterSolictation(false)
+      Toast.show({ title: "Erro!", description: "Ocorreu ao tentar regar a sua planta!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
+
+    axios.get(`${apiUrl}/${path}`)
+      .then(successFunc)
+      .catch(errorFunc);
+  }
+
+  const makeRega = () => {
+    const idUserPlant = usuarioPlanta.id;
+    const path = `user/plant/${idUserPlant}/water-solicitation`;
+
+    const param = {
+      hora: new Date()
+    }
+
+    const successFunc = (res) => {
+      Toast.show({ title: "Sucesso", description: "Solicitação de rega enviado com sucesso!", status: "error", duration: 3000, placement: "top", })
+      setIsRequiringWaterSolictation(false)
+      return;
+    }
+
+    const errorFunc = (err) => {
+      setIsRequiringWaterSolictation(false)
+      Toast.show({ title: "Erro", description: "Não foi possível realizar a rega!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
+
+    axios.post(`${apiUrl}/${path}`, param)
       .then(successFunc)
       .catch(errorFunc);
   }
@@ -102,7 +156,22 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
             <View style={{ height: 80 }} />
           </View>
         </View>
+
       </ScrollView>
+
+      <View style={styles.buttonContainer}>
+        <Pressable
+          disabled={isRequiringWaterSolictation}
+          style={styles.button}
+          android_ripple={{ color: grayLight, radius: 100, borderless: true }}
+          onPress={handleRegar}
+        >
+          {isRequiringWaterSolictation ?
+            (<ActivityIndicator size="large" color="white" />)
+            :
+            (<Text >Regar</Text>)}
+        </Pressable>
+      </View>
 
       <ModalPlantConfig
         isVisibleModal={showModalConfig}

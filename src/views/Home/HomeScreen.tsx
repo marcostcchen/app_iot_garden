@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, ScrollView, FlatList, BackHandler, StatusBar, RefreshControl, Text, Pressable } from 'react-native';
-import { Button, Heading, Input, Toast } from 'native-base'
+import { Heading, Toast } from 'native-base'
 import { styles } from './styles';
 import { PlantCard, UserPlantCard, ModalNewPlant } from '../../components';
 import { Planta, User, UsuarioPlanta } from '../../models';
@@ -17,7 +17,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
   const { navigation } = props;
   const [plant, setPlants] = useState<Array<Planta>>([]);
   const [userPlants, setUserPlants] = useState<Array<any>>([]);
-  const [isLoadingPlantCards, setIsLoadingPlantCards] = useState(true);
+  const [isLoadingUserPlants, setIsLoadingUserPlants] = useState(true);
   const [isLoadingPlants, setIsLoadingPlants] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isVisibleModalNewPlant, setIsVisibleModalNewPlant] = useState(false);
@@ -80,12 +80,12 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
       const userPlants = res.data;
       await AsyncStorage.setItem(MyPlantsConstant, JSON.stringify(userPlants))
       setUserPlants(userPlants);
-      setIsLoadingPlantCards(false);
+      setIsLoadingUserPlants(false);
       setIsRefreshing(false)
     }
 
     const errorFunc = (err) => {
-      setIsLoadingPlants(false);
+      setIsLoadingUserPlants(false);
       Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as suas plantas!", status: "error", duration: 3000, placement: "top", })
       return;
     }
@@ -237,8 +237,8 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
           <View style={styles.menuContainer}>
             <Heading style={styles.title}>Minhas Plantas</Heading>
 
-            {isLoadingPlantCards && (
-              <View style={{ height: 240, justifyContent: 'center' }}>
+            {isLoadingUserPlants && (
+              <View style={{ height: 300, justifyContent: 'center', }}>
                 <SkeletonPlaceholder highlightColor="rgba(4, 255, 4, 0.108)">
                   <SkeletonPlaceholder.Item flexDirection="row" >
                     <SkeletonPlaceholder.Item width={200} marginLeft={20} height={300} borderRadius={10} />
@@ -249,7 +249,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               </View>
             )}
 
-            {!isLoadingPlantCards && (
+            {!isLoadingUserPlants && (
               <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -263,7 +263,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             <Heading style={styles.title}>Pacotes</Heading>
 
             {isLoadingPlants && (
-              <View style={{ height: 240, justifyContent: 'center' }}>
+              <View style={{ height: 300, justifyContent: 'center', marginTop: 10 }}>
                 <SkeletonPlaceholder highlightColor="rgba(4, 255, 4, 0.108)">
                   <SkeletonPlaceholder.Item flexDirection="row" >
                     <SkeletonPlaceholder.Item width={200} marginLeft={20} height={300} borderRadius={10} />

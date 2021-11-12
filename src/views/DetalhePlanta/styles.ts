@@ -62,5 +62,18 @@ export const styles = StyleSheet.create({
     height: 30,
     width: 20,
     alignItems: 'flex-end'
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: '#009dff',
+  },
+  button: {
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   }
 })
