@@ -67,8 +67,8 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
     }
 
     const errorFunc = (err) => {
-      setIsRequiringWaterSolictation(false)
-      Toast.show({ title: "Erro!", description: "Ocorreu ao tentar regar a sua planta!", status: "error", duration: 3000, placement: "top", })
+      //Qnd nao tem registro, retorna solicitacao nao encontrada
+      makeRega();
       return;
     }
 
@@ -86,7 +86,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
     }
 
     const successFunc = (res) => {
-      Toast.show({ title: "Sucesso", description: "Solicitação de rega enviado com sucesso!", status: "error", duration: 3000, placement: "top", })
+      Toast.show({ title: "Sucesso", description: "Solicitação de rega enviado com sucesso!", status: "sucess", duration: 3000, placement: "top", })
       setIsRequiringWaterSolictation(false)
       return;
     }
