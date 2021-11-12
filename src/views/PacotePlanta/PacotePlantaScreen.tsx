@@ -2,7 +2,7 @@ import { Heading } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react'
 import { Image, Text, View, ScrollView, Pressable, Touchable, TouchableOpacity } from 'react-native'
 import { MeasureIndicator } from '../../components';
-import { Pacote, Planta } from '../../models';
+import { Planta, UsuarioPlanta } from '../../models';
 import { getImageSource, grayLight } from '../../utils';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { styles } from './styles';
@@ -15,8 +15,8 @@ interface Props {
 
 export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   const { route } = props;
-  const { pacote, image }: { pacote: Pacote, image: string } = route.params;
-  const [myPlants, setMyPlants] = useState<Array<Planta>>([]);
+  const { planta, image }: { planta: Planta, image: string } = route.params;
+  const [plantasUsuario, setPlantasUsuario] = useState<Array<UsuarioPlanta>>([]);
 
   useEffect(() => {
     getMyPlants();
@@ -25,8 +25,8 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
   const getMyPlants = async () => {
     let myPlantsString = await AsyncStorage.getItem(MyPlantsConstant)
     if (myPlantsString != null) {
-      let myPlants: Array<Planta> = JSON.parse(myPlantsString);
-      setMyPlants(myPlants)
+      let plantasUsuario: Array<UsuarioPlanta> = JSON.parse(myPlantsString);
+      setPlantasUsuario(plantasUsuario)
     }
   }
 
@@ -50,7 +50,7 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
           <View style={styles.overview}>
             <View style={{ height: 20 }} />
             <View style={{ flexDirection: 'row' }}>
-              <Heading style={{ width: "80%" }} size="md">{pacote.especie}</Heading>
+              <Heading style={{ width: "80%" }} size="md">{planta.especie}</Heading>
               <Pressable
                 android_ripple={{ color: grayLight, radius: 40 }}
                 onPress={() => rbSheetRef.open()}
@@ -67,14 +67,14 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
                 width={"50%"}
                 unit={"°C"}
                 description={"Temp."}
-                value={pacote.temperatura_ideal}
+                value={planta.temperatura_ideal}
               />
 
               <MeasureIndicator
                 width={"50%"}
                 unit={"%"}
                 description={"Ar"}
-                value={pacote.umidade_ar_ideal}
+                value={planta.umidade_ar_ideal}
               />
             </View>
 
@@ -85,20 +85,20 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
                 width={"50%"}
                 unit={"%"}
                 description={"Solo"}
-                value={pacote.umidade_solo_ideal}
+                value={planta.umidade_solo_ideal}
               />
 
               <MeasureIndicator
                 width={"50%"}
                 unit={"%"}
                 description={"Luz"}
-                value={pacote.luminosidade_ideal}
+                value={planta.luminosidade_ideal}
               />
             </View>
             <View style={{ height: 20 }} />
 
             <Heading size="sm" style={{ color: 'green' }}>Descrição</Heading>
-            <Text style={styles.text}>{pacote.descricao}</Text>
+            <Text style={styles.text}>{planta.descricao}</Text>
 
             <View style={{ height: 40 }} />
           </View>
@@ -117,17 +117,14 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
           <ScrollView>
             <View style={{ alignItems: 'center' }}>
               <View style={{ height: 10 }} />
-              {myPlants.map((plant, index) => (
-                <>
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.myPlantOptionContainer}
-                    onPress={handleSetConfigOnMyPlant}
-                  >
-                    <Text style={styles.myPlantText}>{plant.nome}</Text>
-                  </TouchableOpacity>
-                  <View style={{ height: 10 }} />
-                </>
+              {plantasUsuario.map((plant, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.myPlantOptionContainer}
+                  onPress={handleSetConfigOnMyPlant}
+                >
+                  <Text style={styles.myPlantText}>{plant.nome}</Text>
+                </TouchableOpacity>
               ))}
             </View>
           </ScrollView>

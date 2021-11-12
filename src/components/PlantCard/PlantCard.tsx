@@ -1,17 +1,20 @@
 import React from 'react'
-import { Image, ImageSourcePropType, StyleSheet, Text, View, TouchableOpacity, Pressable } from 'react-native'
+import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from 'react-native'
 import { grayLight } from '../../utils';
 
 interface Props {
   nome: string,
-  temperatura: number,
-  umidade: number,
+  tempIdeal: string,
+  soloIdeal: string,
+  arIdeal: string,
+  lumIdeal: string,
   image: ImageSourcePropType,
   onPress: () => void
+
 }
 
 export const PlantCard: React.FC<Props> = (props: Props) => {
-  const { nome, temperatura, umidade, image, onPress } = props;
+  const { nome, arIdeal, lumIdeal, soloIdeal, tempIdeal, image, onPress } = props;
 
   return (
     <View style={styles.card}>
@@ -20,32 +23,38 @@ export const PlantCard: React.FC<Props> = (props: Props) => {
           <Image resizeMode="contain" style={{ height: 80, width: 80, borderRadius: 50 }} source={image} />
         </View>
       </View>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={{ height: '30%', width: '100%', }}>
-          <Text style={[styles.text, { fontSize: 15 }]}>{nome}</Text>
-          <Text style={[styles.text, { color: 'red' }]}>T: {temperatura}°C</Text>
-          <Text style={[styles.text, { color: 'blue' }]}>U: {umidade}%</Text>
-        </View>
-        <Pressable
-          style={styles.detalhesButton}
-          onPress={onPress}
-          android_ripple={{ color: grayLight, radius: 20, borderless: true }}
-        >
-          <Text style={styles.buttonText}>{">"}</Text>
-        </Pressable >
+      <View style={{ height: '60%', width: '100%' }}>
+        <Text style={[styles.text, { fontSize: 16 }]} numberOfLines={2} ellipsizeMode='tail'>{nome}</Text>
+
+        <View style={{ height: 10 }} />
+        <Text style={[styles.text, { color: 'gray', fontWeight: 'bold' }]}>Medições Ideais:</Text>
+        <Text style={[styles.text, { color: 'red' }]}>Temp: {tempIdeal}</Text>
+        <Text style={[styles.text, { color: 'blue' }]}>Ar: {arIdeal}</Text>
+        <Text style={[styles.text, { color: 'brown' }]}>Solo: {soloIdeal}</Text>
+        <Text style={[styles.text, { color: '#8B8000' }]}>Lum: {lumIdeal}</Text>
       </View>
-    </View>
+      <Pressable
+        style={styles.detalhesButton}
+        onPress={onPress}
+        android_ripple={{ color: grayLight, radius: 20, borderless: true }}
+      >
+        <Text style={styles.buttonText}>{">"}</Text>
+      </Pressable >
+    </View >
   )
 }
 
 const styles = StyleSheet.create({
   card: {
     paddingLeft: 10,
+    paddingRight: 10,
     textAlign: 'left',
     margin: 10,
+    marginBottom: 15,
     borderRadius: 10,
-    height: 220,
-    width: 160,
+    height: 300,
+    width: 200,
+
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: "white",
@@ -79,7 +88,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   imageContainer: {
-    height: '60%',
+    height: '40%',
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center'
@@ -97,5 +106,4 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white", textAlign: 'center', fontSize: 18, fontWeight: 'bold'
   }
-
 })
