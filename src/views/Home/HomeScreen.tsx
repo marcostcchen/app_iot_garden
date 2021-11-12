@@ -28,19 +28,6 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
     getPlants();
   }, [])
 
-  const backButtonHandler = () => {
-    BackHandler.exitApp();
-    return true;
-  }
-
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backButtonHandler);
-
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", backButtonHandler);
-    };
-  }, [backButtonHandler]);
-
   const getPlants = () => {
     const path = 'plants';
 
