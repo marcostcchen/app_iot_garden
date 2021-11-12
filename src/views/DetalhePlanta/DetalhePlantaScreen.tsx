@@ -86,7 +86,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
     }
 
     const successFunc = (res) => {
-      Toast.show({ title: "Sucesso", description: "Solicitação de rega enviado com sucesso!", status: "sucess", duration: 3000, placement: "top", })
+      Toast.show({ title: "Sucesso", description: "Solicitação de rega enviado com sucesso!", status: "success", duration: 3000, placement: "top", })
       setIsRequiringWaterSolictation(false)
       return;
     }
