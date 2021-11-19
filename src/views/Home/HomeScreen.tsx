@@ -6,7 +6,7 @@ import { PlantCard, UserPlantCard, ModalNewPlant } from '../../components';
 import { Planta, User, UsuarioPlanta } from '../../models';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MyPlantsConstant, apiUrl, UserConstant, grayLight } from '../../utils';
+import { MyPlantsConstant, apiUrl, UserConstant, grayLight, verifyIfPlantsHasWarning } from '../../utils';
 import axios from 'axios';
 
 interface Props {
@@ -77,6 +77,12 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
       await AsyncStorage.setItem(MyPlantsConstant, JSON.stringify(userPlants))
       setUserPlants(userPlants);
       setIsLoadingUserPlants(false);
+
+      const warning = verifyIfPlantsHasWarning(userPlants);
+      if(warning) {
+        Toast.show({ title: "Alerta!", description: warning, status: "warning", duration: 7000, placement: "top", })
+      }
+
       setIsRefreshing(false)
     }
 

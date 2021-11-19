@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import { Heading, Toast, } from 'native-base';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, View, ScrollView, Pressable, RefreshControl, Text, ActivityIndicator } from 'react-native'
 import { ModalPlantConfig } from '../../components';
 import { Medicao, UsuarioPlanta, WaterSolicitation } from '../../models';
-import { apiUrl, getImageSource, grayLight } from '../../utils';
+import { apiUrl, getImageSource, grayLight, verifyIfPlantsHasWarning } from '../../utils';
 import { Historico } from './Historico';
 import { styles } from './styles';
 import { UltimasMedicoes } from './UltimasMedicoes';
@@ -23,6 +23,10 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
   let imageSource = getImageSource(image);
   const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes.slice(usuarioPlanta.medicoes.length - 4, usuarioPlanta.medicoes.length))
 
+  useEffect(() => {
+    refreshInfo();
+  }, [])
+
   const refreshInfo = () => {
     setIsRefreshing(true);
     getLastMeasures();
@@ -30,11 +34,15 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
   const getLastMeasures = () => {
     const idUserPlant = usuarioPlanta.id;
-    const path = `user/plant/${idUserPlant}/measurements`;
+    const path = `user/plant/${idUserPlant}`;
 
     const successFunc = (res) => {
-      const medicoes = res.data;
-      setMedicoes(medicoes)
+      const usuarioPlanta: UsuarioPlanta = res.data;
+      setMedicoes(usuarioPlanta.medicoes.slice(usuarioPlanta.medicoes.length - 4, usuarioPlanta.medicoes.length))
+      const warning = verifyIfPlantsHasWarning([usuarioPlanta]);
+      if (warning) {
+        Toast.show({ title: "Alerta!", description: warning, status: "warning", duration: 7000, placement: "top", })
+      }
       setIsRefreshing(false)
     }
 

@@ -61,10 +61,18 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 50,
     zIndex: 20,
-    width: '90%',
+    width: '85%',
     backgroundColor: 'white',
     borderRadius: 30,
-    borderWidth: 0.3,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    elevation: 7,
   },
   bePremiumText: {
     fontSize: 18,

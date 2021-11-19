@@ -9,7 +9,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, [])
-
+  
   return (
     <NativeBaseProvider>
       <NavigationContainer>

@@ -1,3 +1,5 @@
+import { UsuarioPlanta } from "../models";
+
 export const apiUrl = "https://ashrmbvd5d.execute-api.us-east-1.amazonaws.com/dev";
 
 export const getImageSource = (image: string) => {
@@ -13,5 +15,25 @@ export const getImageSource = (image: string) => {
       imageSource = require("../images/plant3.png")
       break;
   }
-return imageSource;
+  return imageSource;
+}
+
+export const verifyIfPlantsHasWarning = (userPlants: Array<UsuarioPlanta>) => {
+  let warning = null;
+  
+  userPlants.forEach(plant => {
+    if(warning != null) return;
+
+    const { umidade_ar_ideal, luminosidade_ideal, temperatura_maxima, temperatura_minima, umidade_solo_ideal } = plant;
+    const lastMeasure = plant.medicoes[plant.medicoes.length - 1]
+
+    const margem = 5
+    
+    if (parseFloat(lastMeasure.temperatura) > parseFloat(temperatura_maxima)) warning = `Planta ${plant.nome} com temperatura muito alta!`;
+    if (parseFloat(lastMeasure.temperatura) < parseFloat(temperatura_minima)) warning = `Planta ${plant.nome} com temperatura muito baixa!`;
+    if (parseFloat(lastMeasure.luminosidade) > parseFloat(luminosidade_ideal) + margem || parseFloat(lastMeasure.luminosidade) < parseFloat(luminosidade_ideal) - margem) warning = `Planta ${plant.nome} com temperatura muito alta!`;
+    if (parseFloat(lastMeasure.umidade) > parseFloat(umidade_ar_ideal) + margem || parseFloat(lastMeasure.umidade) < parseFloat(umidade_ar_ideal) - margem) warning = `Planta ${plant.nome} com temperatura muito alta!`;
+    // if (parseFloat(lastMeasure.) > parseFloat(luminosidade_ideal) + margem || parseFloat(lastMeasure.luminosidade) < parseFloat(luminosidade_ideal) - margem) return `Planta ${plant.nome} com temperatura muito alta!`;
+  })
+  return warning;
 }
