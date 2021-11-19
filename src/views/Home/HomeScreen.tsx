@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, FlatList, BackHandler, StatusBar, RefreshControl, Text, Pressable } from 'react-native';
+import { View, ScrollView, FlatList, StatusBar, RefreshControl, Text, Pressable } from 'react-native';
 import { Heading, Toast } from 'native-base'
 import { styles } from './styles';
 import { PlantCard, UserPlantCard, ModalNewPlant } from '../../components';
@@ -16,30 +16,26 @@ interface Props {
 export const HomeScreen: React.FC<Props> = (props: Props) => {
   const { navigation } = props;
   const [plant, setPlants] = useState<Array<Planta>>([]);
-  const [userPlants, setUserPlants] = useState<Array<any>>([]);
+  const [userPlants, setUserPlants] = useState<Array<UsuarioPlanta>>([]);
   const [isLoadingUserPlants, setIsLoadingUserPlants] = useState(true);
   const [isLoadingPlants, setIsLoadingPlants] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isVisibleModalNewPlant, setIsVisibleModalNewPlant] = useState(false);
-
+  const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
-    getPlantCards();
+    getPlantUserPlants();
     getPlants();
+    verifyIsPremium();
   }, [])
 
-  const backButtonHandler = () => {
-    BackHandler.exitApp();
-    return true;
+  const verifyIsPremium = async () => {
+    const userString = await AsyncStorage.getItem(UserConstant);
+    if (userString != null) {
+      const user: User = JSON.parse(userString);
+      setIsPremium(user.premium)
+    }
   }
-
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backButtonHandler);
-
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", backButtonHandler);
-    };
-  }, [backButtonHandler]);
 
   const getPlants = () => {
     const path = 'plants';
@@ -64,7 +60,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
       .catch(errorFunc);
   }
 
-  const getPlantCards = async () => {
+  const getPlantUserPlants = async () => {
     const userString = await AsyncStorage.getItem(UserConstant);
     if (userString == null) {
       setIsLoadingPlants(false);
@@ -77,7 +73,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
     const path = `user/${user.id}/plants`;
 
     const successFunc = async (res) => {
-      const userPlants = res.data;
+      const userPlants: Array<UsuarioPlanta> = res.data;
       await AsyncStorage.setItem(MyPlantsConstant, JSON.stringify(userPlants))
       setUserPlants(userPlants);
       setIsLoadingUserPlants(false);
@@ -147,16 +143,6 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             onPress={() => navigation.navigate("DetalhePlanta", { usuarioPlanta, image: imageName })}
           />
         )}
-        {index == userPlants.length - 1 && (
-          <View style={[styles.card, { backgroundColor: '#D3D3D3' }]}>
-            <Pressable
-              onPress={() => setIsVisibleModalNewPlant(true)}
-              android_ripple={{ color: grayLight, radius: 35, borderless: true }}
-              style={[styles.circle, { backgroundColor: '#F5F5F5' }]}>
-              <Text style={styles.plus}>+</Text>
-            </Pressable>
-          </View>
-        )}
       </>
     )
   };
@@ -218,7 +204,11 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
   const refreshInfo = () => {
     setIsRefreshing(true);
     getPlants();
-    getPlantCards()
+    getPlantUserPlants()
+  }
+
+  const setPremium = () => {
+    setIsPremium(true);
   }
 
   return (
@@ -275,12 +265,30 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             )}
 
             {!isLoadingPlants && (
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={plant}
-                renderItem={renderBundles}
-              />
+              <View>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={plant}
+                  renderItem={renderBundles}
+                />
+
+                {!isPremium && (
+                  <>
+                    <View style={styles.bePremiumOpacityContainer}></View>
+                    <View style={styles.bePremiumContainer}>
+                      <Text style={styles.bePremiumText}>Seja Premium e receba diversas dicas e recomendações para cuidar da sua planta!</Text>
+                      <Pressable
+                        style={styles.bePremiumButton}
+                        onPress={setPremium}
+                        android_ripple={{ color: grayLight, radius: 70 }}
+                      >
+                        <Text style={{ textAlign: 'center', fontSize: 16 }}>Assinar Premium</Text>
+                      </Pressable >
+                    </View>
+                  </>
+                )}
+              </View>
             )}
           </View>
 

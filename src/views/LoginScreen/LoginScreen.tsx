@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Image, ImageBackground, Keyboard, StatusBar, Text, Vibration, View } from 'react-native'
+import { ActivityIndicator, Image, ImageBackground, Keyboard, StatusBar, Text, Vibration, View } from 'react-native'
 import { Button, Input, Toast, } from 'native-base';
 import { styles } from './styles';
 import { apiUrl, UserConstant } from '../../utils';
@@ -11,6 +11,7 @@ interface Props {
 
 export const LoginScreen: React.FC<Props> = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
 
@@ -18,6 +19,21 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
 
   let senhaRef: any = useRef();
 
+  useEffect(() => {
+    verifyLogged()
+  }, [])
+
+  const verifyLogged = async () => {
+    const logged = await AsyncStorage.getItem(UserConstant);
+    if (logged) {
+      setTimeout(() => {
+        navigation.navigate("Drawer")
+        setIsInitialLoading(false)
+      }, 1000)
+    } else {
+      setIsInitialLoading(false)
+    }
+  }
 
   const handleLogin = () => {
     setIsLoading(true);
@@ -57,48 +73,55 @@ export const LoginScreen: React.FC<Props> = (props: Props) => {
         <Text style={styles.title}>Jardim Inteligente</Text>
       </View>
       <View style={{ height: 20 }} />
-      <View style={styles.loginContainer}>
-        <View style={styles.inputsContainer} >
-          <Input
-            size="md"
-            style={styles.input}
-            placeholder="Login"
-            value={login}
-            onChangeText={(text) => setLogin(text)}
-            autoCapitalize='none'
-            onSubmitEditing={() => senhaRef.focus()}
-          />
 
-          <View style={{ height: 20 }} />
+      {isInitialLoading && (
+        <ActivityIndicator size="large" color="gray" />
+      )}
 
-          <Input
-            size="md"
-            style={styles.input}
-            placeholder="Senha"
-            value={senha}
-            secureTextEntry
-            onChangeText={(text) => setSenha(text)}
-            ref={(ref) => senhaRef = ref}
-            autoCapitalize='none'
-            onSubmitEditing={handleLogin}
-          />
+      {!isInitialLoading && (
+        <View style={styles.loginContainer}>
+          <View style={styles.inputsContainer} >
+            <Input
+              size="md"
+              style={styles.input}
+              placeholder="Login"
+              value={login}
+              onChangeText={(text) => setLogin(text)}
+              autoCapitalize='none'
+              onSubmitEditing={() => senhaRef.focus()}
+            />
 
-          <View style={{ height: 20 }} />
-          <View style={styles.buttonContainer}>
-            <Button
-              style={styles.button}
-              isLoading={isLoading}
-              spinnerPlacement="end"
-              isLoadingText=""
-              onPress={handleLogin}
-            >
-              {!isLoading && (
-                <Text style={styles.entrarText}>{">"}</Text>
-              )}
-            </Button>
+            <View style={{ height: 20 }} />
+
+            <Input
+              size="md"
+              style={styles.input}
+              placeholder="Senha"
+              value={senha}
+              secureTextEntry
+              onChangeText={(text) => setSenha(text)}
+              ref={(ref) => senhaRef = ref}
+              autoCapitalize='none'
+              onSubmitEditing={handleLogin}
+            />
+
+            <View style={{ height: 20 }} />
+            <View style={styles.buttonContainer}>
+              <Button
+                style={styles.button}
+                isLoading={isLoading}
+                spinnerPlacement="end"
+                isLoadingText=""
+                onPress={handleLogin}
+              >
+                {!isLoading && (
+                  <Text style={styles.entrarText}>{">"}</Text>
+                )}
+              </Button>
+            </View>
           </View>
         </View>
-      </View>
+      )}
     </ImageBackground>
   )
 }

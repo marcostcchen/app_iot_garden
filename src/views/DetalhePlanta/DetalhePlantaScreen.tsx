@@ -21,7 +21,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
   const [isRequiringWaterSolictation, setIsRequiringWaterSolictation] = useState(false)
 
   let imageSource = getImageSource(image);
-  const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes)
+  const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes.slice(usuarioPlanta.medicoes.length - 4, usuarioPlanta.medicoes.length))
 
   const refreshInfo = () => {
     setIsRefreshing(true);

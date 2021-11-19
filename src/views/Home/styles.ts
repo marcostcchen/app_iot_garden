@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { alignItems } from 'styled-system';
 
 export const styles = StyleSheet.create({
   menuContainer: {
@@ -55,5 +56,36 @@ export const styles = StyleSheet.create({
   plus: {
     height: 50, width: 50, color: 'gray', fontSize: 40, lineHeight: 48, alignItems: 'center', textAlignVertical: 'center', textAlign: 'center'
   },
- 
+  bePremiumContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    marginVertical: 50,
+    zIndex: 20,
+    width: '90%',
+    backgroundColor: 'white',
+    borderRadius: 30,
+    borderWidth: 0.3,
+  },
+  bePremiumText: {
+    fontSize: 18,
+    color: 'black',
+    padding: 20,
+    textAlign: 'center',
+    opacity: 1,
+
+  },
+  bePremiumButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: 'brown',
+    height: 70,
+    alignSelf: 'center',
+    marginBottom: 20,
+    width: 140,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  bePremiumOpacityContainer: {
+    position: 'absolute', zIndex: 20, backgroundColor: 'white', opacity: 0.7, height: '100%', width: '100%'
+  }
 });
