@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Image, View, ScrollView, Pressable, RefreshControl, Text, ActivityIndicator } from 'react-native'
 import { ModalPlantConfig } from '../../components';
 import { Medicao, UsuarioPlanta, WaterSolicitation } from '../../models';
-import { apiUrl, getImageSource, grayLight, verifyIfPlantsHasWarning } from '../../utils';
+import { apiUrl, getImageSource, getInitialMeasureIndex, grayLight, verifyIfPlantsHasWarning } from '../../utils';
 import { Historico } from './Historico';
 import { styles } from './styles';
 import { UltimasMedicoes } from './UltimasMedicoes';
@@ -21,8 +21,8 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
   const [isRequiringWaterSolictation, setIsRequiringWaterSolictation] = useState(false)
 
   let imageSource = getImageSource(image);
-  const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes.slice(usuarioPlanta.medicoes.length - 4, usuarioPlanta.medicoes.length))
-
+  const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes.slice(getInitialMeasureIndex(usuarioPlanta.medicoes.length), usuarioPlanta.medicoes.length))
+  
   useEffect(() => {
     refreshInfo();
   }, [])
@@ -38,7 +38,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
     const successFunc = (res) => {
       const usuarioPlanta: UsuarioPlanta = res.data;
-      setMedicoes(usuarioPlanta.medicoes.slice(usuarioPlanta.medicoes.length - 4, usuarioPlanta.medicoes.length))
+      setMedicoes(usuarioPlanta.medicoes.slice(getInitialMeasureIndex(usuarioPlanta.medicoes.length), usuarioPlanta.medicoes.length))
       const warning = verifyIfPlantsHasWarning([usuarioPlanta]);
       if (warning) {
         Toast.show({ title: "Alerta!", description: warning, status: "warning", duration: 7000, placement: "top", })
@@ -110,7 +110,16 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
       .catch(errorFunc);
   }
 
-  const ultimaMedicao = medicoes.reduce((max, medicao) => new Date(max.created_at) > new Date(medicao.created_at) ? max : medicao);
+  const initialValue: Medicao = {
+    id: "-1",
+    luminosidade: "-1",
+    id_usuario_planta: "-1",
+    created_at: "-1",
+    temperatura: "-1",
+    umidade_ar: "-1",
+    umidade_solo: "-1",
+  }
+  const ultimaMedicao = medicoes.reduce((max, medicao) => new Date(max.created_at) > new Date(medicao.created_at) ? max : medicao, initialValue);
 
   return (
     <>

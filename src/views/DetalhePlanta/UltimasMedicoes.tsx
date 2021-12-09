@@ -26,7 +26,7 @@ export const UltimasMedicoes: React.FC<Props> = (props: Props) => {
           width={"50%"}
           unit={"%"}
           description={"Ar"}
-          value={" - "}
+          value={(parseFloat(medicao.umidade_ar)*100).toString()}
         />
       </View>
 
@@ -37,14 +37,14 @@ export const UltimasMedicoes: React.FC<Props> = (props: Props) => {
           width={"50%"}
           unit={"%"}
           description={"Solo"}
-          value={medicao.umidade}
+          value={(parseFloat(medicao.umidade_solo)*100).toString()}
         />
 
         <MeasureIndicator
           width={"50%"}
           unit={"%"}
           description={"Luz"}
-          value={medicao.luminosidade}
+          value={(parseFloat(medicao.luminosidade)*100).toString()}
         />
       </View>
     </View>

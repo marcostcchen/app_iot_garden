@@ -3,7 +3,7 @@ import { View, ScrollView, FlatList, StatusBar, RefreshControl, Text, Pressable 
 import { Heading, Toast } from 'native-base'
 import { styles } from './styles';
 import { PlantCard, UserPlantCard, ModalNewPlant } from '../../components';
-import { Planta, User, UsuarioPlanta } from '../../models';
+import { Medicao, Planta, User, UsuarioPlanta } from '../../models';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MyPlantsConstant, apiUrl, UserConstant, grayLight, verifyIfPlantsHasWarning } from '../../utils';
@@ -50,7 +50,6 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
     const errorFunc = (err) => {
       setIsLoadingPlants(false);
       setIsRefreshing(false)
-
       Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar os plant!", status: "error", duration: 3000, placement: "top", })
       return;
     }
@@ -65,6 +64,7 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
     if (userString == null) {
       setIsLoadingPlants(false);
       setIsRefreshing(false)
+
       Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as suas plantas!", status: "error", duration: 3000, placement: "top", })
       return;
     }
@@ -79,15 +79,17 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
       setIsLoadingUserPlants(false);
 
       const warning = verifyIfPlantsHasWarning(userPlants);
-      if(warning) {
+      if (warning) {
         Toast.show({ title: "Alerta!", description: warning, status: "warning", duration: 7000, placement: "top", })
       }
 
       setIsRefreshing(false)
+      return;
     }
 
     const errorFunc = (err) => {
       setIsLoadingUserPlants(false);
+
       Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as suas plantas!", status: "error", duration: 3000, placement: "top", })
       return;
     }
@@ -119,7 +121,16 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
         break;
     }
 
-    const lastMeasure = usuarioPlanta.medicoes.reduce((max, medicao) => new Date(max.created_at) > new Date(medicao.created_at) ? max : medicao);
+    const initialValue: Medicao = {
+      id: "-1",
+      luminosidade: "-1",
+      id_usuario_planta: "-1",
+      created_at: "-1",
+      temperatura: "-1",
+      umidade_ar: "-1",
+      umidade_solo: "-1",
+    }
+    const lastMeasure = usuarioPlanta.medicoes.reduce((max, medicao) => new Date(max.created_at) > new Date(medicao.created_at) ? max : medicao, initialValue);
 
     return (
       <>
@@ -129,8 +140,8 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
               key={index}
               nome={usuarioPlanta.nome}
               temperatura={lastMeasure.temperatura ?? " - "}
-              ar={lastMeasure.umidade ?? " - "}
-              solo={" - "}
+              ar={lastMeasure.umidade_ar ?? " - "}
+              solo={lastMeasure.umidade_solo ?? " - "}
               luminosidade={lastMeasure.luminosidade ?? " - "}
               image={image}
               onPress={() => navigation.navigate("DetalhePlanta", { usuarioPlanta, image: imageName })}
@@ -142,8 +153,8 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
             key={index}
             nome={usuarioPlanta.nome}
             temperatura={lastMeasure.temperatura ?? " - "}
-            ar={" - "}
-            solo={lastMeasure.umidade ?? " - "}
+            ar={lastMeasure.umidade_ar}
+            solo={lastMeasure.umidade_solo ?? " - "}
             luminosidade={lastMeasure.luminosidade ?? " - "}
             image={image}
             onPress={() => navigation.navigate("DetalhePlanta", { usuarioPlanta, image: imageName })}
@@ -213,8 +224,33 @@ export const HomeScreen: React.FC<Props> = (props: Props) => {
     getPlantUserPlants()
   }
 
-  const setPremium = () => {
-    setIsPremium(true);
+  const setPremium = async () => {
+    const userString = await AsyncStorage.getItem(UserConstant);
+    if (userString == null) {
+      setIsLoadingPlants(false);
+      setIsRefreshing(false)
+      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as suas plantas!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
+
+    const user: User = JSON.parse(userString);
+    const path = `user/${user.id}?premium=true`;
+
+    const successFunc = async (res) => {
+      user.premium = true;
+      await AsyncStorage.setItem(UserConstant, JSON.stringify(user));
+      setIsPremium(true);
+    }
+
+    const errorFunc = (err) => {
+      setIsRefreshing(false)
+      Toast.show({ title: "Erro!", description: "Ocorreu um erro ao listar as plantas!", status: "error", duration: 3000, placement: "top", })
+      return;
+    }
+
+    axios.put(`${apiUrl}/${path}`)
+      .then(successFunc)
+      .catch(errorFunc);
   }
 
   return (

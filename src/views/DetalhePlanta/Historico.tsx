@@ -39,12 +39,12 @@ export const Historico: React.FC<Props> = (props: Props) => {
   }
 
   const handleSetSolos = () => {
-    const solos = medicoes.map((medicao) => Number(medicao.umidade))
+    const solos = medicoes.map((medicao) => Number(medicao.umidade_solo))
     setSolos(solos)
   }
 
   const handleSetAres = () => {
-    const ares = medicoes.map((medicao) => 0)
+    const ares = medicoes.map((medicao) => Number(medicao.umidade_ar))
     setAres(ares)
   }
 
