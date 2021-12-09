@@ -1,5 +1,5 @@
-import React from 'react'
-import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from 'react-native';
 import { grayLight } from '../../utils';
 
 interface Props {
@@ -28,10 +28,10 @@ export const PlantCard: React.FC<Props> = (props: Props) => {
 
         <View style={{ height: 10 }} />
         <Text style={[styles.text, { color: 'gray', fontWeight: 'bold' }]}>Medições Ideais:</Text>
-        <Text style={[styles.text, { color: 'red' }]}>Temp: {tempIdeal}</Text>
-        <Text style={[styles.text, { color: 'blue' }]}>Ar: {arIdeal}</Text>
-        <Text style={[styles.text, { color: 'brown' }]}>Solo: {soloIdeal}</Text>
-        <Text style={[styles.text, { color: '#8B8000' }]}>Lum: {lumIdeal}</Text>
+        <Text style={[styles.text, { color: 'red' }]}>Temp: {tempIdeal}°C</Text>
+        <Text style={[styles.text, { color: 'blue' }]}>Ar: {(parseFloat(arIdeal)*100).toString()}%</Text>
+        <Text style={[styles.text, { color: 'brown' }]}>Solo: {(parseFloat(soloIdeal)*100).toString()}%</Text>
+        <Text style={[styles.text, { color: '#8B8000' }]}>Lum: {(parseFloat(lumIdeal)*100).toString()}%</Text>
       </View>
       <Pressable
         style={styles.detalhesButton}

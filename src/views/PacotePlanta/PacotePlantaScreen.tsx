@@ -74,7 +74,7 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
                 width={"50%"}
                 unit={"%"}
                 description={"Ar"}
-                value={planta.umidade_ar_ideal}
+                value={(parseFloat(planta.umidade_ar_ideal)*100).toString()}
               />
             </View>
 
@@ -85,14 +85,14 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
                 width={"50%"}
                 unit={"%"}
                 description={"Solo"}
-                value={planta.umidade_solo_ideal}
+                value={(parseFloat(planta.umidade_solo_ideal)*100).toString()}
               />
 
               <MeasureIndicator
                 width={"50%"}
                 unit={"%"}
                 description={"Luz"}
-                value={planta.luminosidade_ideal}
+                value={(parseFloat(planta.luminosidade_ideal)*100).toString()}
               />
             </View>
             <View style={{ height: 20 }} />

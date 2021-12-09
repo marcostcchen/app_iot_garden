@@ -29,9 +29,9 @@ export const UserPlantCard: React.FC<Props> = (props: Props) => {
           <View style={{ height: 10 }} />
           <Text style={[styles.text, { color: 'gray', fontWeight: 'bold' }]}>Ultimas Medições</Text>
           <Text style={[styles.text, { color: 'red' }]}>Temp: {temperatura}°C</Text>
-          <Text style={[styles.text, { color: 'blue' }]}>Ar: {ar}%</Text>
-          <Text style={[styles.text, { color: 'brown' }]}>Solo: {solo}%</Text>
-          <Text style={[styles.text, { color: '#8B8000' }]}>Lum: {luminosidade}%</Text>
+          <Text style={[styles.text, { color: 'blue' }]}>Ar: {(parseFloat(ar)*100).toString()}%</Text>
+          <Text style={[styles.text, { color: 'brown' }]}>Solo: {(parseFloat(solo)*100).toString()}%</Text>
+          <Text style={[styles.text, { color: '#8B8000' }]}>Lum: {(parseFloat(luminosidade)*100).toString()}%</Text>
         </View>
         <Pressable
           style={styles.detalhesButton}
