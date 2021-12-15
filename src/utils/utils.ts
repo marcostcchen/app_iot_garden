@@ -24,19 +24,21 @@ export const verifyIfPlantsHasWarning = (userPlants: Array<UsuarioPlanta>) => {
     if (warning != null) return;
     if (!!!plant.medicoes) return;
 
-    const { umidade_ar_ideal, luminosidade_ideal, temperatura_maxima, temperatura_minima, umidade_solo_ideal } = plant;
+    const { umidade_ar_ideal, luminosidade_ideal, temperatura_maxima, temperatura_minima, umidade_solo_ideal } = plant.planta;
     const lastMeasure = plant.medicoes[plant.medicoes.length - 1]
 
     if (!!!lastMeasure) return;
 
     const margem = 5
 
-    if (parseFloat(lastMeasure.temperatura) > parseFloat(temperatura_maxima)) warning = `Planta ${plant.nome} com temperatura muito alta!`;
-    if (parseFloat(lastMeasure.temperatura) < parseFloat(temperatura_minima)) warning = `Planta ${plant.nome} com temperatura muito baixa!`;
-    if (parseFloat(lastMeasure.luminosidade) > parseFloat(luminosidade_ideal) + margem || parseFloat(lastMeasure.luminosidade) < parseFloat(luminosidade_ideal) - margem) warning = `Planta ${plant.nome} com temperatura muito alta!`;
-    if (parseFloat(lastMeasure.umidade_ar) > parseFloat(umidade_ar_ideal) + margem || parseFloat(lastMeasure.umidade_ar) < parseFloat(umidade_ar_ideal) - margem) warning = `Planta ${plant.nome} com temperatura muito alta!`;
-    if (parseFloat(lastMeasure.umidade_solo) > parseFloat(umidade_solo_ideal) + margem || parseFloat(lastMeasure.umidade_solo) < parseFloat(umidade_ar_ideal) - margem) warning = `Planta ${plant.nome} com temperatura muito alta!`;
-    // if (parseFloat(lastMeasure.) > parseFloat(luminosidade_ideal) + margem || parseFloat(lastMeasure.luminosidade) < parseFloat(luminosidade_ideal) - margem) return `Planta ${plant.nome} com temperatura muito alta!`;
+    if (parseFloat(lastMeasure.temperatura) > parseFloat(temperatura_maxima)) warning = `${plant.nome} com temperatura muito alta!${"\n"}Temperatura Máxima configurada ${temperatura_maxima}`;
+    if (parseFloat(lastMeasure.temperatura) < parseFloat(temperatura_minima)) warning = `${plant.nome} com temperatura muito baixa!${"\n"}Temperatura Mínima configurada ${temperatura_minima}`;
+    if (parseFloat(lastMeasure.luminosidade) > parseFloat(luminosidade_ideal) + margem) warning = `${plant.nome} com luminosidade muito alta!${"\n"}Luminosidade configurada é de ${luminosidade_ideal}%`;
+    if (parseFloat(lastMeasure.luminosidade) < parseFloat(luminosidade_ideal) - margem) warning = `${plant.nome} com luminosidade muito baixa!${"\n"}Luminosidade configurada é de ${luminosidade_ideal}%`;
+    if (parseFloat(lastMeasure.umidade_ar) > parseFloat(umidade_ar_ideal) + margem) warning = `Planta ${plant.nome} está com umidade do ar muito alta!${"\n"}Umidade configurada é de ${umidade_ar_ideal}%`;
+    if (parseFloat(lastMeasure.umidade_ar) < parseFloat(umidade_ar_ideal) - margem) warning = `Planta ${plant.nome} está com umidade do ar muito baixa!${"\n"}Umidade configurada é de ${umidade_ar_ideal}%`;
+    if (parseFloat(lastMeasure.umidade_solo) > parseFloat(umidade_solo_ideal) + margem) warning = `Planta ${plant.nome} está com umidade do solo muito alta!${"\n"}Umidade configurada é de ${umidade_solo_ideal}%`;
+    if (parseFloat(lastMeasure.umidade_solo) < parseFloat(umidade_solo_ideal) - margem) warning = `Planta ${plant.nome} está com alerta do solo muito baixa!${"\n"}Umidade configurada é de ${umidade_solo_ideal}%`;
   })
   return warning;
 }
