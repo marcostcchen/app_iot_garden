@@ -51,12 +51,12 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
             <View style={{ height: 20 }} />
             <View style={{ flexDirection: 'row' }}>
               <Heading style={{ width: "80%" }} size="md">{planta.especie}</Heading>
-              <Pressable
+              {/* <Pressable
                 android_ripple={{ color: grayLight, radius: 40 }}
                 onPress={() => rbSheetRef.open()}
                 style={styles.button}>
                 <Image resizeMode="contain" style={{ height: '100%', width: '100%' }} source={require("../../images/cartIcon.png")} />
-              </Pressable>
+              </Pressable> */}
             </View>
             <View style={{ height: 20 }} />
 
@@ -74,7 +74,7 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
                 width={"50%"}
                 unit={"%"}
                 description={"Ar"}
-                value={(parseFloat(planta.umidade_ar_ideal)*100).toString()}
+                value={(parseFloat(planta.umidade_ar_ideal)).toString()}
               />
             </View>
 
@@ -85,14 +85,14 @@ export const PacotePlantaScreen: React.FC<Props> = (props: Props) => {
                 width={"50%"}
                 unit={"%"}
                 description={"Solo"}
-                value={(parseFloat(planta.umidade_solo_ideal)*100).toString()}
+                value={(parseFloat(planta.umidade_solo_ideal)).toString()}
               />
 
               <MeasureIndicator
                 width={"50%"}
                 unit={"%"}
                 description={"Luz"}
-                value={(parseFloat(planta.luminosidade_ideal)*100).toString()}
+                value={(parseFloat(planta.luminosidade_ideal)).toString()}
               />
             </View>
             <View style={{ height: 20 }} />

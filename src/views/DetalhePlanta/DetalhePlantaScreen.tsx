@@ -141,7 +141,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
           <View style={styles.infoContainer}>
             <View style={styles.overview}>
-              <View style={{ height: 20 }} />
+              {/* <View style={{ height: 20 }} />
 
               <View style={{ flexDirection: 'row' }}>
                 <View style={{ width: '80%' }}>
@@ -156,7 +156,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
                     <Image resizeMode="contain" style={{ width: '100%', height: '100%' }} source={require("../../images/threedots.png")} />
                   </Pressable>
                 </View>
-              </View>
+              </View> */}
 
               <View style={{ height: 10 }} />
 
