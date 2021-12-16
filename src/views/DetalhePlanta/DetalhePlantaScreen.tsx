@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { Heading, Toast, } from 'native-base';
+import axios from 'axios';
+import { Toast, } from 'native-base';
 import React, { useEffect, useState } from 'react'
 import { Image, View, ScrollView, Pressable, RefreshControl, Text, ActivityIndicator } from 'react-native'
 import { ModalPlantConfig } from '../../components';
@@ -22,7 +22,7 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
   let imageSource = getImageSource(image);
   const [medicoes, setMedicoes] = useState<Array<Medicao>>(usuarioPlanta.medicoes.slice(getInitialMeasureIndex(usuarioPlanta.medicoes.length), usuarioPlanta.medicoes.length))
-  
+
   useEffect(() => {
     refreshInfo();
   }, [])

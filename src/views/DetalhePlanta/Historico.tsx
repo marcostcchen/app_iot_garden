@@ -49,7 +49,7 @@ export const Historico: React.FC<Props> = (props: Props) => {
   }
 
   const handleSetLums = () => {
-    const lums = medicoes.map((medicao) => Number(medicao.temperatura))
+    const lums = medicoes.map((medicao) => Number(medicao.luminosidade))
     setLums(lums)
   }
 
@@ -58,6 +58,7 @@ export const Historico: React.FC<Props> = (props: Props) => {
       <Heading size="md" style={{ color: 'green' }}>Histórico</Heading>
 
       <LineChartCustom
+        unit='°C'
         labels={labels}
         dataSets={[{ data: temps }]}
         gradientFrom="#006f00bb"
@@ -66,6 +67,7 @@ export const Historico: React.FC<Props> = (props: Props) => {
       />
 
       <LineChartCustom
+        unit='%'
         labels={labels}
         dataSets={[{ data: ares }]}
         gradientFrom="#000be2"
@@ -74,6 +76,7 @@ export const Historico: React.FC<Props> = (props: Props) => {
       />
 
       <LineChartCustom
+        unit='%'
         labels={labels}
         dataSets={[{ data: solos }]}
         gradientFrom="#784604"
@@ -82,6 +85,7 @@ export const Historico: React.FC<Props> = (props: Props) => {
       />
 
       <LineChartCustom
+        unit='%'
         labels={labels}
         dataSets={[{ data: lums }]}
         gradientFrom="#fbd500"

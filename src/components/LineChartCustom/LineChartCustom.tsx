@@ -7,11 +7,12 @@ interface Props {
   dataSets: any,
   gradientFrom: string,
   gradientTo: string,
-  legend: string
+  legend: string,
+  unit: string
 }
 
 export const LineChartCustom: React.FC<Props> = (props: Props) => {
-  const { dataSets, labels, gradientFrom, gradientTo, legend } = props;
+  const { dataSets, labels, gradientFrom, gradientTo, legend, unit } = props;
 
   return (
     <LineChart
@@ -23,7 +24,7 @@ export const LineChartCustom: React.FC<Props> = (props: Props) => {
       width={Dimensions.get("window").width * 0.9} // from react-native
       height={220}
       yAxisLabel=""
-      yAxisSuffix="°C"
+      yAxisSuffix={unit}
       yAxisInterval={1} // optional, defaults to 1
       chartConfig={{
         backgroundColor: "#e27500",
