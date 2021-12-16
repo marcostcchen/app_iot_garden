@@ -38,7 +38,10 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
     const successFunc = (res) => {
       const usuarioPlanta: UsuarioPlanta = res.data;
-      setMedicoes(usuarioPlanta.medicoes.slice(getInitialMeasureIndex(usuarioPlanta.medicoes.length), usuarioPlanta.medicoes.length))
+      let medicoes = usuarioPlanta.medicoes;
+      medicoes = medicoes.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+
+      setMedicoes(medicoes.slice(getInitialMeasureIndex(usuarioPlanta.medicoes.length), usuarioPlanta.medicoes.length))
       const warning = verifyIfPlantsHasWarning([usuarioPlanta]);
       if (warning) {
         Toast.show({ title: "Alerta!", description: warning, status: "warning", duration: 7000, placement: "top", })
@@ -112,12 +115,12 @@ export const DetalhesPlantaScreen: React.FC<Props> = (props: Props) => {
 
   const initialValue: Medicao = {
     id: "-1",
-    luminosidade: "-1",
-    id_usuario_planta: "-1",
-    created_at: "-1",
+    luminosidade: "0",
+    id_usuario_planta: "0",
+    created_at: "0",
     temperatura: "-1",
-    umidade_ar: "-1",
-    umidade_solo: "-1",
+    umidade_ar: "0",
+    umidade_solo: "0",
   }
   const ultimaMedicao = medicoes.reduce((max, medicao) => new Date(max.created_at) > new Date(medicao.created_at) ? max : medicao, initialValue);
 

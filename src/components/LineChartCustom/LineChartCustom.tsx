@@ -23,6 +23,7 @@ export const LineChartCustom: React.FC<Props> = (props: Props) => {
       }}
       width={Dimensions.get("window").width * 0.9} // from react-native
       height={220}
+      fromZero={true}
       yAxisLabel=""
       yAxisSuffix={unit}
       yAxisInterval={1} // optional, defaults to 1
@@ -30,7 +31,7 @@ export const LineChartCustom: React.FC<Props> = (props: Props) => {
         backgroundColor: "#e27500",
         backgroundGradientFrom: gradientFrom,
         backgroundGradientTo: gradientTo,
-        decimalPlaces: 2, // optional, defaults to 2dp
+        decimalPlaces: 0, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         style: {

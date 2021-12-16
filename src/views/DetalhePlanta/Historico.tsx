@@ -34,22 +34,22 @@ export const Historico: React.FC<Props> = (props: Props) => {
   }
 
   const handleSetTemps = () => {
-    const temps = medicoes.map((medicao) => Number(medicao.temperatura))
+    const temps = medicoes.map((medicao) => parseInt(medicao.temperatura))
     setTemps(temps)
   }
 
   const handleSetSolos = () => {
-    const solos = medicoes.map((medicao) => Number(medicao.umidade_solo))
+    const solos = medicoes.map((medicao) => parseInt(medicao.umidade_solo))
     setSolos(solos)
   }
 
   const handleSetAres = () => {
-    const ares = medicoes.map((medicao) => Number(medicao.umidade_ar))
+    const ares = medicoes.map((medicao) => parseInt(medicao.umidade_ar))
     setAres(ares)
   }
 
   const handleSetLums = () => {
-    const lums = medicoes.map((medicao) => Number(medicao.luminosidade))
+    const lums = medicoes.map((medicao) => parseInt(medicao.luminosidade))
     setLums(lums)
   }
 
