@@ -1,4 +1,4 @@
-# WIP New Project 2.0
+# Jardim Inteligente
 Jardim Inteligente - PCS3858 - Laboratório de Sistemas Embarcados (2021)
 Sistema de monitoramento de jardins
 
